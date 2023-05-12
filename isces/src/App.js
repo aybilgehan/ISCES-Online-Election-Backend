@@ -15,7 +15,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React karaduman
+          Learn React karaduman dasds
         </a>
       </header>
     </div>
