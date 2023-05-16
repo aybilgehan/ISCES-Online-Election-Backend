@@ -8,7 +8,9 @@ const SideBar = () => {
     return (
         <div>
             <img src="https://iyte.edu.tr/wp-content/uploads/2019/02/iyte-logo-transparan-360px.png" alt="IYTE Logo" />
-            <button onClick={authCtx.onLogout}>Home</button>
+            <Link to="/election">
+                <button>Home</button>
+            </Link>
             <Link to="/candidates">
                 <button>Candidates</button>
             </Link>
