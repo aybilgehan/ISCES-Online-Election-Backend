@@ -13,12 +13,13 @@ const SideBar = () => {
                 <button>Candidates</button>
             </Link>
             <button>Council</button>
-            {authCtx.isLoggedIn && (
+            {authCtx.isLoggedIn ?
                 <div>
-                    <button onClick={authCtx.onLogout}>My Profile</button>
+                    <button>My Profile</button>
                     <button onClick={authCtx.onLogout}>Logout</button>
-                </div>
-            )}
+                </div>:
+                <Link to="/login"><button>Login</button></Link>
+            }
         </div>
     );
 };

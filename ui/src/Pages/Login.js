@@ -9,6 +9,17 @@ const Login = () => {
 
   const authCtx = useContext(AuthContext)
 
+  const submitHandler =  (event) => {
+    
+    event.preventDefault()
+    authCtx.onLogin({
+      email: enteredEmail,
+      password: enteredPassword,
+    })
+    console.log('loginnnnseks')
+
+  }
+
    /* const submitHandler = async (event) => {
     const signInInfo = { email: enteredEmail, password: enteredPassword }
     event.preventDefault()
@@ -24,9 +35,7 @@ const Login = () => {
           JSON.stringify({ email: signInInfo.email })
         )
         const userRole = res.data.role
-        //const chefId = res.data.chefId
 
-        //authCtx.setUserData(userRole, chefId)
         authCtx.setUserData(userRole)
         authCtx.onLogin({
           email: enteredEmail,
@@ -53,7 +62,7 @@ const Login = () => {
 
   return (
     <div >
-      <form >
+      <form onSubmit={submitHandler}>
         <label htmlFor="email"></label>
         <input
           placeholder="e-mail"
@@ -62,8 +71,6 @@ const Login = () => {
           value={enteredEmail}
           onChange={emailChangeHandler}
         />
-        <br />
-        <br />
         <label htmlFor="password"></label>
         <div>
           <input
@@ -74,13 +81,11 @@ const Login = () => {
             onChange={passwordChangeHandler}
           />
         </div>
-        <br />
-        <br />
         <button
           type="submit"
           disabled={!formIsValid}
         >
-          Login
+          Lasdsafdsfadd
         </button>
       </form>
     </div>

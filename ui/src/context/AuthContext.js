@@ -2,22 +2,17 @@ import React, { useState, useEffect } from 'react'
 
 const AuthContext = React.createContext({
   isLoggedIn: false,
-  //isOnClickedSignButton: false,
-  isClickedLogInButton: false,
   userRole: null,
   onLogout: () => {},
   onLogin: () => {},
-  handleLogin: () => {},
   exitHandler: () => {},
   setUserData: () => {},
 })
 
 export const AuthContextProvider = (props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [isOnClickedSignButton, setIsOnClickedSignButton] = useState(false)
-  const [isClickedLogInButton, setIsClickedLogInButton] = useState(false)
+
   const [userRole, setUserRole] = useState(null);
-  //const [chefId, setChefId] = useState(null);
 
   useEffect(() => {
     const uid = localStorage.getItem('uid')
@@ -31,39 +26,28 @@ export const AuthContextProvider = (props) => {
     setIsLoggedIn(false)
   }
 
-  const handleLogin = () => {
-    setIsClickedLogInButton((prevState) => !prevState)
-    setIsOnClickedSignButton((prevState) => !prevState)
-  }
-
   const loginHandler = () => {
     setIsLoggedIn(true)
-    setIsClickedLogInButton(false)
-    setIsOnClickedSignButton((prevState) => !prevState)
+    console.log('login')
   }
   const exitHandler = () => {
     setIsLoggedIn(false)
-    setIsClickedLogInButton(false)
-    setIsOnClickedSignButton((prevState) => !prevState)
   }
 
   const setUserData = (role, id) => {
-    //console.log('Setting userRole and chefId:', role, id);
+
     setUserRole(role);
-    //setChefId(id);
+
   };
 
   return (
     <AuthContext.Provider
       value={{
         isLoggedIn: isLoggedIn,
-        isOnClickedSignButton: isOnClickedSignButton,
-        isClickedLogInButton: isClickedLogInButton,
         userRole: userRole,
         setUserData: setUserData,
         onLogout: logoutHandler,
         onLogin: loginHandler,
-        handleLogin: handleLogin,
         exitHandler: exitHandler,
       }}
     >
