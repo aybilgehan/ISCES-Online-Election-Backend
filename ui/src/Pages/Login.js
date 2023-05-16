@@ -9,28 +9,6 @@ const Login = () => {
 
   const authCtx = useContext(AuthContext)
 
-  useEffect(() => {
-    const identifier = setTimeout(() => {
-      setFormIsValid(
-        enteredEmail.includes('@') && enteredPassword.trim().length > 6
-      )
-    }, 500)
-
-    return () => {
-      clearTimeout(identifier)
-    }
-  }, [enteredEmail, enteredPassword])
-
-  const emailChangeHandler = (event) => {
-    event.preventDefault()
-    setEnteredEmail(event.target.value)
-    setFormIsValid(
-      event.target.value.includes('@') && enteredPassword.trim().length > 6
-    )
-  }
-
-
-
    /* const submitHandler = async (event) => {
     const signInInfo = { email: enteredEmail, password: enteredPassword }
     event.preventDefault()
@@ -63,22 +41,21 @@ const Login = () => {
     }
   }*/
 
-  const exitHandlerSignInPage = (event) => {
-    event.preventDefault()
-    authCtx.exitHandler()
+  const emailChangeHandler  = (event) => { 
+    setEnteredEmail(event.target.value)
+    setFormIsValid(
+      event.target.value.includes('@') 
+    )
   }
+  const passwordChangeHandler = (event) => {
+    setEnteredPassword(event.target.value)
+  } 
 
-  const createAnAccountHandler = (event) => {
-    event.preventDefault()
-    authCtx.exitHandler()
-    authCtx.handleSignUp()
-  }
   return (
-    <div className="signin rounded">
-      <form /*onSubmit={submitHandler}*/>
+    <div >
+      <form >
         <label htmlFor="email"></label>
         <input
-          className="input-class mt-12 ml-4"
           placeholder="e-mail"
           type="email"
           id="email"
@@ -88,21 +65,19 @@ const Login = () => {
         <br />
         <br />
         <label htmlFor="password"></label>
-        <div className="form-class ml-4">
+        <div>
           <input
-            className="input-class"
             placeholder="password"
             type="password"
             id="password"
             value={enteredPassword}
-            onChange={"passwordChangeHandler"}
+            onChange={passwordChangeHandler}
           />
         </div>
         <br />
         <br />
         <button
           type="submit"
-          className="button-class mt-16"
           disabled={!formIsValid}
         >
           Login
