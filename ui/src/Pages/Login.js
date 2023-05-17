@@ -1,22 +1,24 @@
 import React, { useState, useEffect, useContext } from 'react'
 import AuthContext from '../context/AuthContext'
+import "./Login.css"
 //import axios from 'axios'
-
-const Login = () => {
+import { useNavigate } from "react-router-dom";
+const Login = (props) => {
   const [enteredEmail, setEnteredEmail] = useState('')
   const [enteredPassword, setEnteredPassword] = useState('')
   const [formIsValid, setFormIsValid] = useState(false)
-
+  const navigate = useNavigate();
   const authCtx = useContext(AuthContext)
 
   const submitHandler =  (event) => {
-    
+    props.changeLoggedInStatus();
     event.preventDefault()
     authCtx.onLogin({
       email: enteredEmail,
       password: enteredPassword,
     })
     console.log('loginnnnseks')
+    navigate('/sidebar')
 
   }
 
@@ -61,35 +63,37 @@ const Login = () => {
   } 
 
   return (
-    <div >
+    <div className="container">
       <form onSubmit={submitHandler}>
-        <label htmlFor="email"></label>
+        <label htmlFor="email">Email:</label>
         <input
+          className="input"
           placeholder="e-mail"
           type="email"
           id="email"
           value={enteredEmail}
           onChange={emailChangeHandler}
         />
-        <label htmlFor="password"></label>
-        <div>
-          <input
-            placeholder="password"
-            type="password"
-            id="password"
-            value={enteredPassword}
-            onChange={passwordChangeHandler}
-          />
-        </div>
+        <label htmlFor="password">Password:</label>
+        <input
+          className="input"
+          placeholder="password"
+          type="password"
+          id="password"
+          value={enteredPassword}
+          onChange={passwordChangeHandler}
+        />
         <button
+          className="button"
           type="submit"
           disabled={!formIsValid}
         >
-          Lasdsafdsfadd
+          Login
         </button>
       </form>
     </div>
-  )
-}
+  );
+  
+  }
 
 export default Login;

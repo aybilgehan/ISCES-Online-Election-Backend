@@ -1,0 +1,13 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .date {
+    margin-top: 20px;
+  }
+  

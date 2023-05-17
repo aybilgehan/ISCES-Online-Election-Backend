@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from 'react-router-dom';
 export default function Candidates() {
     const candidates = [
         { name: "Emre Karaduman", gpa: 3.5, department: "Computer Engineering", description: "dsjkasdjaddaksasasdassd", currentVote: 25 },
@@ -26,15 +27,27 @@ export default function Candidates() {
         Are you sure
         <button onClick={incrementVote}>Yes</button><button onClick={showAlertBoxHandler}>No</button></div>
 
-    return (
-        <div>
-            {showAlertBox ?  alertBox  :
-                currentCandidates.map((candidate, index) => (
-                    <li type="none" key={index}>
-                        {candidate.name} {candidate.gpa} {candidate.department} {candidate.description} {candidate.currentVote} <button onClick={() => showAlertBoxHandler(index)}>Vote</button>
-                    </li>
-                ))
-            }
-        </div>
-    );
+return (
+    <div className="container">
+      {showAlertBox ? (
+        <div className="alert">{alertBox}</div>
+      ) : (
+        <ul>
+          {currentCandidates.map((candidate, index) => (
+            <li className="list-item" key={index}>
+              <span className="candidate-info">
+                {candidate.name} {candidate.gpa} {candidate.department} {candidate.description} {candidate.currentVote}
+              </span>
+              <button onClick={() => showAlertBoxHandler(index)}>Vote</button>
+            </li>
+          ))}
+        </ul>
+      )}
+      {!showAlertBox && <Link to="/candidateform">
+        <button>Be candidate</button>
+      </Link>}
+      
+    </div>
+  );
+  
 }

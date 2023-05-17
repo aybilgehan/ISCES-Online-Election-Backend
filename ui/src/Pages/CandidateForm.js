@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import "./CandidateForm.css"
 export default function CandidateForm() {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
@@ -31,24 +31,24 @@ export default function CandidateForm() {
   }
 
   return (
-    <div>
+    <div className="container">
       <form onSubmit={submitHandler}>
-        <label>
+        <label className="form-label">
           İsim:
           <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
         </label>
         <br />
-        <label>
+        <label className="form-label">
           Soyisim:
           <input type="text" value={surname} onChange={(e) => setSurname(e.target.value)} />
         </label>
         <br />
-        <label>
+        <label className="form-label">
           Transkript Belgesi:
           <input type="file" accept="application/pdf" onChange={(e) => setTranscript(e.target.files[0])} />
         </label>
         <br />
-        <label>
+        <label className="form-label">
           Adli Sicil Kaydı:
           <input type="file" accept="application/pdf" onChange={(e) => setCriminalRecord(e.target.files[0])} />
         </label>

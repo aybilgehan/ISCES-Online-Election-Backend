@@ -1,3 +1,4 @@
+import "./Election.css"
 function Election() {
     const candidates = [
       { name: "Emre Karaduman", gpa: 3.5, department: "Computer Engineering", description: "dsjkasdjaddaksasasdassd", currentVote: 25 },
@@ -11,11 +12,11 @@ function Election() {
     const sortedCandidates = [...candidates].sort((a, b) => b.currentVote - a.currentVote);
   
     return (
-      <div>
+      <div className="container">
         <ul>
           {sortedCandidates.map((candidate) => (
             <li key={candidate.name}>
-              {candidate.name} - {((candidate.currentVote / totalVotes) * 100).toFixed(2)}%
+              {candidate.name} - <span className="percentage">{((candidate.currentVote / totalVotes) * 100).toFixed(2)}%</span>
             </li>
           ))}
         </ul>
