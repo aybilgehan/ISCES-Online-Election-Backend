@@ -2,17 +2,28 @@ import React, { useState, useEffect, useContext } from 'react'
 import AuthContext from '../context/AuthContext'
 import "./Login.css"
 //import axios from 'axios'
-import { useNavigate } from "react-router-dom";
 const Login = (props) => {
   const [enteredEmail, setEnteredEmail] = useState('')
   const [enteredPassword, setEnteredPassword] = useState('')
   const [formIsValid, setFormIsValid] = useState(false)
-  const navigate = useNavigate();
   const authCtx = useContext(AuthContext)
 
   const submitHandler =  (event) => {
     event.preventDefault()
-    
+    /*Backendden rol bilgisi gelecek, şu anlık test yaparken userRole'ü istediğin rolü yazarak deneyebilirsin.
+    Ana roller: student, rector, dean's office, department office. Department office dökümanları kontrol edip
+    eğer uygunsa dean's office e yollayacak. Deans office de onaylayacak, yani 2 tane onaylama aşaması olacak.
+    Rektör ise election date'i set edecek veya seçimi eşitlikle biterse rastgele bitirme tuşuna tıklayacak ve seçim
+    iki eşit oy alan iki kişi arasından biri seçilerek bitecek.*/
+    const userRole = 'rector'
+    authCtx.setUserData(userRole)
+
+    authCtx.onLogin({
+      email: enteredEmail,
+      password: enteredPassword,
+    }) 
+   /* 
+    return
     if (enteredEmail.includes('rector')) {
       const userRole = 'rector'
       authCtx.setUserData(userRole)
@@ -52,7 +63,7 @@ const Login = (props) => {
     else{
       return
     }
-
+*/
   }
 
    /* const submitHandler = async (event) => {

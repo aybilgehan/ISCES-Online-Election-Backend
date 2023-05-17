@@ -1,5 +1,6 @@
 import SideBar from "./SideBar";
 import "./MainPage.css";
+
 const MainPage = () => {
     return (
         <div className="container">
