@@ -15,7 +15,7 @@ const Login = (props) => {
     eğer uygunsa dean's office e yollayacak. Deans office de onaylayacak, yani 2 tane onaylama aşaması olacak.
     Rektör ise election date'i set edecek veya seçimi eşitlikle biterse rastgele bitirme tuşuna tıklayacak ve seçim
     iki eşit oy alan iki kişi arasından biri seçilerek bitecek.*/
-    const userRole = 'rector'
+    const userRole = 'student'
     authCtx.setUserData(userRole)
 
     authCtx.onLogin({
