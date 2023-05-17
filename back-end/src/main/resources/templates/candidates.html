@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adaylar</title>
+  <style>
+
+  </style>
+</head>
+<body>
+<h1>Adaylar</h1>
+
+<div class="candidate-card">
+  <img src="path_to_candidate_image" alt="Aday Resmi">
+  <h2>Aday İsmi</h2>
+  <p>Aday Hakkında Kısa Bilgi</p>
+  <form action="@{/}" method="get">
+    <button type="submit">Vote</button>
+  </form>
+
+</div>
+
+<br>
+<br>
+<br>
+<div class="candidate-card">
+  <img src="path_to_candidate_image" alt="Aday Resmi">
+  <h2>Aday İsmi</h2>
+  <p>Aday Hakkında Kısa Bilgi</p>
+  <form action="@{/home}" method="get">
+    <button type="submit">Vote</button>
+  </form>
+
+
+</div>
+
+<!-- Daha fazla aday kartı ekleyebilirsiniz -->
+
+</body>
+</html>
