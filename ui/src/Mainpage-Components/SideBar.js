@@ -22,7 +22,7 @@ const SideBar = (props) => {
             <button>Be candidate</button>
           </Link>
           <Link to="/">
-            <button onClick={props.changeLoggedInStatus}>LogOut</button>
+            <button onClick={authCtx.exitHandler}>LogOut</button>
           </Link>
         </div>
       );

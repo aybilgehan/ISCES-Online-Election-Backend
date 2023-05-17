@@ -14,10 +14,6 @@ import MainPage from "./Mainpage-Components/MainPage";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  function loggedInHandler() {
-    setIsLoggedIn(!isLoggedIn);
-  }
-
   return (
     <div className="app-container">
       <img
@@ -28,8 +24,8 @@ function App() {
 
       <BrowserRouter>
         <div className="content-container">
-          {isLoggedIn && <MainPage changeLoggedInStatus={loggedInHandler} />}
-          {!isLoggedIn && <Login changeLoggedInStatus={loggedInHandler} />}
+          {isLoggedIn && <MainPage/>}
+          {!isLoggedIn && <Login />}
           <Routes>
             <Route path="/council" element={<Council />} />
             <Route path="/mainpage" element={<MainPage />} />

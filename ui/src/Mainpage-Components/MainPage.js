@@ -1,12 +1,10 @@
 import SideBar from "./SideBar";
 import "./MainPage.css";
-export default function MainPage(props) {
-    function loggedInHandler() {
-        props.changeLoggedInStatus();
-    }
+const MainPage = () => {
     return (
         <div className="container">
-            <SideBar changeLoggedInStatus={loggedInHandler} />
+            <SideBar />
         </div>
     );
-}
+    }
+export default MainPage;

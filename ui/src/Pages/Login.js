@@ -11,14 +11,34 @@ const Login = (props) => {
   const authCtx = useContext(AuthContext)
 
   const submitHandler =  (event) => {
-    props.changeLoggedInStatus();
     event.preventDefault()
     authCtx.onLogin({
       email: enteredEmail,
       password: enteredPassword,
     })
-    console.log('loginnnnseks')
-    navigate('/sidebar')
+    if (enteredEmail.includes('rector')) {
+      const userRole = 'rector'
+      authCtx.setUserData(userRole)
+      navigate('/rectorsidebar')
+    }
+    else if (enteredEmail.includes('dean')) {
+      const userRole = 'dean'
+      authCtx.setUserData(userRole)
+      navigate('/deansidebar')
+    }
+    else if (enteredEmail.includes('departmentsecretary')) {
+      const userRole = 'dean'
+      authCtx.setUserData(userRole)
+      navigate('/secretarysidebar')
+    }
+    else if (enteredEmail.includes('std')) {
+      const userRole = 'student'
+      authCtx.setUserData(userRole)
+      navigate('/sidebar')
+    }
+    else{
+      return
+    }
 
   }
 
