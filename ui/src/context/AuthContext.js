@@ -22,13 +22,13 @@ export const AuthContextProvider = (props) => {
 
   
   const loginHandler = () => {
-    localStorage.removeItem('isLoggedIn');
+    localStorage.setItem('isLoggedIn', '1');
     setIsLoggedIn(true)
     console.log(isLoggedIn)
     console.log('login')
   }
   const exitHandler = () => {
-    localStorage.setItem('isLoggedIn', '1');
+    localStorage.removeItem('isLoggedIn');
     setIsLoggedIn(false)
     console.log('exit')
   }

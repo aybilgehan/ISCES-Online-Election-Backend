@@ -12,29 +12,42 @@ const Login = (props) => {
 
   const submitHandler =  (event) => {
     event.preventDefault()
-    authCtx.onLogin({
-      email: enteredEmail,
-      password: enteredPassword,
-    })
+    
     if (enteredEmail.includes('rector')) {
       const userRole = 'rector'
       authCtx.setUserData(userRole)
       navigate('/rectorsidebar')
+      authCtx.onLogin({
+        email: enteredEmail,
+        password: enteredPassword,
+      })
     }
     else if (enteredEmail.includes('dean')) {
       const userRole = 'dean'
       authCtx.setUserData(userRole)
       navigate('/deansidebar')
+      authCtx.onLogin({
+        email: enteredEmail,
+        password: enteredPassword,
+      })
     }
     else if (enteredEmail.includes('departmentsecretary')) {
       const userRole = 'dean'
       authCtx.setUserData(userRole)
       navigate('/secretarysidebar')
+      authCtx.onLogin({
+        email: enteredEmail,
+        password: enteredPassword,
+      })
     }
     else if (enteredEmail.includes('std')) {
       const userRole = 'student'
       authCtx.setUserData(userRole)
       navigate('/sidebar')
+      authCtx.onLogin({
+        email: enteredEmail,
+        password: enteredPassword,
+      }) 
     }
     else{
       return
