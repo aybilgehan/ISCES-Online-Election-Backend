@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import AuthContext from '../context/AuthContext'
 import "./Login.css"
-//import axios from 'axios'
+
 const Login = (props) => {
   const [enteredEmail, setEnteredEmail] = useState('')
   const [enteredPassword, setEnteredPassword] = useState('')
@@ -17,10 +17,11 @@ const Login = (props) => {
     iki eşit oy alan iki kişi arasından biri seçilerek bitecek.*/
     const userRole = 'student'
     authCtx.setUserData(userRole)
-
+    localStorage.setItem('userRole', userRole)
     authCtx.onLogin({
       email: enteredEmail,
       password: enteredPassword,
+      userRole: userRole
     }) 
    /* 
     return
@@ -65,36 +66,6 @@ const Login = (props) => {
     }
 */
   }
-
-   /* const submitHandler = async (event) => {
-    const signInInfo = { email: enteredEmail, password: enteredPassword }
-    event.preventDefault()
-    try {
-      const res = await axios.post(
-        'http://127.0.0.1:3001/api/v1/users/login',
-        JSON.stringify(signInInfo)
-      )
-      if (res.data.status === 'success') {
-        localStorage.setItem('uid', res.data.uid)
-        localStorage.setItem(
-          'userInfo',
-          JSON.stringify({ email: signInInfo.email })
-        )
-        const userRole = res.data.role
-
-        authCtx.setUserData(userRole)
-        authCtx.onLogin({
-          email: enteredEmail,
-          password: enteredPassword,
-        })
-      } else {
-        console.log('Wrong password or email')
-      }
-      // assump log in is successful
-    } catch (err) {
-      console.log(err)
-    }
-  }*/
 
   const emailChangeHandler  = (event) => { 
     setEnteredEmail(event.target.value)

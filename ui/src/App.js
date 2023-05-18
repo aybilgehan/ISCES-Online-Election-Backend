@@ -9,9 +9,11 @@ import Council from "./StudentPages/Council";
 import SideBar from "./Mainpage-Components/SideBar";
 import Home from "./Pages/Home";
 import "./App.css";
+import SetElectionDate from "./RectorPages/SetElectionDate";
 
 function App() {
   const authCtx = useContext(AuthContext);
+  console.log(authCtx.userRole);
 
   return (
     <div className="app-container">
@@ -33,6 +35,7 @@ function App() {
               Giriş yaptıktan sonra öğrenci ve görevlilere farklı butonlar aktif olacak. Inline if state'i ve 
               authcontext rol kontrolü ile bunu sağlayacağız. */}
                 {authCtx.userRole=="student"&&<Route path="/council" element={<Council />} />}
+                {authCtx.userRole=="rector"&&<Route path="/setelectiondate" element={< SetElectionDate/>} />}
                 <Route path="/home" element={<Home />} />
                 {authCtx.userRole == "student" && <Route path="/candidates" element={<Candidates />} />}
                 <Route path="/election" element={<Election />} />
