@@ -1,41 +1,54 @@
 import React, { useState, useEffect } from 'react';
-import "./Election.css";
-import { Chart } from "react-google-charts";
+import './Election.css';
+import { Chart } from 'react-google-charts';
 
 function Election() {
-  const [department, setDepartment] = useState("computer");
+  const [department, setDepartment] = useState('computer');
   const [candidates, setCandidates] = useState([]);
 
   const computerEngineeringCandidates = [
-    ["Candidate", "Vote percentage"],
-    ["Emre BlackMist", 25],
-    ["Ahmet SelfIron", 25],
-    ["YoungMoon 2rgood", 25],
-    ["Halil Can Awake", 25]
+    { name: 'Emre BlackMist', percentage: 25 },
+    { name: 'Ahmet SelfIron', percentage: 25 },
+    { name: 'YoungMoon 2rgood', percentage: 25 },
+    { name: 'Halil Can Awake', percentage: 25 },
   ];
 
   const civilEngineeringCandidates = [
-    ["Candidate", "Vote percentage"],
-    ["Fenerbahçe Galatasaray", 25],
-    ["Beşiktaşzon ", 25],
-    ["Bucaspor ", 25],
-    ["Göttepe ", 25]
+    { name: 'Emre', percentage: 25 },
+    { name: 'Ahmet', percentage: 25 },
+    { name: 'YoungMoon', percentage: 25 },
+    { name: 'Halil', percentage: 25 },
   ];
 
   useEffect(() => {
-    if (department === "computer") {
-      setCandidates(computerEngineeringCandidates);
-    } else if (department === "civil") {
-      setCandidates(civilEngineeringCandidates);
+    let transformedCandidates = [];
+    if (department === 'computer') {
+      transformedCandidates = [
+        ['Name', 'Percentage'],
+        ...computerEngineeringCandidates.map(candidate => [
+          candidate.name,
+          candidate.percentage,
+        ]),
+      ];
+    } else if (department === 'civil') {
+      transformedCandidates = [
+        ['Name', 'Percentage'],
+        ...civilEngineeringCandidates.map(candidate => [
+          candidate.name,
+          candidate.percentage,
+        ]),
+      ];
     }
+    setCandidates(transformedCandidates);
   }, [department]);
+  
 
   const chartHandler = (event) => {
     setDepartment(event.target.value);
   };
 
   const options = {
-    title: "Election Results",
+    title: 'Election Results',
     is3D: true,
   };
 
@@ -48,11 +61,7 @@ function Election() {
           <option value="civil">Civil Engineering</option>
         </select>
       </form>
-      <Chart
-        chartType="PieChart"
-        data={candidates}
-        options={options}
-      />
+      <Chart chartType="PieChart" data={candidates} options={options} />
     </div>
   );
 }

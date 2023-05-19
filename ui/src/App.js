@@ -13,6 +13,7 @@ import SetElectionDate from "./RectorPages/SetElectionDate";
 import Profile from "./Pages/Profile";
 
 function App() {
+  const blabla = "13.05.2020";
   const authCtx = useContext(AuthContext);
   console.log(authCtx.userRole);
 
@@ -37,7 +38,7 @@ function App() {
               authcontext rol kontrolü ile bunu sağlayacağız. */}
                 {authCtx.userRole=="student"&&<Route path="/council" element={<Council />} />}
                 {authCtx.userRole=="rector"&&<Route path="/setelectiondate" element={< SetElectionDate/>} />}
-                <Route path="/home" element={<Home />} />
+                <Route path="/home" element={<Home time={blabla} />} />
                 {authCtx.userRole == "student" && <Route path="/candidates" element={<Candidates />} />}
                 <Route path="/election" element={<Election />} />
                 {authCtx.userRole=="student"&&<Route path="/candidateform" element={<CandidateForm />} />}

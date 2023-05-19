@@ -50,6 +50,7 @@ export const AuthContextProvider = (props) => {
     console.log("login");
   };
   const exitHandler = () => {
+    console.log("dsjkads")
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("userRole");
     setIsLoggedIn(false);

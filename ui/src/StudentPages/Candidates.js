@@ -44,7 +44,7 @@ export default function Candidates() {
       {showAlertBox ? (
         <div className="alert">{alertBox}</div>
       ) : (
-        <ul>
+        <ul type="none" >
         {currentCandidates.map((candidate, index) => (
           authCtx.userDepartment === candidate.department ? (
             <li className="list-item" key={index}>
