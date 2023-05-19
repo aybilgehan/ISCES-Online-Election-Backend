@@ -1,28 +1,60 @@
-import "./Election.css"
+import React, { useState, useEffect } from 'react';
+import "./Election.css";
+import { Chart } from "react-google-charts";
+
 function Election() {
-    const candidates = [
-      { name: "Emre Karaduman", gpa: 3.5, department: "Computer Engineering", description: "dsjkasdjaddaksasasdassd", currentVote: 25 },
-      { name: "Halil Uyanik", gpa: 2.6, department: "Civil Engineering", description: "ds132312312312sdassd", currentVote: 15 },
-      { name: "Gencay Turgut", gpa: 3.2, department: "Computer Engineering", description: "dfsdfgsdfwef1", currentVote: 20 },
-      { name: "Ahmet Özdemir", gpa: 2.8, department: "Computer Engineering", description: "adfsgfgddgdf", currentVote: 10 }
-    ];
-  
-    const totalVotes = candidates.reduce((acc, candidate) => acc + candidate.currentVote, 0);
-    
-    const sortedCandidates = [...candidates].sort((a, b) => b.currentVote - a.currentVote);
-  
-    return (
-      <div className="container">
-        <ul>
-          {sortedCandidates.map((candidate) => (
-            <li key={candidate.name}>
-              {candidate.name} - <span className="percentage">{((candidate.currentVote / totalVotes) * 100).toFixed(2)}%</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-  }
-  
-  export default Election;
-  
+  const [department, setDepartment] = useState("computer");
+  const [candidates, setCandidates] = useState([]);
+
+  const computerEngineeringCandidates = [
+    ["Candidate", "Vote percentage"],
+    ["Emre BlackMist", 25],
+    ["Ahmet SelfIron", 25],
+    ["YoungMoon 2rgood", 25],
+    ["Halil Can Awake", 25]
+  ];
+
+  const civilEngineeringCandidates = [
+    ["Candidate", "Vote percentage"],
+    ["Fenerbahçe Galatasaray", 25],
+    ["Beşiktaşzon ", 25],
+    ["Bucaspor ", 25],
+    ["Göttepe ", 25]
+  ];
+
+  useEffect(() => {
+    if (department === "computer") {
+      setCandidates(computerEngineeringCandidates);
+    } else if (department === "civil") {
+      setCandidates(civilEngineeringCandidates);
+    }
+  }, [department]);
+
+  const chartHandler = (event) => {
+    setDepartment(event.target.value);
+  };
+
+  const options = {
+    title: "Election Results",
+    is3D: true,
+  };
+
+  return (
+    <div className="container">
+      <form>
+        <label htmlFor="department">Department:</label>
+        <select name="department" id="department" onChange={chartHandler}>
+          <option value="computer">Computer Engineering</option>
+          <option value="civil">Civil Engineering</option>
+        </select>
+      </form>
+      <Chart
+        chartType="PieChart"
+        data={candidates}
+        options={options}
+      />
+    </div>
+  );
+}
+
+export default Election;

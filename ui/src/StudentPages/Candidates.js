@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from 'react-router-dom';
+
 export default function Candidates() {
     const candidates = [
         { name: "Emre Karaduman", gpa: 3.5, department: "Computer Engineering", description: "dsjkasdjaddaksasasdassd", currentVote: 25 },

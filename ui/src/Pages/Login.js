@@ -15,14 +15,35 @@ const Login = (props) => {
     eğer uygunsa dean's office e yollayacak. Deans office de onaylayacak, yani 2 tane onaylama aşaması olacak.
     Rektör ise election date'i set edecek veya seçimi eşitlikle biterse rastgele bitirme tuşuna tıklayacak ve seçim
     iki eşit oy alan iki kişi arasından biri seçilerek bitecek.*/
-    const userRole = 'rector'
+    const userRole = 'student'
     authCtx.setUserData(userRole)
     localStorage.setItem('userRole', userRole)
+    const user = {enteredEmail, enteredPassword}
     authCtx.onLogin({
       email: enteredEmail,
       password: enteredPassword,
       userRole: userRole
     }) 
+   /* fetch("http://localhost:8080/authenticateTheUser", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(user)
+    }).then(response => {
+    console.log("student logged in")
+    }
+
+      if (response.ok) {
+        return response.json()
+      }
+      throw response
+    }).then(data => {
+      console.log(data)
+    }).catch(error => {
+      console.log(error)
+    })*/
+    
    /* 
     return
     if (enteredEmail.includes('rector')) {
@@ -72,6 +93,7 @@ const Login = (props) => {
     setFormIsValid(
       event.target.value.includes('@') 
     )
+
   }
   const passwordChangeHandler = (event) => {
     setEnteredPassword(event.target.value)
