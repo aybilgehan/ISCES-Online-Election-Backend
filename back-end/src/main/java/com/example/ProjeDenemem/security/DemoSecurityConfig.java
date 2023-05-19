@@ -48,7 +48,9 @@ public class DemoSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.authorizeHttpRequests(configurer ->
                 configurer
-                        .requestMatchers("/").hasRole("EMPLOYEE")
+                        .requestMatchers("/").permitAll()
+
+
                         .requestMatchers("/leaders/**").hasRole("MANAGER")
                         .requestMatchers("/systems/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
@@ -71,7 +73,6 @@ public class DemoSecurityConfig {
     }
 
     // ADD SUPPORT FOR JDBC
-
     @Bean
     public UserDetailsManager userDetailsManager(DataSource dataSource){
         JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
@@ -79,9 +80,11 @@ public class DemoSecurityConfig {
         jdbcUserDetailsManager.setUsersByUsernameQuery("select user_id, pw, active from members where user_id=?");
 
 
-        // define query to retrieve a roles by  username
+
+        // define query to retrieve a roles by  email
         jdbcUserDetailsManager.setAuthoritiesByUsernameQuery("select user_id, role from roles where user_id=?");
         return new JdbcUserDetailsManager(dataSource);
     }
+
 
 }
