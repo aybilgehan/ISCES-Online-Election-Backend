@@ -24,6 +24,9 @@ const SideBar = (props) => {
       <Link to="/candidateform">
         {authCtx.userRole == "student" && <button>Be candidate</button>}
       </Link>
+      <Link to="/profile">
+        {<button>Profile</button>}
+      </Link>
       <Link to="/">
         <button onClick={authCtx.exitHandler}>LogOut</button>
       </Link>

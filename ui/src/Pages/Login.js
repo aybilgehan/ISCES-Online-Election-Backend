@@ -16,13 +16,21 @@ const Login = (props) => {
     Rektör ise election date'i set edecek veya seçimi eşitlikle biterse rastgele bitirme tuşuna tıklayacak ve seçim
     iki eşit oy alan iki kişi arasından biri seçilerek bitecek.*/
     const userRole = 'student'
+    const userDepartment = 'Computer Engineering'
+    const userName = 'Ahmet'
+    const userGpa = '3.5'
     authCtx.setUserData(userRole)
+    authCtx.setUserDepartmentData(userDepartment)
+    authCtx.setUserNameData(userName)
+    authCtx.setUserGpaData(userGpa)
     localStorage.setItem('userRole', userRole)
+    localStorage.setItem('userDepartment', userDepartment)
+    localStorage.setItem('userName', userName)
+    localStorage.setItem('userGpa', userGpa)
     const user = {enteredEmail, enteredPassword}
     authCtx.onLogin({
       email: enteredEmail,
-      password: enteredPassword,
-      userRole: userRole
+      password: enteredPassword
     }) 
    /* fetch("http://localhost:8080/authenticateTheUser", {
       method: "POST",
@@ -43,7 +51,7 @@ const Login = (props) => {
     }).catch(error => {
       console.log(error)
     })*/
-    
+
    /* 
     return
     if (enteredEmail.includes('rector')) {

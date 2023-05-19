@@ -34,26 +34,22 @@ export default function CandidateForm() {
     <div className="container">
       <form onSubmit={submitHandler}>
         <label className="form-label">
-          İsim:
+          Your motivation to become a candidate:
           <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
         </label>
         <br />
-        <label className="form-label">
-          Soyisim:
-          <input type="text" value={surname} onChange={(e) => setSurname(e.target.value)} />
-        </label>
         <br />
         <label className="form-label">
-          Transkript Belgesi:
+          Transcript of Records:
           <input type="file" accept="application/pdf" onChange={(e) => setTranscript(e.target.files[0])} />
         </label>
         <br />
         <label className="form-label">
-          Adli Sicil Kaydı:
+          Criminal Record:
           <input type="file" accept="application/pdf" onChange={(e) => setCriminalRecord(e.target.files[0])} />
         </label>
         <br />
-        <button type="submit">Aday Ol</button>
+        <button type="submit">Be Candidate</button>
       </form>
       {validCandidate ? (
         <div style={{ color: "green" }}>{alertBoxContent}</div>

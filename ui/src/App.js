@@ -10,6 +10,7 @@ import SideBar from "./Mainpage-Components/SideBar";
 import Home from "./Pages/Home";
 import "./App.css";
 import SetElectionDate from "./RectorPages/SetElectionDate";
+import Profile from "./Pages/Profile";
 
 function App() {
   const authCtx = useContext(AuthContext);
@@ -40,6 +41,7 @@ function App() {
                 {authCtx.userRole == "student" && <Route path="/candidates" element={<Candidates />} />}
                 <Route path="/election" element={<Election />} />
                 {authCtx.userRole=="student"&&<Route path="/candidateform" element={<CandidateForm />} />}
+                <Route path="/profile" element={<Profile />} />
               </>
             )}
           </Routes>
