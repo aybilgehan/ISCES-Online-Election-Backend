@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Election.css";
 import { Chart } from "react-google-charts";
+import axios from "axios";
 
 function Election() {
   const [department, setDepartment] = useState("computer");
@@ -13,15 +14,13 @@ function Election() {
 
     return setData(response.data);
   };
+  console.log(data);
   useEffect(() => {
     fetchInfo();
     let candidates = [];
     candidates = [
-      ["Name", "Percentage"],
       ...data.map((candidate) => [candidate.name, candidate.percentage]),
     ];
-
-    setCandidates(transformedCandidates);
   }, []);
 
   const computerEngineeringCandidates = [
@@ -61,7 +60,7 @@ function Election() {
   // }, [department]);
 
   useEffect(() => {
-    transformedCandidates = [
+    const transformedCandidates = [
       ["Name", "Percentage"],
       ...data.map((candidate) => [candidate.name, candidate.percentage]),
     ];
