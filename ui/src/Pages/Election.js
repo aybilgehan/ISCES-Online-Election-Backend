@@ -21,21 +21,8 @@ function Election() {
     candidates = [
       ...data.map((candidate) => [candidate.name, candidate.percentage]),
     ];
+    // console.log(candidates)
   }, []);
-
-  const computerEngineeringCandidates = [
-    { name: "Emre BlackMist", percentage: 25 },
-    { name: "Ahmet SelfIron", percentage: 25 },
-    { name: "YoungMoon 2rgood", percentage: 25 },
-    { name: "Halil Can Awake", percentage: 25 },
-  ];
-
-  const civilEngineeringCandidates = [
-    { name: "Emre", percentage: 25 },
-    { name: "Ahmet", percentage: 25 },
-    { name: "YoungMoon", percentage: 25 },
-    { name: "Halil", percentage: 25 },
-  ];
 
   // useEffect(() => {
   //   let transformedCandidates = [];
