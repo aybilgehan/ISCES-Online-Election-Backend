@@ -1,21 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import React, { useEffect, useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const SetElectionDate = () => {
   const [date, setDate] = useState(null);
+  const url = "http://localhost:8080/electionDate";
 
   const handleDateChange = (selectedDate) => {
     setDate(selectedDate);
   };
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // Reset the form or perform any other necessary actions
     // Send the date to the backend
     if (date) {
-      console.log('Selected date:', date);
+      console.log("Selected date:", date);
+      axios.post(url, { date: JSON.stringify(date) }).then((response) => {
+        console.log(response.status, response);
+      });
       // fetch('/api/setElectionDate', {
       //   method: 'POST',
       //   body: JSON.stringify({ date }),
@@ -58,4 +61,3 @@ const SetElectionDate = () => {
 };
 
 export default SetElectionDate;
-    

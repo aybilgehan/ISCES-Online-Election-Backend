@@ -1,54 +1,80 @@
-import React, { useState, useEffect } from 'react';
-import './Election.css';
-import { Chart } from 'react-google-charts';
+import React, { useState, useEffect } from "react";
+import "./Election.css";
+import { Chart } from "react-google-charts";
 
 function Election() {
-  const [department, setDepartment] = useState('computer');
+  const [department, setDepartment] = useState("computer");
   const [candidates, setCandidates] = useState([]);
 
+  const [data, setData] = useState([]);
+  const url = "http://localhost:8080/students";
+  const fetchInfo = async () => {
+    const response = await axios.get(url);
+
+    return setData(response.data);
+  };
+  useEffect(() => {
+    fetchInfo();
+    let candidates = [];
+    candidates = [
+      ["Name", "Percentage"],
+      ...data.map((candidate) => [candidate.name, candidate.percentage]),
+    ];
+
+    setCandidates(transformedCandidates);
+  }, []);
+
   const computerEngineeringCandidates = [
-    { name: 'Emre BlackMist', percentage: 25 },
-    { name: 'Ahmet SelfIron', percentage: 25 },
-    { name: 'YoungMoon 2rgood', percentage: 25 },
-    { name: 'Halil Can Awake', percentage: 25 },
+    { name: "Emre BlackMist", percentage: 25 },
+    { name: "Ahmet SelfIron", percentage: 25 },
+    { name: "YoungMoon 2rgood", percentage: 25 },
+    { name: "Halil Can Awake", percentage: 25 },
   ];
 
   const civilEngineeringCandidates = [
-    { name: 'Emre', percentage: 25 },
-    { name: 'Ahmet', percentage: 25 },
-    { name: 'YoungMoon', percentage: 25 },
-    { name: 'Halil', percentage: 25 },
+    { name: "Emre", percentage: 25 },
+    { name: "Ahmet", percentage: 25 },
+    { name: "YoungMoon", percentage: 25 },
+    { name: "Halil", percentage: 25 },
   ];
 
+  // useEffect(() => {
+  //   let transformedCandidates = [];
+  //   if (department === "computer") {
+  //     transformedCandidates = [
+  //       ["Name", "Percentage"],
+  //       ...computerEngineeringCandidates.map((candidate) => [
+  //         candidate.name,
+  //         candidate.percentage,
+  //       ]),
+  //     ];
+  //   } else if (department === "civil") {
+  //     transformedCandidates = [
+  //       ["Name", "Percentage"],
+  //       ...civilEngineeringCandidates.map((candidate) => [
+  //         candidate.name,
+  //         candidate.percentage,
+  //       ]),
+  //     ];
+  //   }
+  //   setCandidates(transformedCandidates);
+  // }, [department]);
+
   useEffect(() => {
-    let transformedCandidates = [];
-    if (department === 'computer') {
-      transformedCandidates = [
-        ['Name', 'Percentage'],
-        ...computerEngineeringCandidates.map(candidate => [
-          candidate.name,
-          candidate.percentage,
-        ]),
-      ];
-    } else if (department === 'civil') {
-      transformedCandidates = [
-        ['Name', 'Percentage'],
-        ...civilEngineeringCandidates.map(candidate => [
-          candidate.name,
-          candidate.percentage,
-        ]),
-      ];
-    }
+    transformedCandidates = [
+      ["Name", "Percentage"],
+      ...data.map((candidate) => [candidate.name, candidate.percentage]),
+    ];
+
     setCandidates(transformedCandidates);
   }, [department]);
-  
 
   const chartHandler = (event) => {
     setDepartment(event.target.value);
   };
 
   const options = {
-    title: 'Election Results',
+    title: "Election Results",
     is3D: true,
   };
 
