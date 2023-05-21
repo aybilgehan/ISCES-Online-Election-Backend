@@ -4,7 +4,7 @@ import { Chart } from "react-google-charts";
 import axios from "axios";
 
 function Election() {
-  const [department, setDepartment] = useState()
+  const [department, setDepartment] = useState();
   const [filteredCandidates, setFilteredCandidates] = useState([]);
   const [candidates, setCandidates] = useState([]);
   const url = "http://localhost:8080/students";
@@ -16,18 +16,16 @@ function Election() {
     fetchInfo();
   }, []);
 
-
   useEffect(() => {
     const transformedCandidates = [
       ["Name", "Percentage"],
       ...candidates
-        .filter(candidate => candidate.department === department)
-        .map(candidate => [candidate.firstName, candidate.currentVote]),
+        .filter((candidate) => candidate.department === department)
+        .map((candidate) => [candidate.firstName, candidate.percentage]),
     ];
-  
+
     setFilteredCandidates(transformedCandidates);
   }, [department]);
-  
 
   const chartHandler = (event) => {
     setDepartment(event.target.value);
@@ -37,7 +35,7 @@ function Election() {
     title: "Election Results",
     is3D: true,
   };
-  console.log(filteredCandidates.length)
+  console.log(filteredCandidates.length);
   return (
     <div className="container">
       <form>
@@ -49,8 +47,13 @@ function Election() {
           <option value="Electronic Engineering">Electronic Engineering</option>
         </select>
       </form>
-      {filteredCandidates.length > 1 && <Chart chartType="PieChart" data={filteredCandidates} options={options} />}
-
+      {filteredCandidates.length > 1 && (
+        <Chart
+          chartType="PieChart"
+          data={filteredCandidates}
+          options={options}
+        />
+      )}
     </div>
   );
 }
