@@ -16,9 +16,10 @@ const Login = (props) => {
     Rektör ise election date'i set edecek veya seçimi eşitlikle biterse rastgele bitirme tuşuna tıklayacak ve seçim
     iki eşit oy alan iki kişi arasından biri seçilerek bitecek.*/
     const userRole = "student";
-    const userDepartment = "Civil Engineering";
+    const userDepartment = "Computer Engineering";
     const userName = "Ahmet";
     const userGpa = "3.5";
+    authCtx.isVoted = false
     authCtx.setUserData(userRole);
     authCtx.setUserDepartmentData(userDepartment);
     authCtx.setUserNameData(userName);

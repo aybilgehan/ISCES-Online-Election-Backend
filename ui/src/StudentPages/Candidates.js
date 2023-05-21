@@ -1,60 +1,55 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import CandidateCard from "./CandidateCard";
 import AuthContext from "../context/AuthContext";
-import axios from "axios"
+import axios from "axios";
+
 export default function Candidates() {
   const authCtx = useContext(AuthContext);
   const [candidates, setCandidates] = useState([]);
   const url = "http://localhost:8080/students";
-  console.log(candidates)
-  const fetchInfo = async () => {
-    const response = await axios.get(url);
-    const filteredCandidates = response.data.filter((candidate) => candidate.department == authCtx.userDepartment);
-    setCandidates(filteredCandidates);
-  };
+
   useEffect(() => {
     fetchInfo();
   }, []);
-  const [showAlertBox, setShowAlertBox] = useState(false);
 
+  const fetchInfo = async () => {
+    try {
+      const response = await axios.get(url);
+      const filteredCandidates = response.data.filter(
+        (candidate) => candidate.department === authCtx.userDepartment
+      );
+      setCandidates(filteredCandidates);
+    } catch (error) {
+      console.error("Error fetching candidates:", error);
+    }
+  };
 
-  function incrementVote() {
+  const voteHandler = (id) => {
+    if (authCtx.isVoted) {
+      console.log("This user has already voted.");
+    } else {
+      console.log(id, "id'sine sahip kullanici 1 oy kazandı")
+    }
+  };
 
-  }
-  function showAlertBoxHandler(index) {
-    setShowAlertBox(!showAlertBox);
-  }
-
-  const alertBox = (
-    <div>
-      Are you sure
-      <button onClick={incrementVote}>Yes</button>
-      <button onClick={showAlertBoxHandler}>No</button>
-    </div>
-  );
 
   return (
     <div className="container">
-      {showAlertBox ? (
-        <div className="alert">{alertBox}</div>
-      ) : (
-        <ul>
+      <ul>
         {candidates.map((candidate, index) => (
-            <li className="list-item" key={index}>
-              <CandidateCard
-                photo="https://i0.wp.com/bakikaracay.com/wp-content/uploads/2016/09/Kamera-I%C5%9F%C4%B1k-Foto%C4%9Fraf.jpg?fit=810%2C540&ssl=1"
-                name={candidate.firstName}
-                gpa={candidate.gpa}
-                department={candidate.department}
-                description={candidate.description}
-                currentVote={candidate.currentVote}
-              />
-            </li>
-          )
-        )}
+          <li className="list-item" key={index}>
+            {candidate.id}
+            {candidate.photo}
+            {candidate.firstName}
+            {candidate.gpa}
+            {candidate.department}
+            {candidate.description}
+            {candidate.currentVote}
+            <button onClick={() => voteHandler(candidate.id)}>Vote</button>
+          </li>
+        ))}
       </ul>
-      )}
     </div>
   );
 }
