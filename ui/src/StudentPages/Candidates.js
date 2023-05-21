@@ -1,33 +1,28 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import CandidateCard from "./CandidateCard";
 import AuthContext from "../context/AuthContext";
-
+import axios from "axios"
 export default function Candidates() {
   const authCtx = useContext(AuthContext);
-  const candidates = [
-    { name: "Emre Karaduman", gpa: 3.5, department: "Computer Engineering", description: "dsjkasdjaddaksasasdassd", currentVote: 25 },
-    { name: "Halil Uyanik", gpa: 2.6, department: "Civil Engineering", description: "ds132312312312sdassd", currentVote: 15 },
-    { name: "Gencay Turgut", gpa: 3.2, department: "Computer Engineering", description: "dfsdfgsdfwef1", currentVote: 20 },
-    { name: "Ahmet Özdemir", gpa: 2.8, department: "Computer Engineering", description: "adfsgfgddgdf", currentVote: 10 }
-  ];
-
-  const [currentIndex, setCurrentIndex] = useState();
-  const [currentCandidates, setCurrentCandidates] = useState(candidates);
+  const [candidates, setCandidates] = useState([]);
+  const url = "http://localhost:8080/students";
+  console.log(candidates)
+  const fetchInfo = async () => {
+    const response = await axios.get(url);
+    const filteredCandidates = response.data.filter((candidate) => candidate.department == authCtx.userDepartment);
+    setCandidates(filteredCandidates);
+  };
+  useEffect(() => {
+    fetchInfo();
+  }, []);
   const [showAlertBox, setShowAlertBox] = useState(false);
 
-  function incrementVote() {
-    const updatedCandidates = [...currentCandidates];
-    updatedCandidates[currentIndex] = {
-      ...updatedCandidates[currentIndex],
-      currentVote: updatedCandidates[currentIndex].currentVote + 1
-    };
-    setCurrentCandidates(updatedCandidates);
-    showAlertBoxHandler();
-  }
 
+  function incrementVote() {
+
+  }
   function showAlertBoxHandler(index) {
-    setCurrentIndex(index);
     setShowAlertBox(!showAlertBox);
   }
 
@@ -44,24 +39,21 @@ export default function Candidates() {
       {showAlertBox ? (
         <div className="alert">{alertBox}</div>
       ) : (
-        <ul type="none" >
-        {currentCandidates.map((candidate, index) => (
-          authCtx.userDepartment === candidate.department ? (
+        <ul>
+        {candidates.map((candidate, index) => (
             <li className="list-item" key={index}>
               <CandidateCard
                 photo="https://i0.wp.com/bakikaracay.com/wp-content/uploads/2016/09/Kamera-I%C5%9F%C4%B1k-Foto%C4%9Fraf.jpg?fit=810%2C540&ssl=1"
-                name={candidate.name}
+                name={candidate.firstName}
                 gpa={candidate.gpa}
-                department={authCtx.department}
+                department={candidate.department}
                 description={candidate.description}
                 currentVote={candidate.currentVote}
-                showAlertBoxHandler={() => showAlertBoxHandler(index)}
               />
             </li>
-          ) : null
-        ))}
+          )
+        )}
       </ul>
-      
       )}
     </div>
   );

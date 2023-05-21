@@ -5,10 +5,9 @@ import axios from "axios";
 
 function Election() {
   const [department, setDepartment] = useState()
-  const [candidates, setCandidates] = useState([]);
   const [filteredCandidates, setFilteredCandidates] = useState([]);
+  const [candidates, setCandidates] = useState([]);
   const url = "http://localhost:8080/students";
-  console.log(candidates)
   const fetchInfo = async () => {
     const response = await axios.get(url);
     setCandidates(response.data);
