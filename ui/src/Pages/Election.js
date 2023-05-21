@@ -21,7 +21,7 @@ function Election() {
       ["Name", "Percentage"],
       ...candidates
         .filter((candidate) => candidate.department === department)
-        .map((candidate) => [candidate.firstName, candidate.percentage]),
+        .map((candidate) => [candidate.firstName, candidate.currentVote]),
     ];
 
     setFilteredCandidates(transformedCandidates);

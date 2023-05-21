@@ -15,20 +15,20 @@ public class Student  implements User {
 
     private String description;
 
-    private int percentage;
+    private int currentVote;
 
 
     public Student() {
     }
 
-    public Student(int id, String firstName, String lastName, double gpa, String department, String description, int percentage) {
+    public Student(int id, String firstName, String lastName, double gpa, String department, String description, int currentVote) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.gpa = gpa;
         this.department = department;
         this.description = description;
-        this.percentage = percentage;
+        this.currentVote = currentVote;
     }
 
     public int getId() {
@@ -80,11 +80,11 @@ public class Student  implements User {
     }
 
     public int getCurrentVote() {
-        return percentage;
+        return currentVote;
     }
 
     public void setCurrentVote(int currentVote) {
-        this.percentage = percentage;
+        this.currentVote = currentVote;
     }
 
     @Override
@@ -101,7 +101,7 @@ public class Student  implements User {
                 ", gpa=" + gpa +
                 ", department='" + department + '\'' +
                 ", description='" + description + '\'' +
-                ", percentage=" + percentage +
+                ", current vote=" + currentVote +
                 '}';
     }
 }
