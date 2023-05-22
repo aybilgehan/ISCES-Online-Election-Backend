@@ -31,7 +31,7 @@ export default function Candidates() {
       return;
     } else {
       console.log(id, "id'sine sahip kullanici 1 oy kazandı")
-      authCtx.setIsVoted(true);
+      authCtx.setIsVotedData(true);
       localStorage.setItem("isVoted", "true");
       //const url = `http://localhost:8080/students/${id}`;
     }

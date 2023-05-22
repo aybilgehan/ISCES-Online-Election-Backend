@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 const AuthContext = React.createContext({
-  isVoted:true,
+  isVoted:false,
   isLoggedIn: false,
   userRole: null,
   userDepartment: null,
@@ -12,7 +12,7 @@ const AuthContext = React.createContext({
   setUserDepartmentData: () => {},
   setUserGpaData: () => {},
   setUserNameData: () => {},
-  setIsVoted: () => {}
+  setIsVotedData: () => {}
 });
 
 export const AuthContextProvider = (props) => {
@@ -38,7 +38,7 @@ export const AuthContextProvider = (props) => {
   const [userRole, setUserRole] = useState(null);
   const [userGpa, setUserGpa] = useState(null);
   const [userName, setUserName] = useState(null);
-  const [isVoted, setIsVoted] = useState(true);
+  const [isVoted, setIsVoted] = useState(false);
 
   const loginHandler = () => {
     localStorage.setItem("isLoggedIn", "1");
@@ -60,6 +60,10 @@ export const AuthContextProvider = (props) => {
     console.log("dsjkads")
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("userRole");
+    localStorage.removeItem("userDepartment");
+    localStorage.removeItem("userGpa");
+    localStorage.removeItem("userName");
+    localStorage.removeItem("isVoted");
     setIsLoggedIn(false);
     console.log("exit");
   };
