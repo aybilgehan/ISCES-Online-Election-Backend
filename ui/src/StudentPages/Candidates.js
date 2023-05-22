@@ -12,7 +12,7 @@ export default function Candidates() {
   useEffect(() => {
     fetchInfo();
   }, []);
-
+  console.log(authCtx.isVoted)
   const fetchInfo = async () => {
     try {
       const response = await axios.get(url);

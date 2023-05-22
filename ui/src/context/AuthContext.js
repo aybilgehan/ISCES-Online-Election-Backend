@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 const AuthContext = React.createContext({
+  isVoted:true,
   isLoggedIn: false,
   userRole: null,
   userDepartment: null,
@@ -31,11 +31,11 @@ export const AuthContextProvider = (props) => {
   const [userRole, setUserRole] = useState(null);
   const [userGpa, setUserGpa] = useState(null);
   const [userName, setUserName] = useState(null);
+  const [isVoted, setIsVoted] = useState(true);
 
   const loginHandler = () => {
     localStorage.setItem("isLoggedIn", "1");
     const role = localStorage.getItem("userRole");
-    const department = localStorage.getItem("userDepartment");
     if (role == "rector") {
       setUserRole("rector");
       console.log("user is a rector");
@@ -57,7 +57,7 @@ export const AuthContextProvider = (props) => {
     console.log("exit");
   };
 
-  const setUserData = (role, id) => {
+  const setUserData = (role) => {
     setUserRole(role);
   };
 
@@ -77,6 +77,7 @@ export const AuthContextProvider = (props) => {
   return (
     <AuthContext.Provider
       value={{
+        isVoted: isVoted,
         isLoggedIn: isLoggedIn,
         userRole: userRole,
         userDepartment: userDepartment,
