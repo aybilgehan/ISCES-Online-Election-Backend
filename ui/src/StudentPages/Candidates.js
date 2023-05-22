@@ -28,8 +28,12 @@ export default function Candidates() {
   const voteHandler = (id) => {
     if (authCtx.isVoted) {
       console.log("This user has already voted.");
+      return;
     } else {
       console.log(id, "id'sine sahip kullanici 1 oy kazandı")
+      authCtx.setIsVoted(true);
+      localStorage.setItem("isVoted", "true");
+      //const url = `http://localhost:8080/students/${id}`;
     }
   };
 

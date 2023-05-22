@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import AuthContext from "../context/AuthContext";
 import "./Login.css";
+import axios from "axios";
 
 const Login = (props) => {
   const [enteredEmail, setEnteredEmail] = useState("");
@@ -8,8 +9,36 @@ const Login = (props) => {
   const [formIsValid, setFormIsValid] = useState(false);
   const authCtx = useContext(AuthContext);
 
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
+    const signInInfo = { email: enteredEmail, password: enteredPassword }
+    try {
+      const res = await axios.post(
+        'localhost:8080/loginget',
+        JSON.stringify(signInInfo)
+      )
+      if (res.data.status === 'success') {
+        localStorage.setItem('uid', res.data.uid)
+        localStorage.setItem(
+          'userInfo',
+          JSON.stringify({ email: signInInfo.email })
+        )
+        const userRole = res.data.role
+        //const chefId = res.data.chefId
+
+        //authCtx.setUserData(userRole, chefId)
+        authCtx.setUserData(userRole)
+        authCtx.onLogin({
+          email: enteredEmail,
+          password: enteredPassword,
+        })
+      } else {
+        console.log('Wrong password or email')
+      }
+      // assump log in is successful
+    } catch (err) {
+      console.log(err)
+    }
     /*Backendden rol bilgisi gelecek, şu anlık test yaparken userRole'ü istediğin rolü yazarak deneyebilirsin.
     Ana roller: student, rector, dean's office, department office. Department office dökümanları kontrol edip
     eğer uygunsa dean's office e yollayacak. Deans office de onaylayacak, yani 2 tane onaylama aşaması olacak.

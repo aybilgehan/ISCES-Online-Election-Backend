@@ -11,7 +11,8 @@ const AuthContext = React.createContext({
   setUserData: () => {},
   setUserDepartmentData: () => {},
   setUserGpaData: () => {},
-  setUserNameData: () => {}
+  setUserNameData: () => {},
+  setIsVoted: () => {}
 });
 
 export const AuthContextProvider = (props) => {
@@ -19,6 +20,12 @@ export const AuthContextProvider = (props) => {
     const storedUserLoggedInInformation = localStorage.getItem("isLoggedIn");
     const storedUserRole = localStorage.getItem("userRole");
     const storedUserDepartment = localStorage.getItem("userDepartment");
+    const storedUserGpa = localStorage.getItem("userGpa");
+    const storedUserName = localStorage.getItem("userName");
+    const storedIsVoted = localStorage.getItem("isVoted");
+    if (storedIsVoted === "true") {
+      setIsVoted(true);
+    }
     if (storedUserLoggedInInformation === "1") {
       setIsLoggedIn(true);
       setUserRole(storedUserRole);
@@ -72,6 +79,9 @@ export const AuthContextProvider = (props) => {
   const setUserNameData = (name) => {
     setUserName(name);
   };
+  const setIsVotedData = (isVoted) => {
+    setIsVoted(isVoted);
+  };
 
 
   return (
@@ -87,6 +97,7 @@ export const AuthContextProvider = (props) => {
         setUserDepartmentData: setUserDepartmentData,
         setUserGpaData: setUserGpaData,
         setUserNameData: setUserNameData,
+        setIsVotedData: setIsVotedData,
         onLogin: loginHandler,
         exitHandler: exitHandler,
       }}
