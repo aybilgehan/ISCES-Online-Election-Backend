@@ -8,7 +8,6 @@ export default function Candidates() {
   const authCtx = useContext(AuthContext);
   const [candidates, setCandidates] = useState([]);
   const url = "http://localhost:8080/students";
-
   useEffect(() => {
     fetchInfo();
   }, []);

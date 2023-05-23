@@ -11,34 +11,35 @@ const Login = (props) => {
 
   const submitHandler = async (event) => {
     event.preventDefault();
-    const signInInfo = { email: enteredEmail, password: enteredPassword }
+    const signInInfo = { email: enteredEmail, password: enteredPassword };
+    const email = enteredEmail.trim();
+    const password = enteredPassword.trim();
+    console.log(signInInfo);
     try {
-      const res = await axios.post(
-        'localhost:8080/loginget',
-        JSON.stringify(signInInfo)
-      )
-      if (res.data.status === 'success') {
-        localStorage.setItem('uid', res.data.uid)
+      const activationURL = `http://localhost:8080/loginget/${email}/${password}`;
+      console.log(activationURL);
+      const res = await axios.get(activationURL);
+      console.log("Response:", res);
+      if (res.status === 200) {
+        localStorage.setItem("uid", res.data.uid);
         localStorage.setItem(
-          'userInfo',
+          "userInfo",
           JSON.stringify({ email: signInInfo.email })
-        )
-        const userRole = res.data.role
-        //const chefId = res.data.chefId
-
-        //authCtx.setUserData(userRole, chefId)
-        authCtx.setUserData(userRole)
+        );
+        const userRole = res.data.role;
+        authCtx.setUserData(userRole);
         authCtx.onLogin({
           email: enteredEmail,
           password: enteredPassword,
-        })
+        });
+        console.log("Login successful");
       } else {
-        console.log('Wrong password or email')
+        console.log("Wrong password or email");
       }
-      // assump log in is successful
     } catch (err) {
-      console.log(err)
+      console.log("Error:", err);
     }
+
     /*Backendden rol bilgisi gelecek, şu anlık test yaparken userRole'ü istediğin rolü yazarak deneyebilirsin.
     Ana roller: student, rector, dean's office, department office. Department office dökümanları kontrol edip
     eğer uygunsa dean's office e yollayacak. Deans office de onaylayacak, yani 2 tane onaylama aşaması olacak.
@@ -57,11 +58,6 @@ const Login = (props) => {
     localStorage.setItem("userDepartment", userDepartment);
     localStorage.setItem("userName", userName);
     localStorage.setItem("userGpa", userGpa);
-    const user = { enteredEmail, enteredPassword };
-    authCtx.onLogin({
-      email: enteredEmail,
-      password: enteredPassword,
-    });
     /* fetch("http://localhost:8080/authenticateTheUser", {
       method: "POST",
       headers: {
