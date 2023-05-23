@@ -20,8 +20,9 @@ const Login = (props) => {
       console.log(activationURL);
       const res = await axios.get(activationURL);
       console.log("Response:", res);
+      console.log("Status:", res.status);
       if (res.status === 200) {
-        localStorage.setItem("uid", res.data.uid);
+        localStorage.setItem("uid", res.data.user_id);
         localStorage.setItem(
           "userInfo",
           JSON.stringify({ email: signInInfo.email })
@@ -32,6 +33,24 @@ const Login = (props) => {
           email: enteredEmail,
           password: enteredPassword,
         });
+        const isVoted = res.data.isVoted;
+        if (isVoted === 0) {
+          authCtx.setIsVotedData(true);
+        }
+        const userDepartment = res.data.department;
+        authCtx.setUserDepartmentData(userDepartment);
+        const userName = res.data.firstName;
+        authCtx.setUserNameData(userName);
+        // const userGpa = res.data.gpa;
+        //authCtx.setUserGpaData(userGpa);
+        const userLastName = res.data.lastName;
+        authCtx.setUserLastNameData(userLastName);
+
+        localStorage.setItem("userRole", userRole);
+        localStorage.setItem("userDepartment", userDepartment);
+        localStorage.setItem("userName", userName);
+        // localStorage.setItem("userGpa", userGpa);
+
         console.log("Login successful");
       } else {
         console.log("Wrong password or email");
@@ -49,7 +68,7 @@ const Login = (props) => {
     const userDepartment = "Computer Engineering";
     const userName = "Ahmet";
     const userGpa = "3.5";
-    authCtx.isVoted = false
+    authCtx.isVoted = false;
     authCtx.setUserData(userRole);
     authCtx.setUserDepartmentData(userDepartment);
     authCtx.setUserNameData(userName);

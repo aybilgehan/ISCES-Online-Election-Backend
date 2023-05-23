@@ -36,12 +36,12 @@ function App() {
               Şu an kullanıcı giriş yapmamışken hiçbir sayfaya giremiyor karşısına hep login çıkacak.
               Giriş yaptıktan sonra öğrenci ve görevlilere farklı butonlar aktif olacak. Inline if state'i ve 
               authcontext rol kontrolü ile bunu sağlayacağız. */}
-                {authCtx.userRole=="student"&&<Route path="/council" element={<Council />} />}
+                {(authCtx.userRole === "student" || authCtx.userRole === 'candidate' )&&<Route path="/council" element={<Council />} />}
                 {authCtx.userRole=="rector"&&<Route path="/setelectiondate" element={< SetElectionDate/>} />}
                 <Route path="/home" element={<Home time={blabla} />} />
-                {authCtx.userRole == "student" && <Route path="/candidates" element={<Candidates />} />}
+                {(authCtx.userRole === "student" || authCtx.userRole === 'candidate' ) && <Route path="/candidates" element={<Candidates />} />}
                 <Route path="/election" element={<Election />} />
-                {authCtx.userRole=="student"&&<Route path="/candidateform" element={<CandidateForm />} />}
+                {(authCtx.userRole === "student" || authCtx.userRole === 'candidate' )&&<Route path="/candidateform" element={<CandidateForm />} />}
                 <Route path="/profile" element={<Profile />} />
               </>
             )}

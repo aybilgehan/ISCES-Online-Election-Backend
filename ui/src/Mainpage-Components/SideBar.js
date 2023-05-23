@@ -16,13 +16,13 @@ const SideBar = (props) => {
       {authCtx.userRole == "rector" && <button>Set Election Date</button> }
       </Link>
       <Link to="/candidates">
-      {authCtx.userRole == "student" && <button>Candidates</button> }
+      {(authCtx.userRole === "student" || authCtx.userRole === 'candidate' ) && <button>Candidates</button> }
       </Link>
       <Link to="/council">
-        {authCtx.userRole == "student" && <button>Council</button>}
+        {(authCtx.userRole === "student" || authCtx.userRole === 'candidate' )&& <button>Council</button>}
       </Link>
       <Link to="/candidateform">
-        {authCtx.userRole == "student" && <button>Be candidate</button>}
+        {(authCtx.userRole === "student" || authCtx.userRole === 'candidate' )&& <button>Be candidate</button>}
       </Link>
       <Link to="/profile">
         {<button>Profile</button>}
