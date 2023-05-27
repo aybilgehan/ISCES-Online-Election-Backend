@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import "./SideBar.css";
 const SideBar = (props) => {
   const authCtx = useContext(AuthContext);
+  console.log(authCtx.userRole);
   return (
     <div className="container">
       <Link to="/home">

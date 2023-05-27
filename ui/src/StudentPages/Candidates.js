@@ -13,52 +13,40 @@ import axios from "axios";
 export default function Candidates() {
   const authCtx = useContext(AuthContext);
   const [candidates, setCandidates] = useState([]);
-  const [studentDepartment, setStudentDepartment] = useState("");
-  const url = "http://localhost:8080/students"; //students değil candidates olacak
-  const studentId = localStorage.getItem("uid");
-  const studentUrl = `http://localhost:8080/students/getdepartmentid/${studentId}`;
+  const url = `http://localhost:8080/showCandidates/${authCtx.userDepartment}`;
+
   useEffect(() => {
     fetchCandidateInfo();
-    fetchStudentInfo();
   }, []);
-  console.log(authCtx.isVoted)
-  const fetchStudentInfo = async () => {
-    try {
-      const response = await axios.get(studentUrl);
-      setStudentDepartment(response.data.department); //burayı gelen bilgiye göre ayarlarız
-    }catch (error) {
-      console.error("Error fetching candidates:", error);
-    }
-  };
+
 
   const fetchCandidateInfo = async () => {
     try {
       const response = await axios.get(url);
-      const filteredCandidates = response.data.filter(
-        (candidate) => candidate.department === studentDepartment
-      );
-      setCandidates(filteredCandidates);
+      setCandidates(response.data);
+
     } catch (error) {
+
       console.error("Error fetching candidates:", error);
     }
   };
 
   const voteHandler = async (id) => {
-    try{
+    try {
       const response = await axios.get(`http://localhost:8080/students/isvoted/${id}`);
-      if(response.data===true){
+      if (response.data === true) {
         console.log("This user has already voted.");
         return;
       }
-      else{
+      else {
         console.log(id, "id'sine sahip kullanici 1 oy kazandı")
         const response1 = await axios.put(`http://localhost:8080/students/setisvoted/${id}`);
         const response2 = await axios.put(`http://localhost:8080/candidates/incrementvote/${id}`);
       }
-  }
-  catch (error) {
-  console.error("Voting  :", error);
-}
+    }
+    catch (error) {
+      console.error("Voting  :", error);
+    }
   }
 
   return (
@@ -66,13 +54,10 @@ export default function Candidates() {
       <ul>
         {candidates.map((candidate, index) => (
           <li className="list-item" key={index}>
-            {candidate.id}
-            {candidate.photo}
-            {candidate.firstName}
-            {candidate.gpa}
-            {candidate.department}
-            {candidate.description}
-            {candidate.currentVote}
+            {candidate.votes}
+            <br></br>
+            {candidate.candidateName}
+
             <button onClick={() => voteHandler(candidate.id)}>Vote</button>
           </li>
         ))}

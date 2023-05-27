@@ -17,40 +17,40 @@ const Login = (props) => {
     console.log(signInInfo);
     try {
       const activationURL = `http://localhost:8080/loginget/${email}/${password}`;
-      console.log(activationURL);
       const res = await axios.get(activationURL);
-      console.log("Response:", res);
-      console.log("Status:", res.status);
+    
+
       if (res.status === 200) {
-        localStorage.setItem("uid", res.data.user_id);
+        localStorage.setItem("uid", res.data.user.user_id);
         localStorage.setItem(
           "userInfo",
           JSON.stringify({ email: signInInfo.email })
         );
-        const userRole = res.data.role;
+        const userRole = res.data.user.role;
         authCtx.setUserData(userRole);
-        authCtx.onLogin({
-          email: enteredEmail,
-          password: enteredPassword,
-        });
+        
         const isVoted = res.data.isVoted;
         if (isVoted === 0) {
           authCtx.setIsVotedData(true);
         }
-        const userDepartment = res.data.department;
+        const userDepartment = res.data.user.departmentId;
         authCtx.setUserDepartmentData(userDepartment);
-        const userName = res.data.firstName;
+        const userName = res.data.user.firstName;
         authCtx.setUserNameData(userName);
         // const userGpa = res.data.gpa;
         //authCtx.setUserGpaData(userGpa);
-        const userLastName = res.data.lastName;
+        const userLastName = res.data.user.lastName;
         authCtx.setUserLastNameData(userLastName);
 
         localStorage.setItem("userRole", userRole);
         localStorage.setItem("userDepartment", userDepartment);
         localStorage.setItem("userName", userName);
-        // localStorage.setItem("userGpa", userGpa);
 
+        // localStorage.setItem("userGpa", userGpa);
+        authCtx.onLogin({
+                  email: enteredEmail,
+                  password: enteredPassword,
+                });
         console.log("Login successful");
       } else {
         console.log("Wrong password or email");
@@ -64,81 +64,8 @@ const Login = (props) => {
     eğer uygunsa dean's office e yollayacak. Deans office de onaylayacak, yani 2 tane onaylama aşaması olacak.
     Rektör ise election date'i set edecek veya seçimi eşitlikle biterse rastgele bitirme tuşuna tıklayacak ve seçim
     iki eşit oy alan iki kişi arasından biri seçilerek bitecek.*/
-    const userRole = "student";
-    const userDepartment = "Computer Engineering";
-    const userName = "Ahmet";
-    const userGpa = "3.5";
-    authCtx.isVoted = false;
-    authCtx.setUserData(userRole);
-    authCtx.setUserDepartmentData(userDepartment);
-    authCtx.setUserNameData(userName);
-    authCtx.setUserGpaData(userGpa);
-    localStorage.setItem("userRole", userRole);
-    localStorage.setItem("userDepartment", userDepartment);
-    localStorage.setItem("userName", userName);
-    localStorage.setItem("userGpa", userGpa);
-    /* fetch("http://localhost:8080/authenticateTheUser", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(user)
-    }).then(response => {
-    console.log("student logged in")
-    }
 
-      if (response.ok) {
-        return response.json()
-      }
-      throw response
-    }).then(data => {
-      console.log(data)
-    }).catch(error => {
-      console.log(error)
-    })*/
-
-    /* 
-    return
-    if (enteredEmail.includes('rector')) {
-      const userRole = 'rector'
-      authCtx.setUserData(userRole)
-      navigate('/rectorsidebar')
-      authCtx.onLogin({
-        email: enteredEmail,
-        password: enteredPassword,
-      })
-    }
-    else if (enteredEmail.includes('dean')) {
-      const userRole = 'dean'
-      authCtx.setUserData(userRole)
-      navigate('/deansidebar')
-      authCtx.onLogin({
-        email: enteredEmail,
-        password: enteredPassword,
-      })
-    }
-    else if (enteredEmail.includes('departmentsecretary')) {
-      const userRole = 'dean'
-      authCtx.setUserData(userRole)
-      navigate('/secretarysidebar')
-      authCtx.onLogin({
-        email: enteredEmail,
-        password: enteredPassword,
-      })
-    }
-    else if (enteredEmail.includes('std')) {
-      const userRole = 'student'
-      authCtx.setUserData(userRole)
-      navigate('/sidebar')
-      authCtx.onLogin({
-        email: enteredEmail,
-        password: enteredPassword,
-      }) 
-    }
-    else{
-      return
-    }
-*/
+   
   };
 
   const emailChangeHandler = (event) => {

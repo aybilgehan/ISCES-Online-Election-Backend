@@ -36,7 +36,7 @@ export const AuthContextProvider = (props) => {
       setIsLoggedIn(true);
       setUserRole(storedUserRole);
       setUserDepartment(storedUserDepartment);
-      console.log("userRole", storedUserRole);
+ 
     }
   }, []);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -49,7 +49,9 @@ export const AuthContextProvider = (props) => {
 
   const loginHandler = () => {
     localStorage.setItem("isLoggedIn", "1");
+    
     const role = localStorage.getItem("userRole");
+    console.log(role);
     if (role == "rector") {
       setUserRole("rector");
       console.log("user is a rector");
