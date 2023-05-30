@@ -37,3 +37,15 @@ button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
 }
+.forgot-password-link {
+  position: relative;
+  display: inline-block;
+}
+
+.forgot-password-link::before {
+
+  font-weight: bold;
+  cursor: pointer;
+}
+
+

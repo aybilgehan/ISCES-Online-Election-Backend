@@ -17,7 +17,7 @@ const SideBar = (props) => {
       {authCtx.userRole == "rector" && <button>Set Election Date</button> }
       </Link>
       <Link to="/candidates">
-      {(authCtx.userRole === "student" || authCtx.userRole === 'candidate' ) && <button>Candidates</button> }
+      {(authCtx.userRole === "student" || authCtx.userRole === 'candidate' ) && <button>Vote</button> }
       </Link>
       <Link to="/council">
         {(authCtx.userRole === "student" || authCtx.userRole === 'candidate' )&& <button>Council</button>}

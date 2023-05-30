@@ -18,7 +18,6 @@ const Login = (props) => {
     try {
       const activationURL = `http://localhost:8080/loginget/${email}/${password}`;
       const res = await axios.get(activationURL);
-    
 
       if (res.status === 200) {
         localStorage.setItem("uid", res.data.user.user_id);
@@ -100,6 +99,8 @@ const Login = (props) => {
         <button className="button" type="submit" disabled={!formIsValid}>
           Login
         </button>
+        <a href="https://obs.iyte.edu.tr/oibs/ogrenci/start.aspx?gkm=0020333453884031102355703550534436311053657033351388803446832232389283558535545383682197311153778435600" className="forgot-password-link">Forgot Password</a>
+
       </form>
     </div>
   );
