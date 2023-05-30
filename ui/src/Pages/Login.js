@@ -2,13 +2,16 @@ import React, { useState, useEffect, useContext } from "react";
 import AuthContext from "../context/AuthContext";
 import "./Login.css";
 import axios from "axios";
-
 const Login = (props) => {
+  const alertBox = <div>Wrong password or ID<button onClick={changeAlertBoxVisible}>Ok</button></div>
+  const [showAlert, setShowAlert] = useState(false);
   const [enteredEmail, setEnteredEmail] = useState("");
   const [enteredPassword, setEnteredPassword] = useState("");
   const [formIsValid, setFormIsValid] = useState(false);
   const authCtx = useContext(AuthContext);
-
+  function changeAlertBoxVisible() {
+    setShowAlert(!showAlert)
+  }
   const submitHandler = async (event) => {
     event.preventDefault();
     const signInInfo = { email: enteredEmail, password: enteredPassword };
@@ -27,7 +30,7 @@ const Login = (props) => {
         );
         const userRole = res.data.user.role;
         authCtx.setUserData(userRole);
-        
+
         const isVoted = res.data.isVoted;
         if (isVoted === 0) {
           authCtx.setIsVotedData(true);
@@ -47,15 +50,13 @@ const Login = (props) => {
 
         // localStorage.setItem("userGpa", userGpa);
         authCtx.onLogin({
-                  email: enteredEmail,
-                  password: enteredPassword,
-                });
+          email: enteredEmail,
+          password: enteredPassword,
+        });
         console.log("Login successful");
-      } else {
-        console.log("Wrong password or email");
       }
     } catch (err) {
-      console.log("Error:", err);
+      changeAlertBoxVisible();
     }
 
     /*Backendden rol bilgisi gelecek, şu anlık test yaparken userRole'ü istediğin rolü yazarak deneyebilirsin.
@@ -64,7 +65,7 @@ const Login = (props) => {
     Rektör ise election date'i set edecek veya seçimi eşitlikle biterse rastgele bitirme tuşuna tıklayacak ve seçim
     iki eşit oy alan iki kişi arasından biri seçilerek bitecek.*/
 
-   
+
   };
 
   const emailChangeHandler = (event) => {
@@ -77,31 +78,32 @@ const Login = (props) => {
 
   return (
     <div className="container">
-      <form onSubmit={submitHandler}>
-        <label htmlFor="email">Email:</label>
-        <input
-          className="input"
-          placeholder="e-mail"
-          type="email"
-          id="email"
-          value={enteredEmail}
-          onChange={emailChangeHandler}
-        />
-        <label htmlFor="password">Password:</label>
-        <input
-          className="input"
-          placeholder="password"
-          type="password"
-          id="password"
-          value={enteredPassword}
-          onChange={passwordChangeHandler}
-        />
-        <button className="button" type="submit" disabled={!formIsValid}>
-          Login
-        </button>
-        <a href="https://obs.iyte.edu.tr/oibs/ogrenci/start.aspx?gkm=0020333453884031102355703550534436311053657033351388803446832232389283558535545383682197311153778435600" className="forgot-password-link">Forgot Password</a>
-
-      </form>
+      {showAlert ? alertBox : (
+        <form onSubmit={submitHandler}>
+          <label htmlFor="email">Email:</label>
+          <input
+            className="input"
+            placeholder="e-mail"
+            type="email"
+            id="email"
+            value={enteredEmail}
+            onChange={emailChangeHandler}
+          />
+          <label htmlFor="password">Password:</label>
+          <input
+            className="input"
+            placeholder="password"
+            type="password"
+            id="password"
+            value={enteredPassword}
+            onChange={passwordChangeHandler}
+          />
+          <button className="button" type="submit" disabled={!formIsValid}>
+            Login
+          </button>
+          <a href="https://obs.iyte.edu.tr/oibs/ogrenci/start.aspx?gkm=0020333453884031102355703550534436311053657033351388803446832232389283558535545383682197311153778435600" className="forgot-password-link">Forgot Password</a>
+        </form>
+      )}
     </div>
   );
 };
