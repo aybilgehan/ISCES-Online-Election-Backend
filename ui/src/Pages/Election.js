@@ -1,59 +1,47 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import "./Election.css";
 import { Chart } from "react-google-charts";
+import AuthContext from "../context/AuthContext";
 import axios from "axios";
-
 function Election() {
-  const [department, setDepartment] = useState();
-  const [filteredCandidates, setFilteredCandidates] = useState([]);
+  const authCtx = useContext(AuthContext);
   const [candidates, setCandidates] = useState([]);
-  const url = "http://localhost:8080/students";
-  const fetchInfo = async () => {
-    const response = await axios.get(url);
-    setCandidates(response.data);
-  };
+  const url = `http://localhost:8080/showCandidates/${authCtx.userDepartment}`;
+
+
   useEffect(() => {
-    fetchInfo();
+    fetchCandidateInfo();
   }, []);
+  const fetchCandidateInfo = async () => {
+    try {
+      const response = await axios.get(url);
+      const transformedCandidates = [
+        ["Name", "Percentage"],
+        ...response.data.map((candidate) => [candidate.candidateName, candidate.votes]),
+      ];
+      setCandidates(transformedCandidates);
 
-  useEffect(() => {
-    const transformedCandidates = [
-      ["Name", "Percentage"],
-      ...candidates
-        .filter((candidate) => candidate.department === department)
-        .map((candidate) => [candidate.firstName, candidate.currentVote]),
-    ];
+    } catch (error) {
 
-    setFilteredCandidates(transformedCandidates);
-  }, [department]);
-
-  const chartHandler = (event) => {
-    setDepartment(event.target.value);
+      console.error("Error fetching candidates:", error);
+    }
   };
+
+
+
 
   const options = {
     title: "Election Results",
     is3D: true,
   };
-  console.log(filteredCandidates.length);
+  console.log(candidates)
   return (
     <div className="container">
-      <form>
-        <label htmlFor="department">Department:</label>
-        <select name="department" id="department" onChange={chartHandler}>
-          <option>Please select a department</option>
-          <option value="Computer Engineering">Computer Engineering</option>
-          <option value="Civil Engineering">Civil Engineering</option>
-          <option value="Electronic Engineering">Electronic Engineering</option>
-        </select>
-      </form>
-      {filteredCandidates.length > 1 && (
-        <Chart
-          chartType="PieChart"
-          data={filteredCandidates}
-          options={options}
-        />
-      )}
+      <Chart
+        chartType="PieChart"
+        data={candidates}
+        options={options}
+      />
     </div>
   );
 }
