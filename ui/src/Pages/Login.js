@@ -11,33 +11,33 @@ const Login = (props) => {
 
   const submitHandler = async (event) => {
     event.preventDefault();
-    const signInInfo = { email: enteredEmail, password: enteredPassword }
+    const signInInfo = { email: enteredEmail, password: enteredPassword };
     try {
       const res = await axios.post(
-        'localhost:8080/loginget',
+        "localhost:8080/loginget",
         JSON.stringify(signInInfo)
-      )
-      if (res.data.status === 'success') {
-        localStorage.setItem('uid', res.data.uid)
+      );
+      if (res.data.status === "success") {
+        localStorage.setItem("uid", res.data.uid);
         localStorage.setItem(
-          'userInfo',
+          "userInfo",
           JSON.stringify({ email: signInInfo.email })
-        )
-        const userRole = res.data.role
+        );
+        const userRole = res.data.role;
         //const chefId = res.data.chefId
 
         //authCtx.setUserData(userRole, chefId)
-        authCtx.setUserData(userRole)
+        authCtx.setUserData(userRole);
         authCtx.onLogin({
           email: enteredEmail,
           password: enteredPassword,
-        })
+        });
       } else {
-        console.log('Wrong password or email')
+        console.log("Wrong password or email");
       }
       // assump log in is successful
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
     /*Backendden rol bilgisi gelecek, şu anlık test yaparken userRole'ü istediğin rolü yazarak deneyebilirsin.
     Ana roller: student, rector, dean's office, department office. Department office dökümanları kontrol edip
@@ -48,7 +48,7 @@ const Login = (props) => {
     const userDepartment = "Computer Engineering";
     const userName = "Ahmet";
     const userGpa = "3.5";
-    authCtx.isVoted = false
+    authCtx.isVoted = false;
     authCtx.setUserData(userRole);
     authCtx.setUserDepartmentData(userDepartment);
     authCtx.setUserNameData(userName);
@@ -135,30 +135,51 @@ const Login = (props) => {
   };
 
   return (
-    <div className="container">
-      <form onSubmit={submitHandler}>
-        <label htmlFor="email">Email:</label>
-        <input
-          className="input"
-          placeholder="e-mail"
-          type="email"
-          id="email"
-          value={enteredEmail}
-          onChange={emailChangeHandler}
-        />
-        <label htmlFor="password">Password:</label>
-        <input
-          className="input"
-          placeholder="password"
-          type="password"
-          id="password"
-          value={enteredPassword}
-          onChange={passwordChangeHandler}
-        />
-        <button className="button" type="submit" disabled={!formIsValid}>
-          Login
-        </button>
-      </form>
+    <div className="login-container">
+      <div className="login-page">
+        <header>
+          <h1>IZTECH ONLINE ELECTION SYSTEM</h1>
+        </header>
+        <div className="login-outer-box">
+          <img
+            src="https://bhib.iyte.edu.tr/wp-content/uploads/sites/115/2018/09/iyte_logo-tur.png"
+            alt="IYTE Logo"
+            className="login-logo"
+          />
+          <div className="login-left-inner-box">
+            <div className="login-form">
+              <form onSubmit={submitHandler}>
+                <label htmlFor="email">Email:</label>
+                <input
+                  className="input"
+                  placeholder="e-mail"
+                  type="email"
+                  id="email"
+                  value={enteredEmail}
+                  onChange={emailChangeHandler}
+                />
+                <label htmlFor="password">Password:</label>
+                <input
+                  className="input"
+                  placeholder="password"
+                  type="password"
+                  id="password"
+                  value={enteredPassword}
+                  onChange={passwordChangeHandler}
+                />
+                <button
+                  className="button"
+                  type="submit"
+                  disabled={!formIsValid}
+                >
+                  Login
+                </button>
+              </form>
+            </div>
+          </div>
+          <div className="right-inner-box"></div>
+        </div>
+      </div>
     </div>
   );
 };
