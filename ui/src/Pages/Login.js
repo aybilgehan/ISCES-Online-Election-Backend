@@ -4,8 +4,9 @@ import "./Login.css";
 import axios from "axios";
 const Login = (props) => {
   const alertBox = (
-    <div>
-      Wrong password or ID<button onClick={changeAlertBoxVisible}>Ok</button>
+    <div className="AlertBox">
+      <h5>Wrong Credentials!</h5>
+      <button onClick={changeAlertBoxVisible}>Ok</button>
     </div>
   );
   const [showAlert, setShowAlert] = useState(false);
@@ -90,11 +91,12 @@ const Login = (props) => {
             alt="IYTE Logo"
             className="login-logo"
           />
-          {showAlert ? (
-            alertBox
-          ) : (
-            <div className="login-left-inner-box">
-              <div className="login-form">
+
+          <div className="login-left-inner-box">
+            <div className="login-form">
+              {showAlert ? (
+                alertBox
+              ) : (
                 <form onSubmit={submitHandler}>
                   <label htmlFor="email">Email:</label>
                   <input
@@ -122,15 +124,15 @@ const Login = (props) => {
                     Login
                   </button>
                 </form>
-                <a
-                  href="https://obs.iyte.edu.tr/oibs/ogrenci/start.aspx?gkm=0020333453884031102355703550534436311053657033351388803446832232389283558535545383682197311153778435600"
-                  className="forgot-password-link"
-                >
-                  Forgot Password
-                </a>
-              </div>
+              )}
+              <a
+                href="https://obs.iyte.edu.tr/oibs/ogrenci/start.aspx?gkm=0020333453884031102355703550534436311053657033351388803446832232389283558535545383682197311153778435600"
+                className="forgot-password-link"
+              >
+                Forgot Password
+              </a>
             </div>
-          )}
+          </div>
           <div className="right-inner-box">
             <img
               className="login-img"
