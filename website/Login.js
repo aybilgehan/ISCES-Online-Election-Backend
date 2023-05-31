@@ -3,18 +3,14 @@ import AuthContext from "../context/AuthContext";
 import "./Login.css";
 import axios from "axios";
 const Login = (props) => {
-  const alertBox = (
-    <div>
-      Wrong password or ID<button onClick={changeAlertBoxVisible}>Ok</button>
-    </div>
-  );
+  const alertBox = <div>Wrong password or ID<button onClick={changeAlertBoxVisible}>Ok</button></div>
   const [showAlert, setShowAlert] = useState(false);
   const [enteredEmail, setEnteredEmail] = useState("");
   const [enteredPassword, setEnteredPassword] = useState("");
   const [formIsValid, setFormIsValid] = useState(false);
   const authCtx = useContext(AuthContext);
   function changeAlertBoxVisible() {
-    setShowAlert(!showAlert);
+    setShowAlert(!showAlert)
   }
   const submitHandler = async (event) => {
     event.preventDefault();
@@ -68,6 +64,8 @@ const Login = (props) => {
     eğer uygunsa dean's office e yollayacak. Deans office de onaylayacak, yani 2 tane onaylama aşaması olacak.
     Rektör ise election date'i set edecek veya seçimi eşitlikle biterse rastgele bitirme tuşuna tıklayacak ve seçim
     iki eşit oy alan iki kişi arasından biri seçilerek bitecek.*/
+
+
   };
 
   const emailChangeHandler = (event) => {
@@ -79,10 +77,55 @@ const Login = (props) => {
   };
 
   return (
+<<<<<<< HEAD
+    <div className="login-container">
+      <div className="login-page">
+        <header>
+          <h1>IZTECH ONLINE ELECTION SYSTEM</h1>
+        </header>
+        <div className="login-outer-box">
+          <img
+            src="https://bhib.iyte.edu.tr/wp-content/uploads/sites/115/2018/09/iyte_logo-tur.png"
+            alt="IYTE Logo"
+            className="login-logo"
+          />
+          <div className="login-left-inner-box">
+            <div className="login-form">
+              <form onSubmit={submitHandler}>
+                <label htmlFor="email">Email:</label>
+                <input
+                  className="input"
+                  placeholder="e-mail"
+                  type="email"
+                  id="email"
+                  value={enteredEmail}
+                  onChange={emailChangeHandler}
+                />
+                <label htmlFor="password">Password:</label>
+                <input
+                  className="input"
+                  placeholder="password"
+                  type="password"
+                  id="password"
+                  value={enteredPassword}
+                  onChange={passwordChangeHandler}
+                />
+                <button
+                  className="button"
+                  type="submit"
+                  disabled={!formIsValid}
+                >
+                  Login
+                </button>
+              </form>
+            </div>
+          </div>
+          <div className="right-inner-box"></div>
+        </div>
+      </div>
+=======
     <div className="container">
-      {showAlert ? (
-        alertBox
-      ) : (
+      {showAlert ? alertBox : (
         <form onSubmit={submitHandler}>
           <label htmlFor="email">Email:</label>
           <input
@@ -105,14 +148,10 @@ const Login = (props) => {
           <button className="button" type="submit" disabled={!formIsValid}>
             Login
           </button>
-          <a
-            href="https://obs.iyte.edu.tr/oibs/ogrenci/start.aspx?gkm=0020333453884031102355703550534436311053657033351388803446832232389283558535545383682197311153778435600"
-            className="forgot-password-link"
-          >
-            Forgot Password
-          </a>
+          <a href="https://obs.iyte.edu.tr/oibs/ogrenci/start.aspx?gkm=0020333453884031102355703550534436311053657033351388803446832232389283558535545383682197311153778435600" className="forgot-password-link">Forgot Password</a>
         </form>
       )}
+>>>>>>> d2512fa6ec3798c04fcd0efa3fac04597b1b1a28
     </div>
   );
 };
