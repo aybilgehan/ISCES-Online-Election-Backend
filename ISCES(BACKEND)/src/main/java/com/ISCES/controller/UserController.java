@@ -42,16 +42,13 @@ public class UserController {
     @GetMapping("/login/{email}/{password}")
     // Basically generic type login function.
     public ResponseEntity<LoginResponse> login(@PathVariable String email, @PathVariable String password) {
-        System.out.println("asdasda");
         String controller = "";
         // user type for front-end
         User user = userService.findByEmail(email);
         if (user != null && user.getPassword().equals(password)){
             controller = "Logged-in";
         }
-        System.out.println("girmedi");
         try {
-            System.out.println("girdi");
             if((controller.equals("Logged-in"))){
                 // Http status 2**
                 return new ResponseEntity<>(new LoginResponse(200, controller, user), HttpStatus.OK);

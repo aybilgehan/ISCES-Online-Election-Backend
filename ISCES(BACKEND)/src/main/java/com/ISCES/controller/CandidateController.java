@@ -21,11 +21,18 @@ public class CandidateController {
         this.candidateService = candidateService;
     }
 
-    @GetMapping("/showCandidates/{departmentId}")
-    public List<Candidate> showCandidates(@PathVariable Long departmentId){
-        return candidateService.createCandidateListByDepartmentId(departmentId);
+
+
+    @GetMapping("/candidates/{departmentId}")
+    public List<Candidate> getAllCandidatesByDepartmentId(@PathVariable Long departmentId){
+        return candidateService.findCandidateByDepartmentId(departmentId);
     }
 
 
+
+    @GetMapping("/candidates/allCandidates")
+    public List<Candidate> getAllCandidates(){
+        return candidateService.getAllCandidates();
+    }
 
 }

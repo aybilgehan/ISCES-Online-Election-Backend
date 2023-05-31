@@ -21,8 +21,8 @@ CREATE TABLE `user` (
 CREATE TABLE `student` (
   `student_number` BIGINT NOT NULL,
   `department_id` BIGINT NOT NULL,
-  `first_name"` varchar(50) NOT NULL,
-  `last_name"` varchar(50) NOT NULL,
+  `first_name` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
   `grade` FLOAT NOT NULL,
   `term` BIGINT NOT NULL,
   `is_voted` TINYINT NOT NULL,
@@ -57,7 +57,9 @@ VALUES
 INSERT INTO `student` 
 VALUES 
 (270201050,1,'Ahmet','Özdemir',2.73,3,0,'ahmetozdemir@std.iyte.edu.tr'),
-(270201020,1,'Ece','Savran',3.41,3,0,'ecesavran@std.iyte.edu.tr');
+(270201020,1,'Ece','Savran',3.41,3,0,'ecesavran@std.iyte.edu.tr'),
+(270201030,1,'Emre','Karaduman',3.41,3,0,'emrekaraduman@std.iyte.edu.tr'),
+(270201070,1,'Bilgehan','Ay',3.41,3,0,'bilgehanay@std.iyte.edu.tr');
 
 INSERT INTO `candidate` 
 VALUES 

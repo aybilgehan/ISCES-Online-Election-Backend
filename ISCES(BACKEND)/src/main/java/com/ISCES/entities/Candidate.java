@@ -17,7 +17,7 @@ public class Candidate{
 
     @Id
     @Column(name = "candidate_id")
-    private Long candidateID;
+    private Long candidateId;
 
     @Column(name="votes")
     private Long votes;
@@ -26,6 +26,7 @@ public class Candidate{
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "student_number")
     private Student student;
+
 
     @Column(name="status") // is candidacy approved or not.                || 0 -> not approved  || 1-> approved  ||
     private boolean status;
