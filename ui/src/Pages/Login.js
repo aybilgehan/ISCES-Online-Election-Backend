@@ -136,7 +136,7 @@ const Login = (props) => {
           <div className="right-inner-box">
             <img
               className="login-img"
-              src={require("../images/login/candidates.png")}
+              src={require("../images/login/server_cluster.png")}
             />
           </div>
         </div>
