@@ -79,40 +79,66 @@ const Login = (props) => {
   };
 
   return (
-    <div className="container">
-      {showAlert ? (
-        alertBox
-      ) : (
-        <form onSubmit={submitHandler}>
-          <label htmlFor="email">Email:</label>
-          <input
-            className="input"
-            placeholder="e-mail"
-            type="email"
-            id="email"
-            value={enteredEmail}
-            onChange={emailChangeHandler}
+    <div className="login-container">
+      <div className="login-page">
+        <header>
+          <h1>IZTECH ONLINE ELECTION SYSTEM</h1>
+        </header>
+        <div className="login-outer-box">
+          <img
+            src="https://bhib.iyte.edu.tr/wp-content/uploads/sites/115/2018/09/iyte_logo-tur.png"
+            alt="IYTE Logo"
+            className="login-logo"
           />
-          <label htmlFor="password">Password:</label>
-          <input
-            className="input"
-            placeholder="password"
-            type="password"
-            id="password"
-            value={enteredPassword}
-            onChange={passwordChangeHandler}
-          />
-          <button className="button" type="submit" disabled={!formIsValid}>
-            Login
-          </button>
-          <a
-            href="https://obs.iyte.edu.tr/oibs/ogrenci/start.aspx?gkm=0020333453884031102355703550534436311053657033351388803446832232389283558535545383682197311153778435600"
-            className="forgot-password-link"
-          >
-            Forgot Password
-          </a>
-        </form>
-      )}
+          {showAlert ? (
+            alertBox
+          ) : (
+            <div className="login-left-inner-box">
+              <div className="login-form">
+                <form onSubmit={submitHandler}>
+                  <label htmlFor="email">Email:</label>
+                  <input
+                    className="input"
+                    placeholder="e-mail"
+                    type="email"
+                    id="email"
+                    value={enteredEmail}
+                    onChange={emailChangeHandler}
+                  />
+                  <label htmlFor="password">Password:</label>
+                  <input
+                    className="input"
+                    placeholder="password"
+                    type="password"
+                    id="password"
+                    value={enteredPassword}
+                    onChange={passwordChangeHandler}
+                  />
+                  <button
+                    className="button"
+                    type="submit"
+                    disabled={!formIsValid}
+                  >
+                    Login
+                  </button>
+                </form>
+                <a
+                  href="https://obs.iyte.edu.tr/oibs/ogrenci/start.aspx?gkm=0020333453884031102355703550534436311053657033351388803446832232389283558535545383682197311153778435600"
+                  className="forgot-password-link"
+                >
+                  Forgot Password
+                </a>
+              </div>
+            </div>
+          )}
+          <div className="right-inner-box">
+            <img
+              className="login-img"
+              src={require("../images/login/candidates.png")}
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
