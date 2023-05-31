@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Maven: com.nimbusds:oidc-claims-source-ldap:1.6.1" type="java-imported" external-system-id="Maven">
+    <properties groupId="com.nimbusds" artifactId="oidc-claims-source-ldap" version="1.6.1" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/nimbusds/oidc-claims-source-ldap/1.6.1/oidc-claims-source-ldap-1.6.1.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/nimbusds/oidc-claims-source-ldap/1.6.1/oidc-claims-source-ldap-1.6.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/nimbusds/oidc-claims-source-ldap/1.6.1/oidc-claims-source-ldap-1.6.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
