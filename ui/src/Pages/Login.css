@@ -4,14 +4,14 @@
 }
 
 .login-page {
-  margin-top: 36px;
+  /* margin-top: 36px; */
   display: grid;
 }
 
 /* HEADER SECTION */
 
 .login-page header {
-  margin-bottom: 96px;
+  margin-bottom: 72px;
 
   align-self: center;
 
@@ -23,7 +23,7 @@
   text-align: center;
 
   color: #9a0e20;
-  font-size: 60px;
+  font-size: 54px;
   border-bottom: 2px solid #9a0e20;
 
   display: inline-block;
@@ -61,6 +61,7 @@
   background-color: #f1f3f5;
 
   display: flex;
+
   justify-content: center;
   align-items: center;
 }
@@ -69,7 +70,7 @@
   background-color: #fff;
   width: 360px;
   height: 400px;
-
+  flex-direction: column;
   border-radius: 24px;
   box-shadow: 0px 0px 10px 5px rgba(134, 142, 150, 0.2);
 
@@ -78,6 +79,10 @@
   align-items: center;
 }
 
+.forgot-password-link {
+  text-decoration: none;
+  color: #868e96;
+}
 .login-form form {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -125,7 +130,9 @@
   justify-content: center;
   align-items: center;
 }
-
+.login-img {
+  width: 400px;
+}
 /* ------------------------------------------- */
 
 /* form {
