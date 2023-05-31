@@ -23,7 +23,7 @@ const Login = (props) => {
     const password = enteredPassword.trim();
     console.log(signInInfo);
     try {
-      const activationURL = `http://localhost:8080/loginget/${email}/${password}`;
+      const activationURL = `http://localhost:8080/login/${email}/${password}`;
       const res = await axios.get(activationURL);
 
       if (res.status === 200) {
@@ -105,16 +105,7 @@ const Login = (props) => {
           <button className="button" type="submit" disabled={!formIsValid}>
             Login
           </button>
-<<<<<<< HEAD
           <a href="https://obs.iyte.edu.tr/oibs/ogrenci/start.aspx?gkm=00203557532210344083779833303377633221035475389363444032234311163446435585388723418434388366903333636720" className="forgot-password-link">Forgot Password</a>
-=======
-          <a
-            href="https://obs.iyte.edu.tr/oibs/ogrenci/start.aspx?gkm=0020333453884031102355703550534436311053657033351388803446832232389283558535545383682197311153778435600"
-            className="forgot-password-link"
-          >
-            Forgot Password
-          </a>
->>>>>>> 5ddf31fc8934025c04844620b09afac9496809db
         </form>
       )}
     </div>
