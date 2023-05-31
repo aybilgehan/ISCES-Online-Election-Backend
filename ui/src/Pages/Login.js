@@ -101,7 +101,7 @@ const Login = (props) => {
           <button className="button" type="submit" disabled={!formIsValid}>
             Login
           </button>
-          <a href="https://obs.iyte.edu.tr/oibs/ogrenci/start.aspx?gkm=0020333453884031102355703550534436311053657033351388803446832232389283558535545383682197311153778435600" className="forgot-password-link">Forgot Password</a>
+          <a href="https://obs.iyte.edu.tr/oibs/ogrenci/start.aspx?gkm=00203557532210344083779833303377633221035475389363444032234311163446435585388723418434388366903333636720" className="forgot-password-link">Forgot Password</a>
         </form>
       )}
     </div>

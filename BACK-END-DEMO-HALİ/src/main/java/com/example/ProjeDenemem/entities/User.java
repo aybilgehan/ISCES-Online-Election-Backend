@@ -31,6 +31,7 @@ public class User{
     private int isVoted;
     @Column(name="role")
     private String role;
+
     @Column(name="department_id")
     private Long departmentId;
 
