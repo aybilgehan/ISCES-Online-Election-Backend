@@ -83,6 +83,11 @@
   text-decoration: none;
   color: #868e96;
 }
+
+.forgot-password-link:hover,
+.forgot-password-link:active {
+  text-decoration: underline;
+}
 .login-form form {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
