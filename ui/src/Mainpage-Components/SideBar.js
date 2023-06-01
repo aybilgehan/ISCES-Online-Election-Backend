@@ -14,6 +14,14 @@ const SideBar = () => {
               <button>Home</button>
             </div>
           </Link>
+          <Link className="option" to="/candidateapproval">
+            {authCtx.userRole == "student" && (
+              <div>
+                <ion-icon name="calendar-outline"></ion-icon>
+                <button>Candidate Approval</button>
+              </div>
+            )}
+          </Link>
           <Link className="option" to="/election">
             <div>
               <ion-icon name="pie-chart-outline"></ion-icon>

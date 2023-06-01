@@ -11,6 +11,7 @@ import Home from "./Pages/Home";
 import "./App.css";
 import SetElectionDate from "./RectorPages/SetElectionDate";
 import Profile from "./Pages/Profile";
+import CandidateApprovalPage from "./SecretariatPages/CandidateApprovalPage";
 
 function App() {
   const blabla = "13.05.2020";
@@ -38,6 +39,12 @@ function App() {
                     <Route
                       path="/setelectiondate"
                       element={<SetElectionDate />}
+                    />
+                  )}
+                  {authCtx.userRole == "student" && (
+                    <Route
+                      path="/candidateapproval"
+                      element={<CandidateApprovalPage />}
                     />
                   )}
                   <Route path="/home" element={<Home time={blabla} />} />

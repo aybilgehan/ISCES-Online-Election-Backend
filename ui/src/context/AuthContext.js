@@ -55,10 +55,8 @@ export const AuthContextProvider = (props) => {
       setUserRole("rector");
     } else if (role == "student") {
       setUserRole("student");
-    } else if (role == "deansOffice") {
-      setUserRole("deansOffice");
-    } else {
-      setUserRole("departmentOffice");
+    } else if (role == "secreteriat") {
+      setUserRole("secreteriat");
     }
     setIsLoggedIn(true);
   };
