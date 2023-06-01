@@ -6,6 +6,7 @@ import com.ISCES.response.LoginResponse;
 import com.ISCES.response.VoteResponse;
 import com.ISCES.service.CandidateService;
 import com.ISCES.service.StudentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,7 +20,7 @@ public class StudentController {
 
     StudentService studentService;
     CandidateService candidateService;
-
+    @Autowired
     public StudentController(StudentService studentService, CandidateService candidateService) {
         this.studentService = studentService;
         this.candidateService = candidateService;
