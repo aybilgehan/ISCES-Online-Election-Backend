@@ -10,19 +10,21 @@ body {
   font-family: "Rubik", sans-serif;
 }
 
-.sidebar-container {
-  width: 100vw;
-  height: 100vh;
-
+.page-layout-container {
   display: grid;
   grid-template-columns: 1fr 5fr;
+}
+
+.sidebar-container {
+  width: 20vw;
+  height: 100vh;
 }
 
 .navigation-bar {
   background-color: #f1f3f5;
   display: grid;
-
   grid-template-rows: 1fr 1fr;
+  height: 100vh;
 }
 
 .logo-box {

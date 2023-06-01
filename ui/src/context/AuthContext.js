@@ -51,10 +51,8 @@ export const AuthContextProvider = (props) => {
     localStorage.setItem("isLoggedIn", "1");
     
     const role = localStorage.getItem("userRole");
-    console.log(role);
     if (role == "rector") {
       setUserRole("rector");
-      console.log("user is a rector");
     } else if (role == "student") {
       setUserRole("student");
     } else if (role == "deansOffice") {
@@ -63,7 +61,6 @@ export const AuthContextProvider = (props) => {
       setUserRole("departmentOffice");
     }
     setIsLoggedIn(true);
-    console.log("login");
   };
   const exitHandler = () => {
     localStorage.removeItem("userLastName");
@@ -74,7 +71,6 @@ export const AuthContextProvider = (props) => {
     localStorage.removeItem("userName");
     localStorage.removeItem("isVoted");
     setIsLoggedIn(false);
-    console.log("exit");
   };
 
   const setUserData = (role) => {

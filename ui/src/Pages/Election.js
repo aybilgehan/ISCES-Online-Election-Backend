@@ -5,19 +5,20 @@ import AuthContext from "../context/AuthContext";
 import axios from "axios";
 function Election() {
   const authCtx = useContext(AuthContext);
+
+  const departmentId = authCtx.departmentId;
   const [candidates, setCandidates] = useState([]);
-  const url = `http://localhost:8080/showCandidates/${authCtx.userDepartment}`;
-
-
+  const url = `http://localhost:8080/candidates/allCandidates`;
   useEffect(() => {
     fetchCandidateInfo();
   }, []);
   const fetchCandidateInfo = async () => {
     try {
       const response = await axios.get(url);
+      console.log(response.data)
       const transformedCandidates = [
         ["Name", "Percentage"],
-        ...response.data.map((candidate) => [candidate.candidateName, candidate.votes]),
+        ...response.data.map((candidate) => [candidate.student.firstName, candidate.votes]),
       ];
       setCandidates(transformedCandidates);
 
@@ -28,13 +29,10 @@ function Election() {
   };
 
 
-
-
   const options = {
     title: "Election Results",
     is3D: true,
   };
-  console.log(candidates)
   return (
     <div className="container">
       <Chart

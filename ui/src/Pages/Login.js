@@ -1,8 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import AuthContext from "../context/AuthContext";
 import "./Login.css";
 import axios from "axios";
-const Login = (props) => {
+import { useNavigate } from "react-router-dom";
+const Login = () => {
+  const navigate = useNavigate();
   const alertBox = (
     <div className="AlertBox">
       <h5>Wrong Credentials!</h5>
@@ -22,11 +24,9 @@ const Login = (props) => {
     const signInInfo = { email: enteredEmail, password: enteredPassword };
     const email = enteredEmail.trim();
     const password = enteredPassword.trim();
-    console.log(signInInfo);
     try {
-      const activationURL = `http://localhost:8080/login/${email}/${password}}`;
+      const activationURL = `http://localhost:8080/login/${email}/${password}`;
       const res = await axios.get(activationURL);
-      console.log(res);
 
       if (res.status === 200) {
         localStorage.setItem("uid", res.data.user.user_id);
@@ -53,13 +53,13 @@ const Login = (props) => {
         localStorage.setItem("userRole", userRole);
         localStorage.setItem("userDepartment", userDepartment);
         localStorage.setItem("userName", userName);
-
         // localStorage.setItem("userGpa", userGpa);
         authCtx.onLogin({
           email: enteredEmail,
           password: enteredPassword,
         });
-        console.log("Login successful");
+        console.log(authCtx);
+        navigate("/home");
       }
     } catch (err) {
       changeAlertBoxVisible();
@@ -79,7 +79,6 @@ const Login = (props) => {
   const passwordChangeHandler = (event) => {
     setEnteredPassword(event.target.value);
   };
-
   return (
     <div className="login-container">
       <div className="login-page">
@@ -102,7 +101,7 @@ const Login = (props) => {
                   <label htmlFor="email">Email:</label>
                   <input
                     className="input"
-                    placeholder="Enter your IYTE mail"
+                    placeholder="e-mail"
                     type="email"
                     id="email"
                     value={enteredEmail}
@@ -127,7 +126,7 @@ const Login = (props) => {
                 </form>
               )}
               <a
-                href="https://obs.iyte.edu.tr/oibs/ogrenci/login.aspx"
+                href="https://obs.iyte.edu.tr/oibs/ogrenci/start.aspx?gkm=0020333453884031102355703550534436311053657033351388803446832232389283558535545383682197311153778435600"
                 className="forgot-password-link"
               >
                 Forgot Password
