@@ -24,8 +24,9 @@ const Login = (props) => {
     const password = enteredPassword.trim();
     console.log(signInInfo);
     try {
-      const activationURL = `http://localhost:8080/login/${email}/${password}`;
+      const activationURL = `http://localhost:8080/login/${email}/${password}}`;
       const res = await axios.get(activationURL);
+      console.log(res);
 
       if (res.status === 200) {
         localStorage.setItem("uid", res.data.user.user_id);
@@ -101,7 +102,7 @@ const Login = (props) => {
                   <label htmlFor="email">Email:</label>
                   <input
                     className="input"
-                    placeholder="e-mail"
+                    placeholder="Enter your IYTE mail"
                     type="email"
                     id="email"
                     value={enteredEmail}
@@ -126,7 +127,7 @@ const Login = (props) => {
                 </form>
               )}
               <a
-                href="https://obs.iyte.edu.tr/oibs/ogrenci/start.aspx?gkm=0020333453884031102355703550534436311053657033351388803446832232389283558535545383682197311153778435600"
+                href="https://obs.iyte.edu.tr/oibs/ogrenci/login.aspx"
                 className="forgot-password-link"
               >
                 Forgot Password
