@@ -46,7 +46,6 @@ export const AuthContextProvider = (props) => {
   const [userName, setUserName] = useState(null);
   const [userLastName, setUserLastName] = useState(null);
   const [isVoted, setIsVoted] = useState(false);
-
   const loginHandler = () => {
     localStorage.setItem("isLoggedIn", "1");
     

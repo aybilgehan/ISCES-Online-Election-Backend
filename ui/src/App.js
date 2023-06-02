@@ -16,13 +16,12 @@ import CandidateApprovalPage from "./SecretariatPages/CandidateApprovalPage";
 function App() {
   const blabla = "13.05.2020";
   const authCtx = useContext(AuthContext);
-
+  console.log(authCtx.isLoggedIn)
   return (
     <div className="app-container">
       <BrowserRouter>
-        {/* {authCtx.isLoggedIn && <SideBar />} */}
         <Routes>
-          {!authCtx.isLoggedIn && <Route path="/*" element={<Login />} />}
+          {!authCtx.isLoggedIn && <Route path="/" element={<Login />} />}
           {authCtx.isLoggedIn && (
             <>
               {/* Buraya auth context ile kullanıcıların hangi sayfaları görebileceğini ekleyeceğiz. 

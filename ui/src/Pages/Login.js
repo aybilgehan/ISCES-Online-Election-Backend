@@ -27,6 +27,8 @@ const Login = () => {
     try {
       const activationURL = `http://localhost:8080/login/${email}/${password}`;
       const res = await axios.get(activationURL);
+      
+      console.log("adsadsads", res);
 
       if (res.status === 200) {
         localStorage.setItem("uid", res.data.user.user_id);
