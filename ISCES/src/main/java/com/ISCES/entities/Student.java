@@ -42,5 +42,8 @@ public class Student {
     @JoinColumn(name="email")
     private User user;
 
+    @Column(name="is_applied")
+    private boolean isAppliedForCandidacy;
+
 
 }

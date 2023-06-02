@@ -4,7 +4,6 @@ package com.ISCES.controller;
 import com.ISCES.entities.Candidate;
 import com.ISCES.service.CandidateService;
 import com.ISCES.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +16,7 @@ import java.util.List;
 public class CandidateController {
     CandidateService candidateService;
     UserService userService;
-    @Autowired
+
     public CandidateController(CandidateService candidateService) {
         this.candidateService = candidateService;
     }
@@ -35,5 +34,6 @@ public class CandidateController {
     public List<Candidate> getAllCandidates(){
         return candidateService.getAllCandidates();
     }
+
 
 }

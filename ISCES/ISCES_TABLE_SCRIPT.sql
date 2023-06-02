@@ -27,6 +27,7 @@ CREATE TABLE `student` (
   `term` BIGINT NOT NULL,
   `is_voted` TINYINT NOT NULL,
   `email` varchar(50) NOT NULL,
+  `is_applied` TINYINT NOT NULL,
   PRIMARY KEY (`student_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -34,7 +35,7 @@ CREATE TABLE `candidate` (
   `candidate_id` BIGINT NOT NULL,
   `votes` BIGINT NOT NULL,
   `student_number` BIGINT NOT NULL,
-  `status` TINYINT NOT NULL,
+  `status` TINYINT,
   PRIMARY KEY (`candidate_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -56,15 +57,11 @@ VALUES
 
 INSERT INTO `student` 
 VALUES 
-(270201050,1,'Ahmet','Özdemir',2.73,3,0,'ahmetozdemir@std.iyte.edu.tr'),
-(270201020,1,'Ece','Savran',3.41,3,0,'ecesavran@std.iyte.edu.tr'),
-(270201030,1,'Emre','Karaduman',3.41,3,0,'emrekaraduman@std.iyte.edu.tr'),
-(270201070,1,'Bilgehan','Ay',3.41,3,0,'bilgehanay@std.iyte.edu.tr');
+(270201050,1,'Ahmet','Özdemir',2.73,3,0,'ahmetozdemir@std.iyte.edu.tr',false),
+(270201020,1,'Ece','Savran',3.41,3,0,'ecesavran@std.iyte.edu.tr',false),
+(270201030,1,'Emre','Karaduman',3.41,3,0,'emrekaraduman@std.iyte.edu.tr',false),
+(270201070,1,'Bilgehan','Ay',3.41,3,0,'bilgehanay@std.iyte.edu.tr',false);
 
-INSERT INTO `candidate` 
-VALUES 
-(1,0,270201030,1), -- candidacy is approved.
-(2,0,270201070,1); -- candidacy is approved.
 
 
 

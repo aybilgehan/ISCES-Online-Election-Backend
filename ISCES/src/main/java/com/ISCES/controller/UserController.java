@@ -39,11 +39,9 @@ public class UserController {
 
 
 
-    @GetMapping("/login/{email}/{password}")
-    // Basically generic type login function.
+    @GetMapping("/login/{email}/{password}")// user logins with email and password
     public ResponseEntity<LoginResponse> login(@PathVariable String email, @PathVariable String password) {
-        String controller = "";
-        // user type for front-end
+        String controller = "";// message for frontend  (Logged-in )
         User user = userService.findByEmail(email);
         if (user != null && user.getPassword().equals(password)){
             controller = "Logged-in";

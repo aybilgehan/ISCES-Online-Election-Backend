@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -48,4 +47,8 @@ public class CandidateService {
         return candidateRepo.findByStudent_DepartmentId(departmentId);
     }
 
+    @Transactional
+    public List<Candidate> findByDepartmentIdAndStatus(Long departmentId, Boolean status){
+        return candidateRepo.findByStudent_DepartmentIdAndStatus(departmentId,status);
+    }
 }
