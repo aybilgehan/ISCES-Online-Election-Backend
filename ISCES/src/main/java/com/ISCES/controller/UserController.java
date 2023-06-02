@@ -49,6 +49,7 @@ public class UserController {
         String controller = "";// message for frontend  (Logged-in )
         User user = userService.findByEmail(email);
         Student student = studentService.findByUser_Email(email);
+        System.out.println(student.getStudentNumber());
         Candidate candidate = candidateService.findByStudent_StudentNumber(student.getStudentNumber());
         if (user != null && user.getPassword().equals(password)){
             controller = "Logged-in";

@@ -15,9 +15,11 @@ import lombok.Setter;
 @Table(name="candidate")
 public class Candidate{
 
+
     @Id
     @Column(name = "candidate_id")
     private Long candidateId;
+
 
     @Column(name="votes")
     private Long votes;

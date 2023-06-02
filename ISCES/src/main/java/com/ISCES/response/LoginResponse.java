@@ -17,12 +17,13 @@ public class LoginResponse {
     private String message;
     private Student student;
     private Candidate candidate;
-
+    private String role;
 
     public LoginResponse(int status, String message,Student student) { //  response for student's login.
         this.status = status;
         this.message = message;
         this.student = student;
+        this.role = "student";
 
     }
 
@@ -30,6 +31,7 @@ public class LoginResponse {
         this.status = status;
         this.message = message;
         this.candidate = candidate;
+        this.role = "candidate";
 
     }
 	public LoginResponse(int status, String message) {
