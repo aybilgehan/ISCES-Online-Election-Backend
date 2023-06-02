@@ -52,7 +52,9 @@ VALUES
 ('ahmetozdemir@std.iyte.edu.tr','test123','student'),
 ('bilgehanay@std.iyte.edu.tr','test123','candidate'),
 ('ecesavran@std.iyte.edu.tr','test123','student'),
-('emrekaraduman@std.iyte.edu.tr','test123','candidate');
+('emrekaraduman@std.iyte.edu.tr','test123','candidate'),
+('gencayturgut@ofc.iyte.edu.tr','test123','officer'),
+('yusufbaran@rct.iyte.edu.tr','test123','rector');
 
 
 INSERT INTO `student` 
