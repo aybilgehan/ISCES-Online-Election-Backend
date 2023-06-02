@@ -1,0 +1,21 @@
+.container {
+    margin-top: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .form-label {
+    font-weight: bold;
+  }
+  
+  .form-input {
+    margin-bottom: 10px;
+  }
+  
+  .success-message {
+    color: green;
+  }
+  
+  .error-message {
+    color: red;
+  }
+  
