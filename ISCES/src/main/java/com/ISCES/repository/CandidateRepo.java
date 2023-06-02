@@ -12,6 +12,7 @@ import java.util.List;
 public interface CandidateRepo extends JpaRepository<Candidate,Long> {
     Candidate findByCandidateId(Long candidateId);
     List<Candidate> findByStudent_DepartmentId(Long departmentId);
+    Candidate findByStudent_StudentNumber(Long studentNumber);
 
     List<Candidate> findByStudent_DepartmentIdAndStatus(Long departmentId, Boolean status);
 

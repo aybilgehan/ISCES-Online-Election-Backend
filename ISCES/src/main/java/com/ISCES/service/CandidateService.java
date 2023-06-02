@@ -51,4 +51,9 @@ public class CandidateService {
     public List<Candidate> findByDepartmentIdAndStatus(Long departmentId, Boolean status){
         return candidateRepo.findByStudent_DepartmentIdAndStatus(departmentId,status);
     }
+
+    @Transactional
+    public Candidate findByStudent_StudentNumber(Long studentNumber){
+        return candidateRepo.findByStudent_StudentNumber(studentNumber);
+    }
 }

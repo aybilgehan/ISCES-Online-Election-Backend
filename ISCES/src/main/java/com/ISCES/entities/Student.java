@@ -45,5 +45,9 @@ public class Student {
     @Column(name="is_applied")
     private boolean isAppliedForCandidacy;
 
+    public void setIsAppliedForCandidacy(boolean isAppliedForCandidacy){
+        this.isAppliedForCandidacy = isAppliedForCandidacy;
+    }
+
 
 }

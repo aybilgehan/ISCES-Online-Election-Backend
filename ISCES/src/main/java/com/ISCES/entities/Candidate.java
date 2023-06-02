@@ -29,6 +29,6 @@ public class Candidate{
 
 
     @Column(name="status") // is candidacy approved or not.                || 0 -> not approved  || 1-> approved  ||
-    private Boolean status;
+    private boolean status;
 
 }

@@ -27,7 +27,7 @@ public class StudentService {
 
 
     @Transactional
-    public List<Student> getAllUsers(){
+    public List<Student> getAllStudents(){
         return studentRepo.findAll();
     }
 
@@ -37,8 +37,18 @@ public class StudentService {
     }
 
     @Transactional
-    public Student findByDepartmentId(Long departmentId){
+    public List<Student> findByDepartmentId(Long departmentId){
         return studentRepo.findByDepartmentId(departmentId);
+    }
+
+    @Transactional
+    public Student save(Student student){
+        return studentRepo.save(student);
+    }
+
+    @Transactional
+    public  List<Student> findByDepartmentIdAndIsAppliedForCandidacy(Long departmentId, boolean isAppliedForCandidacy){
+        return studentRepo.findByDepartmentIdAndIsAppliedForCandidacy(departmentId,isAppliedForCandidacy);
     }
 
 }

@@ -10,7 +10,9 @@ import java.util.List;
 @Repository
 public interface StudentRepo extends JpaRepository<Student,Long> {
     Student findByStudentNumber(Long studentNumber);
-    Student findByDepartmentId(Long departmentId);
+    List<Student> findByDepartmentId(Long departmentId);
+
+    List<Student> findByDepartmentIdAndIsAppliedForCandidacy(Long departmentId, boolean isAppliedForCandidacy);
     List<Student> findByIsAppliedForCandidacy(boolean isAppliedForCandidacy);
 
 }

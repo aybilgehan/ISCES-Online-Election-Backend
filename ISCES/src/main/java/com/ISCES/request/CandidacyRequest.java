@@ -9,14 +9,14 @@ import lombok.Setter;
 @Setter
 public class CandidacyRequest {
     private String message;
-    private Candidate candidate;
+    private Student student;
 
     public CandidacyRequest(String message) {
         this.message = message;
     }
 
-    public CandidacyRequest(String message, Candidate candidate) {
+    public CandidacyRequest(String message, Student student) {
         this.message = message;
-        this.candidate = candidate;
+        this.student = student;
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.List;
 
@@ -42,19 +43,13 @@ public class StudentController {
         return new ResponseEntity<>(new VoteResponse(message),HttpStatus.BAD_REQUEST);
     }
 
-    @PostMapping("/applyToBeCandidate/{studentNumber}") // it's for students to apply to be a candidate         !!!!!!!!! BELGE EKLEME YAPARKEN BU KISIMDA DEĞİŞİKLİK YAPILACAK !!!!!
+    @PutMapping("/applyToBeCandidate/{studentNumber}") // it's for students to apply to be a candidate         !!!!!!!!! BELGE EKLEME YAPARKEN BU KISIMDA DEĞİŞİKLİK YAPILACAK !!!!!
     public ResponseEntity<CandidacyRequest> applyToBeCandidate(@PathVariable Long studentNumber){
         if(!studentService.findByStudentNumber(studentNumber).isAppliedForCandidacy()) { // if student didn't apply for candidacy
-            Candidate tempCandidate = new Candidate();
-            Long tempCandidateId = Long.valueOf(candidateService.getAllCandidates().size()) + 1; // it's to assign an id to the candidate.
             Student tempStudent = studentService.findByStudentNumber(studentNumber);
-            tempCandidate.setCandidateId(tempCandidateId);
-            tempCandidate.setStudent(tempStudent);
-            tempCandidate.setStatus(null);
-            tempCandidate.setVotes(Long.valueOf(0));
-            studentService.findByStudentNumber(studentNumber).setAppliedForCandidacy(true); // The isAppliedForCandidacy of the student applying for candidacy has been changed.
-            Candidate savedCandidate = candidateService.save(tempCandidate);
-            CandidacyRequest candidacyRequest = new CandidacyRequest("Applied", savedCandidate); // it's for student who is not applied for candidacy before for this election.
+            studentService.findByStudentNumber(studentNumber).setIsAppliedForCandidacy(true);// The isAppliedForCandidacy of the student applying for candidacy has been changed.
+            studentService.save(studentService.findByStudentNumber(studentNumber)); // changes are saved for this student.
+            CandidacyRequest candidacyRequest = new CandidacyRequest("Applied", tempStudent); // it's for student who is not applied for candidacy before for this election.
             return ResponseEntity.ok(candidacyRequest);
         }
         CandidacyRequest notAppliedRequest = new CandidacyRequest("This student has already applied for candidacy!");
