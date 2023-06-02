@@ -1,6 +1,8 @@
 package com.ISCES.entities;
 
 
+import com.ISCES.service.CandidateService;
+import com.ISCES.service.StudentService;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,6 +16,7 @@ import lombok.Setter;
 @Setter
 @Table(name="user")
 public class User {
+
 
     @Id
     @Column(name="email")

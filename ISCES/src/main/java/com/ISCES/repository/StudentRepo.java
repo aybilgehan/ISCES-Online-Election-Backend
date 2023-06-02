@@ -15,4 +15,6 @@ public interface StudentRepo extends JpaRepository<Student,Long> {
     List<Student> findByDepartmentIdAndIsAppliedForCandidacy(Long departmentId, boolean isAppliedForCandidacy);
     List<Student> findByIsAppliedForCandidacy(boolean isAppliedForCandidacy);
 
+    Student findByUser_Email(String email);
+
 }

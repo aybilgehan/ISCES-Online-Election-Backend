@@ -51,4 +51,9 @@ public class StudentService {
         return studentRepo.findByDepartmentIdAndIsAppliedForCandidacy(departmentId,isAppliedForCandidacy);
     }
 
+    @Transactional
+    public Student findByUser_Email(String email){
+       return studentRepo.findByUser_Email(email);
+    }
+
 }

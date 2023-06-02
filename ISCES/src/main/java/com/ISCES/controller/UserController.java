@@ -1,9 +1,12 @@
 package com.ISCES.controller;
 
 
+import com.ISCES.entities.Candidate;
+import com.ISCES.entities.Student;
 import com.ISCES.response.LoginResponse;
 import com.ISCES.entities.User;
 import com.ISCES.service.CandidateService;
+import com.ISCES.service.StudentService;
 import com.ISCES.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,10 +27,12 @@ public class UserController {
     private UserService userService;
     private CandidateService candidateService;
 
+    private StudentService studentService;
     @Autowired
-    public UserController(UserService userService,CandidateService candidateService) {
+    public UserController(UserService userService,CandidateService candidateService, StudentService studentService) {
         this.userService = userService;
         this.candidateService= candidateService;
+        this.studentService = studentService;
 
     }
 
@@ -43,13 +48,22 @@ public class UserController {
     public ResponseEntity<LoginResponse> login(@PathVariable String email, @PathVariable String password) {
         String controller = "";// message for frontend  (Logged-in )
         User user = userService.findByEmail(email);
+        Student student = studentService.findByUser_Email(email);
+        Candidate candidate = candidateService.findByStudent_StudentNumber(student.getStudentNumber());
         if (user != null && user.getPassword().equals(password)){
             controller = "Logged-in";
         }
         try {
             if((controller.equals("Logged-in"))){
-                // Http status 2**
-                return new ResponseEntity<>(new LoginResponse(200, controller, user), HttpStatus.OK);
+                if(user.getRole().equals("student")) { //  login response for student
+                    // Http status 2**
+                    return new ResponseEntity<>(new LoginResponse(200, controller, student), HttpStatus.OK);
+                }
+                else if(user.getRole().equals("candidate")){ //  login response for candidate
+                    return new ResponseEntity<>(new LoginResponse(200, controller, candidate), HttpStatus.OK);
+                }
+
+
             }
             else {
                 // Http status 4**
@@ -59,6 +73,7 @@ public class UserController {
         catch (UsernameNotFoundException exception){
             return new ResponseEntity<>(new LoginResponse(400, "Email does not exists!"), HttpStatus.BAD_REQUEST);
         }
+        return null;
     }
 
 
