@@ -43,8 +43,8 @@ public class StudentService {
     }
 
     @Transactional
-    public  List<Student> findByDepartmentIdAndIsAppliedForCandidacy(Long departmentId, Boolean isAppliedForCandidacy){
-        return studentRepo.findByDepartmentIdAndIsAppliedForCandidacy(departmentId,isAppliedForCandidacy);
+    public  List<Student> findByDepartmentIdAndIsAppliedForCandidacyAndRole(Long departmentId, Boolean isAppliedForCandidacy, String role){
+        return studentRepo.findByDepartmentIdAndIsAppliedForCandidacyAndRole(departmentId,isAppliedForCandidacy,role);
     }
 
     @Transactional
