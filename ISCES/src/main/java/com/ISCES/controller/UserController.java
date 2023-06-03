@@ -48,9 +48,6 @@ public class UserController { // Bütün return typeler değişebilir . Response
     public ResponseEntity<LoginResponse> login(@PathVariable String email, @PathVariable String password) {
         String controller = "";// message for frontend  (Logged-in )
         User user = userService.findByEmail(email);
-        Student student = studentService.findByUser_Email(email);
-        System.out.println(student.getStudentNumber());
-        Candidate candidate = candidateService.findByStudent_StudentNumber(student.getStudentNumber());
         if (user != null && user.getPassword().equals(password)){
             controller = "Logged-in";
         }
@@ -58,9 +55,12 @@ public class UserController { // Bütün return typeler değişebilir . Response
             if((controller.equals("Logged-in"))){
                 if(user.getRole().equals("student")) { //  login response for student
                     // Http status 2**
+                    Student student = studentService.findByUser_Email(email);
                     return new ResponseEntity<>(new LoginResponse(200, controller, student), HttpStatus.OK);
                 }
                 else if(user.getRole().equals("candidate")){ //  login response for candidate
+                    Student student = studentService.findByUser_Email(email);
+                    Candidate candidate = candidateService.findByStudent_StudentNumber(student.getStudentNumber());
                     return new ResponseEntity<>(new LoginResponse(200, controller, candidate), HttpStatus.OK);
                 }
                 else if(user.getRole().equals("rector")){ //  login response for candidate

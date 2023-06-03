@@ -29,7 +29,7 @@ public class OfficerController {// Bütün return typeler değişebilir . Respon
 
     @GetMapping("/unevaluatedStudents/{departmentId}")
     public List<Student> unevaluatedStudents(@PathVariable  Long departmentId){
-        return studentService.findByDepartmentIdAndIsAppliedForCandidacyAndRole(departmentId,true,"student"); //  it returns the students who is not approved and not disapproved yet.
+        return studentService.findByDepartmentIdAndIsAppliedForCandidacyAndUser_Role(departmentId,true,"student"); //  it returns the students who is not approved and not disapproved yet.
     }                                                                                                         //  true means this student is applied for candidacy.
 
 
@@ -40,7 +40,7 @@ public class OfficerController {// Bütün return typeler değişebilir . Respon
 
     @GetMapping("/showRejectedStudents/{departmentId}") // if we need this for officer, we should this implement again...!!!
     public List<Student> getRejectedStudents(@PathVariable  Long departmentId){
-        return studentService.findByDepartmentIdAndIsAppliedForCandidacyAndRole(departmentId,null,"student"); //  it returns the students who are rejected and sets isApplied null
+        return studentService.findByDepartmentIdAndIsAppliedForCandidacyAndUser_Role(departmentId,null,"student"); //  it returns the students who are rejected and sets isApplied null
                                                                                                               //   because isApplied of rejected student  is null.
     }
 

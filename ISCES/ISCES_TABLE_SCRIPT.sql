@@ -67,7 +67,9 @@ VALUES
 ('emrekaraduman2@std.iyte.edu.tr','test123','student'),
 ('emrekaraduman3@std.iyte.edu.tr','test123','student'),
 ('emrekaraduman4@std.iyte.edu.tr','test123','student'),
-('emrekaraduman5@std.iyte.edu.tr','test123','student');
+('emrekaraduman5@std.iyte.edu.tr','test123','student'),
+('officer@iyte.edu.tr','test123','officer');
+
 
 
 INSERT INTO `student` 
