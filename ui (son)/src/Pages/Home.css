@@ -1,0 +1,16 @@
+/* .home-temp-container {
+  display: flex;
+} */
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+  font-size: 18px;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.date {
+  margin-top: 20px;
+}
