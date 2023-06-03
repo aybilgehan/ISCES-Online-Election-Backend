@@ -62,12 +62,12 @@ public class UserController { // Bütün return typeler değişebilir . Response
                     return new ResponseEntity<>(new LoginResponse(200, controller, candidate), HttpStatus.OK);
                 }
                 else if(user.getRole().equals("officer")){ //  login response for candidate
-                    Admin officer = adminService.findByUser_Role("officer");
+                    Admin officer = adminService.findByUser_Email(email);
                     return new ResponseEntity<>(new LoginResponse(200, controller, officer), HttpStatus.OK);
                 }
 
                 else if(user.getRole().equals("rector")){ //  login response for candidate
-                    Admin rector = adminService.findByUser_Role("rector");
+                    Admin rector = adminService.findByUser_Email(email);
                     return new ResponseEntity<>(new LoginResponse(200, controller, rector), HttpStatus.OK);
                 }
 

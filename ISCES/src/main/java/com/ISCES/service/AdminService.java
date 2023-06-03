@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Getter
 @Setter
@@ -20,8 +19,9 @@ public class AdminService {
         this.adminRepo = adminRepo;
     }
 
-    public Admin findByUser_Role(String role){
-        return adminRepo.findByUser_Role(role);
+    public Admin findByUser_Email(String email){
+        System.out.println(adminRepo.findByUser_Email(email));
+        return adminRepo.findByUser_Email(email);
     }
 
 }
