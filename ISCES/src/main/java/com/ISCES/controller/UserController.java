@@ -21,7 +21,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin("http://localhost:3000")
-public class UserController {
+public class UserController { // Bütün return typeler değişebilir . Response ve Request packageına yeni classlar eklenmeli frontendden hangi bilgi istendiğine göre
 
 
     private UserService userService;
@@ -63,8 +63,12 @@ public class UserController {
                 else if(user.getRole().equals("candidate")){ //  login response for candidate
                     return new ResponseEntity<>(new LoginResponse(200, controller, candidate), HttpStatus.OK);
                 }
-
-
+                else if(user.getRole().equals("rector")){ //  login response for candidate
+                    return new ResponseEntity<>(new LoginResponse(200, controller, "rector"), HttpStatus.OK);
+                }
+                else if(user.getRole().equals("officer")){ //  login response for candidate
+                    return new ResponseEntity<>(new LoginResponse(200, controller, "officer"), HttpStatus.OK);
+                }
             }
             else {
                 // Http status 4**

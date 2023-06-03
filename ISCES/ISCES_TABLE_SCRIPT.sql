@@ -27,7 +27,7 @@ CREATE TABLE `student` (
   `term` BIGINT NOT NULL,
   `is_voted` TINYINT NOT NULL,
   `email` varchar(50) NOT NULL,
-  `is_applied` TINYINT NOT NULL,
+  `is_applied` TINYINT,
   PRIMARY KEY (`student_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -35,7 +35,6 @@ CREATE TABLE `candidate` (
   `candidate_id` BIGINT NOT NULL,
   `votes` BIGINT NOT NULL,
   `student_number` BIGINT NOT NULL,
-  `status` TINYINT,
   PRIMARY KEY (`candidate_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

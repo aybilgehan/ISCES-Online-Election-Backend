@@ -3,15 +3,19 @@ package com.ISCES.service;
 
 import com.ISCES.entities.User;
 import com.ISCES.repository.UserRepo;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Getter
+@Setter
 @Service
 public class UserService {
-    UserRepo userRepo;
+    private UserRepo userRepo;
 
 
 
@@ -28,12 +32,7 @@ public class UserService {
 
     @Transactional
     public User findByEmail(String email){
-        for(User user: userRepo.findAll()){
-            if(user.getEmail().equals(email)){
-                return user;
-            }
-        }
-        return null;
+        return userRepo.findByEmail(email);
     }
 
 

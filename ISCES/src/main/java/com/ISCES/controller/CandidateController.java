@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin("http://localhost:3000")
-public class CandidateController {
+public class CandidateController { // Bütün return typeler değişebilir . Response ve Request packageına yeni classlar eklenmeli frontendden hangi bilgi istendiğine göre
     CandidateService candidateService;
     UserService userService;
 

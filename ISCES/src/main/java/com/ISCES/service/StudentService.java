@@ -36,10 +36,6 @@ public class StudentService {
         return studentRepo.findByStudentNumber(studentNumber);
     }
 
-    @Transactional
-    public List<Student> findByDepartmentId(Long departmentId){
-        return studentRepo.findByDepartmentId(departmentId);
-    }
 
     @Transactional
     public Student save(Student student){
@@ -47,7 +43,7 @@ public class StudentService {
     }
 
     @Transactional
-    public  List<Student> findByDepartmentIdAndIsAppliedForCandidacy(Long departmentId, boolean isAppliedForCandidacy){
+    public  List<Student> findByDepartmentIdAndIsAppliedForCandidacy(Long departmentId, Boolean isAppliedForCandidacy){
         return studentRepo.findByDepartmentIdAndIsAppliedForCandidacy(departmentId,isAppliedForCandidacy);
     }
 

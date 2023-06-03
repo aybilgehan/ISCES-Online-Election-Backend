@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 // It is only for responsing the login status in http manners.
-public class LoginResponse {
+public class LoginResponse { // we can change it .
     private int status;
     private String message;
     private Student student;
@@ -34,10 +34,15 @@ public class LoginResponse {
         this.role = "candidate";
 
     }
-	public LoginResponse(int status, String message) {
+	public LoginResponse(int status, String message,String role) { //  response for admins.
 		this.status = status;
 		this.message = message;
+        this.role = role;
 	}
 
+    public LoginResponse(int status, String message) { //  response for failed login.
+        this.status = status;
+        this.message = message;
+    }
 
 }

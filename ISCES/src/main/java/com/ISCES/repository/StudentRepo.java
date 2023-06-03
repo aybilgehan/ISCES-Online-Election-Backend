@@ -10,11 +10,8 @@ import java.util.List;
 @Repository
 public interface StudentRepo extends JpaRepository<Student,Long> {
     Student findByStudentNumber(Long studentNumber);
-    List<Student> findByDepartmentId(Long departmentId);
-
-    List<Student> findByDepartmentIdAndIsAppliedForCandidacy(Long departmentId, boolean isAppliedForCandidacy);
-    List<Student> findByIsAppliedForCandidacy(boolean isAppliedForCandidacy);
-
+    List<Student> findByDepartmentIdAndIsAppliedForCandidacy(Long departmentId, Boolean isAppliedForCandidacy);
+    List<Student> findByIsAppliedForCandidacy(Boolean isAppliedForCandidacy); //  I didnt use this.If it is neccesary for officer we can use .
     Student findByUser_Email(String email);
 
 }

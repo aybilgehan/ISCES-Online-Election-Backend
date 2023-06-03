@@ -3,16 +3,19 @@ package com.ISCES.service;
 
 import com.ISCES.entities.Candidate;
 import com.ISCES.repository.CandidateRepo;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-
+@Getter
+@Setter
 @Service
 public class CandidateService {
-    CandidateRepo candidateRepo;
+    private CandidateRepo candidateRepo;
 
     @Autowired
     public CandidateService(CandidateRepo candidateRepo) {
@@ -47,10 +50,6 @@ public class CandidateService {
         return candidateRepo.findByStudent_DepartmentId(departmentId);
     }
 
-    @Transactional
-    public List<Candidate> findByDepartmentIdAndStatus(Long departmentId, Boolean status){
-        return candidateRepo.findByStudent_DepartmentIdAndStatus(departmentId,status);
-    }
 
     @Transactional
     public Candidate findByStudent_StudentNumber(Long studentNumber){

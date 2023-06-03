@@ -14,7 +14,6 @@ import lombok.Setter;
 @Setter
 @Table(name="student")
 public class Student {
-
     @Id
     @Column(name="student_number")
     private Long studentNumber;
@@ -43,9 +42,9 @@ public class Student {
     private User user;
 
     @Column(name="is_applied")
-    private boolean isAppliedForCandidacy;
+    private Boolean isAppliedForCandidacy; // true = applied, false = didn't apply , null = rejected in this election.
 
-    public void setIsAppliedForCandidacy(boolean isAppliedForCandidacy){
+    public void setIsAppliedForCandidacy(Boolean isAppliedForCandidacy){
         this.isAppliedForCandidacy = isAppliedForCandidacy;
     }
 

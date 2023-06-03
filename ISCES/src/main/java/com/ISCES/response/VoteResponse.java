@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Data
-public class VoteResponse {
+public class VoteResponse { // we can change it .
 
     private String message;
     private Long studentNumber;

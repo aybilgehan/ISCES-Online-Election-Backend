@@ -9,10 +9,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @Data
-public class CandidacyRequest {
+public class CandidacyRequest { // it can change
     private String message;
     private Student student;
-
     public CandidacyRequest(String message) {
         this.message = message;
     }
