@@ -38,6 +38,13 @@ CREATE TABLE `candidate` (
   PRIMARY KEY (`candidate_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE `admin` (
+  `department_id` BIGINT NOT NULL,
+  `first_name` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  PRIMARY KEY (`department_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
 
@@ -68,7 +75,12 @@ VALUES
 ('emrekaraduman3@std.iyte.edu.tr','test123','student'),
 ('emrekaraduman4@std.iyte.edu.tr','test123','student'),
 ('emrekaraduman5@std.iyte.edu.tr','test123','student'),
-('officer@iyte.edu.tr','test123','officer');
+('officer1@ofc.iyte.edu.tr','test123','officer'),
+('officer2@ofc.iyte.edu.tr','test123','officer'),
+('officer3@ofc.iyte.edu.tr','test123','officer'),
+('officer4@ofc.iyte.edu.tr','test123','officer'),
+('rector@rct.iyte.edu.tr','test123','rector');
+
 
 
 
@@ -97,6 +109,17 @@ VALUES
 
 
 
+INSERT INTO `officer`
+VALUES
+(1,'officer1','officer1lastname','officer1@ofc.iyte.edu.tr'),
+(2,'officer2','officer1lastname','officer2@ofc.iyte.edu.tr'),
+(3,'officer3','officer1lastname','officer3@ofc.iyte.edu.tr'),
+(4,'officer4','officer1lastname','officer4@ofc.iyte.edu.tr');
 
+
+
+INSERT INTO `rector`
+VALUES
+('rector@rct.iyte.edu.tr','rectorname','rectorlastname');
 
 

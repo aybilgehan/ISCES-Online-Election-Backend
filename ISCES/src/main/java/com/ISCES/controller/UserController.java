@@ -1,13 +1,9 @@
 package com.ISCES.controller;
 
 
-import com.ISCES.entities.Candidate;
-import com.ISCES.entities.Student;
+import com.ISCES.entities.*;
 import com.ISCES.response.LoginResponse;
-import com.ISCES.entities.User;
-import com.ISCES.service.CandidateService;
-import com.ISCES.service.StudentService;
-import com.ISCES.service.UserService;
+import com.ISCES.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,12 +24,14 @@ public class UserController { // Bütün return typeler değişebilir . Response
     private CandidateService candidateService;
 
     private StudentService studentService;
+    private AdminService adminService;
+
     @Autowired
-    public UserController(UserService userService,CandidateService candidateService, StudentService studentService) {
+    public UserController(UserService userService, CandidateService candidateService, StudentService studentService, AdminService adminService) {
         this.userService = userService;
         this.candidateService= candidateService;
         this.studentService = studentService;
-
+        this.adminService = adminService;
     }
 
     @GetMapping("/users")
@@ -63,12 +61,16 @@ public class UserController { // Bütün return typeler değişebilir . Response
                     Candidate candidate = candidateService.findByStudent_StudentNumber(student.getStudentNumber());
                     return new ResponseEntity<>(new LoginResponse(200, controller, candidate), HttpStatus.OK);
                 }
-                else if(user.getRole().equals("rector")){ //  login response for candidate
-                    return new ResponseEntity<>(new LoginResponse(200, controller, "rector"), HttpStatus.OK);
-                }
                 else if(user.getRole().equals("officer")){ //  login response for candidate
-                    return new ResponseEntity<>(new LoginResponse(200, controller, "officer"), HttpStatus.OK);
+                    Admin officer = adminService.findByUser_Role("officer");
+                    return new ResponseEntity<>(new LoginResponse(200, controller, officer), HttpStatus.OK);
                 }
+
+                else if(user.getRole().equals("rector")){ //  login response for candidate
+                    Admin rector = adminService.findByUser_Role("rector");
+                    return new ResponseEntity<>(new LoginResponse(200, controller, rector), HttpStatus.OK);
+                }
+
             }
             else {
                 // Http status 4**

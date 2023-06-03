@@ -15,8 +15,6 @@ import java.util.List;
 @CrossOrigin("http://localhost:3000")
 public class CandidateController { // Bütün return typeler değişebilir . Response ve Request packageına yeni classlar eklenmeli frontendden hangi bilgi istendiğine göre
     CandidateService candidateService;
-    UserService userService;
-
     public CandidateController(CandidateService candidateService) {
         this.candidateService = candidateService;
     }

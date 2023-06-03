@@ -3,6 +3,7 @@ package com.ISCES.controller;
 import com.ISCES.entities.Candidate;
 import com.ISCES.entities.Student;
 import com.ISCES.service.CandidateService;
+import com.ISCES.service.AdminService;
 import com.ISCES.service.StudentService;
 import com.ISCES.service.UserService;
 import lombok.Getter;
@@ -13,36 +14,43 @@ import java.util.List;
 @Getter
 @Setter
 @RestController
-public class OfficerController {// Bütün return typeler değişebilir . Response ve Request packageına yeni classlar eklenmeli frontendden hangi bilgi istendiğine göre
+public class AdminController {// Bütün return typeler değişebilir . Response ve Request packageına yeni classlar eklenmeli frontendden hangi bilgi istendiğine göre
 
 
     private CandidateService candidateService;
     private UserService userService;
-
+    private AdminService adminService;
     private StudentService studentService;
 
-    public OfficerController(CandidateService candidateService, UserService userService, StudentService studentService) {
+    public AdminController(CandidateService candidateService, UserService userService, StudentService studentService, AdminService adminService) {
         this.candidateService = candidateService;
         this.userService = userService;
         this.studentService = studentService;
+        this.adminService = adminService;
     }
 
-    @GetMapping("/unevaluatedStudents/{departmentId}")
+
+
+    @GetMapping("/unevaluatedStudents/{departmentId}") // departmentId is departmentİd of officer and unevaluatedStudents
     public List<Student> unevaluatedStudents(@PathVariable  Long departmentId){
         return studentService.findByDepartmentIdAndIsAppliedForCandidacyAndUser_Role(departmentId,true,"student"); //  it returns the students who is not approved and not disapproved yet.
     }                                                                                                         //  true means this student is applied for candidacy.
 
 
+                                                         // departmentId is departmentİd of officer and unevaluatedStudents
     @GetMapping("/showConfirmedStudents/{departmentId}") // confirmedStudents means candidates
     public List<Candidate> getConfirmedStudents(@PathVariable  Long departmentId){
         return candidateService.findCandidateByDepartmentId(departmentId); //  it returns the candidate  list grouped by officer who are approved.
     }
 
+
+                                                        // departmentId is departmentİd of officer and unevaluatedStudents
     @GetMapping("/showRejectedStudents/{departmentId}") // if we need this for officer, we should this implement again...!!!
     public List<Student> getRejectedStudents(@PathVariable  Long departmentId){
         return studentService.findByDepartmentIdAndIsAppliedForCandidacyAndUser_Role(departmentId,null,"student"); //  it returns the students who are rejected and sets isApplied null
                                                                                                               //   because isApplied of rejected student  is null.
     }
+
 
 
     // GET MAPPING DEĞİŞECEK -> PostMapping
