@@ -57,13 +57,15 @@ const CandidateApprovalPage = () => {
     updateCandidates(urlForUpdate);
   };
 
-  const rejectCandidate = (id) => {
+  const rejectCandidate = (studentNumber) => {
     // Remove the rejected candidate from the list
     const updatedCandidates = unEvalCandidates.filter(
-      (candidate) => candidate.candidateId !== id
+      (candidate) => candidate.studentNumber !== studentNumber
     );
     setUnEvalCandidates(updatedCandidates);
     // TODO: Send the rejected candidate to the backend for further processing
+    const urlForUpdate = `http://localhost:8080/rejectStudent/${studentNumber}`;
+    updateCandidates(urlForUpdate);
   };
 
   return (
