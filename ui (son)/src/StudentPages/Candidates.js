@@ -56,8 +56,9 @@ export default function Candidates() {
         return;
       } else {
         console.log(id, "id'sine sahip kullanici 1 oy kazandı");
+        const studentNumber = localStorage.getItem("uid");
         const response = await axios.get(
-          `http://localhost:8080/vote/${authCtx.studentNumber}/${id}`
+          `http://localhost:8080/vote/${studentNumber}/${id}`
         );
         fetchCandidateInfo();
       }

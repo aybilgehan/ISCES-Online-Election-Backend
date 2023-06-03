@@ -7,7 +7,7 @@ const CandidateApprovalPage = () => {
   // Provide dummy data for now
   const authCtx = useContext(AuthContext);
   const [unEvalCandidates, setUnEvalCandidates] = useState([]);
-  const url = `http://localhost:8080/unevaluatedStudents/${authCtx.userDepartment}`;
+  const url = `http://localhost:8080/unevaluatedStudents/1`;
 
   useEffect(() => {
     fetchCandidateInfo();

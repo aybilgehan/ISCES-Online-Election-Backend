@@ -24,43 +24,50 @@ const Login = () => {
     try {
       const activationURL = `http://localhost:8080/login/${email}/${password}`;
       const res = await axios.get(activationURL);
-      
-     console.log("adsadsads", res);
+
+      console.log("adsadsads", res);
       if (res.status === 200) {
-        console.log(res.data.role)
-        if(res.data.role === "student" || res.data.role === "candidate"){
-        localStorage.setItem("uid", res.data.student.studentNumber);
-        console.log("user id : " + res.data.student.studentNumber);
-        const userDepartment = res.data.student.departmentId;
-        console.log("user department : " + userDepartment)
-        authCtx.setUserDepartmentData(userDepartment);
-        localStorage.setItem("userDepartment", userDepartment);
-        const userGpa = res.data.student.grade;
-        authCtx.setUserGpaData(userGpa);
-        localStorage.setItem("userGpa", userGpa);
-        const userTerm = res.data.student.term;
-        authCtx.setUserTermData(userTerm);
-        localStorage.setItem("userTerm", userTerm);
-        const userName = res.data.student.firstName;
-        authCtx.setUserNameData(userName);
-        const userLastName = res.data.student.lastName;
-        authCtx.setUserLastNameData(userLastName);
-        localStorage.setItem("userName", userName);
-        localStorage.setItem("userLastName", userLastName);
-        const isVoted = res.data.student.voted;
-        console.log("isVoted : " + isVoted)
-        if (isVoted === 0) {
-          authCtx.setIsVotedData(true);
+        console.log(res.data.role);
+        let returned = res.data;
+        if (returned.role === "candidate") {
+          returned = returned.candidate;
         }
+        if (res.data.role === "student" || res.data.role === "candidate") {
+          localStorage.setItem("uid", returned.student.studentNumber);
+          console.log("user id : " + returned.student.studentNumber);
+          const userDepartment = returned.student.departmentId;
+          console.log("user department : " + userDepartment);
+          authCtx.setUserDepartmentData(userDepartment);
+          localStorage.setItem("userDepartment", userDepartment);
+          const userGpa = returned.student.grade;
+          authCtx.setUserGpaData(userGpa);
+          localStorage.setItem("userGpa", userGpa);
+          const userTerm = returned.student.term;
+          authCtx.setUserTermData(userTerm);
+          localStorage.setItem("userTerm", userTerm);
+          const userName = returned.student.firstName;
+          authCtx.setUserNameData(userName);
+          const userLastName = returned.student.lastName;
+          authCtx.setUserLastNameData(userLastName);
+          localStorage.setItem("userName", userName);
+          localStorage.setItem("userLastName", userLastName);
+          const isVoted = returned.student.voted;
+          console.log("isVoted : " + isVoted);
+          if (isVoted === 0) {
+            authCtx.setIsVotedData(true);
+          }
         }
-        console.log("user logged in")
+
+        console.log("user logged in");
         const userRole = res.data.role;
         authCtx.setUserData(userRole);
         localStorage.setItem("userRole", userRole);
-        console.log("logine giriyor")
+        console.log("logine giriyor");
         authCtx.onLogin();
       }
     } catch (err) {
+      console.log(err.message);
+
       changeAlertBoxVisible();
     }
 
