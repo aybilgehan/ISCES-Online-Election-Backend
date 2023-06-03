@@ -19,57 +19,48 @@ const Login = () => {
   }
   const submitHandler = async (event) => {
     event.preventDefault();
-    const signInInfo = { email: enteredEmail, password: enteredPassword };
     const email = enteredEmail.trim();
     const password = enteredPassword.trim();
     try {
       const activationURL = `http://localhost:8080/login/${email}/${password}`;
       const res = await axios.get(activationURL);
+      
+     console.log("adsadsads", res);
       if (res.status === 200) {
-        // localStorage.setItem("uid", res.data.user.user_id);
-        localStorage.setItem(
-          "userInfo",
-          JSON.stringify({ email: signInInfo.email })
-        );
+        console.log(res.data.role)
+        if(res.data.role === "student" || res.data.role === "candidate"){
+        localStorage.setItem("uid", res.data.student.studentNumber);
+        console.log("user id : " + res.data.student.studentNumber);
+        const userDepartment = res.data.student.departmentId;
+        console.log("user department : " + userDepartment)
+        authCtx.setUserDepartmentData(userDepartment);
+        localStorage.setItem("userDepartment", userDepartment);
+        const userGpa = res.data.student.grade;
+        authCtx.setUserGpaData(userGpa);
+        localStorage.setItem("userGpa", userGpa);
+        const userTerm = res.data.student.term;
+        authCtx.setUserTermData(userTerm);
+        localStorage.setItem("userTerm", userTerm);
+        const userName = res.data.student.firstName;
+        authCtx.setUserNameData(userName);
+        const userLastName = res.data.student.lastName;
+        authCtx.setUserLastNameData(userLastName);
+        localStorage.setItem("userName", userName);
+        localStorage.setItem("userLastName", userLastName);
+        const isVoted = res.data.student.voted;
+        console.log("isVoted : " + isVoted)
+        if (isVoted === 0) {
+          authCtx.setIsVotedData(true);
+        }
+        }
+        console.log("user logged in")
         const userRole = res.data.role;
         authCtx.setUserData(userRole);
-
-        if (userRole === "student") {
-          const isVoted = res.data.student.voted;
-          if (isVoted === 0) {
-            authCtx.setIsVotedData(true);
-          }
-          const studentNumber = res.data.student.studentNumber;
-          authCtx.setStudentNumberData(studentNumber);
-
-          const userDepartment = res.data.student.departmentId;
-          authCtx.setUserDepartmentData(userDepartment);
-
-          const userName = res.data.student.firstName;
-          authCtx.setUserNameData(userName);
-
-          const userLastName = res.data.student.lastName;
-          authCtx.setUserLastNameData(userLastName);
-
-          localStorage.setItem("studentNumber", studentNumber);
-          localStorage.setItem("userDepartment", userDepartment);
-          localStorage.setItem("userName", userName);
-        }
-
-        // const userGpa = res.data.gpa;
-        //authCtx.setUserGpaData(userGpa);
-
         localStorage.setItem("userRole", userRole);
-
-        // localStorage.setItem("userGpa", userGpa);
-        authCtx.onLogin({
-          email: enteredEmail,
-          password: enteredPassword,
-        });
-        console.log(authCtx);
+        console.log("logine giriyor")
+        authCtx.onLogin();
       }
     } catch (err) {
-      console.log(err.message);
       changeAlertBoxVisible();
     }
 

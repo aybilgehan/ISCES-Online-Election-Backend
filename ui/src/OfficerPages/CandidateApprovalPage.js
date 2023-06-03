@@ -1,8 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const CandidateApprovalPage = () => {
   // Fetch candidates with their motivation text, transcript of records, and criminal record
   // Provide dummy data for now
+  useEffect(() => {
+    fetchCandidateInfo();
+  }, []);
+
+  const url = `http://localhost:8080/candidates/allCandidates`;
+  const fetchCandidateInfo = async () => {
+    try {
+      const response = await axios.get(url);
+      setCandidates(response.data);
+      console.log(response.data);
+    } catch (error) {
+
+      console.error("Error fetching candidates:", error);
+    }
+  };
   const [candidates, setCandidates] = useState([
     {
       id: 1,

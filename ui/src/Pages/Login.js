@@ -19,7 +19,6 @@ const Login = () => {
   }
   const submitHandler = async (event) => {
     event.preventDefault();
-    const signInInfo = { email: enteredEmail, password: enteredPassword };
     const email = enteredEmail.trim();
     const password = enteredPassword.trim();
     try {
