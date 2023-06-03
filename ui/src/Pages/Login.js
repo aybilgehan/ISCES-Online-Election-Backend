@@ -2,9 +2,7 @@ import React, { useState, useContext } from "react";
 import AuthContext from "../context/AuthContext";
 import "./Login.css";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 const Login = () => {
-  const navigate = useNavigate();
   const alertBox = (
     <div className="AlertBox">
       <h5>Wrong Credentials!</h5>
@@ -32,6 +30,7 @@ const Login = () => {
 
       if (res.status === 200) {
         localStorage.setItem("uid", res.data.user.user_id);
+        console.log("user id : " + res.data.user.user_id);
         localStorage.setItem(
           "userInfo",
           JSON.stringify({ email: signInInfo.email })
@@ -61,7 +60,6 @@ const Login = () => {
           password: enteredPassword,
         });
         console.log(authCtx);
-        navigate("/home");
       }
     } catch (err) {
       changeAlertBoxVisible();

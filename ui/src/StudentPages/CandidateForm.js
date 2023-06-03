@@ -7,7 +7,7 @@ export default function CandidateForm() {
   const [criminalRecord, setCriminalRecord] = useState("");
   const [validCandidate, setValidCandidate] = useState(false);
   const [alertBoxContent, setAlertBoxContent] = useState("");
-
+// user id'im ile aday adayı olmadığım belli olacak. eğer ispending ise değiştir olacak. eğer kabulsem sayfada zaten adaysın yazacak. 
   function submitHandler(e) {
     e.preventDefault();
     if (name && surname && transcript && criminalRecord) {

@@ -8,14 +8,14 @@ const SideBar = () => {
     <div className="page-layout-container">
       <div className="sidebar-container">
         <div className="navigation-bar">
-          <Link className="option" to="/home">
+          <Link className="option" to="/">
             <div>
               <ion-icon name="home-outline"></ion-icon>
               <button>Home</button>
             </div>
           </Link>
           <Link className="option" to="/candidateapproval">
-            {authCtx.userRole == "student" && (
+            {authCtx.userRole == "officer" && (
               <div>
                 <ion-icon name="calendar-outline"></ion-icon>
                 <button>Candidate Approval</button>

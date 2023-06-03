@@ -11,7 +11,7 @@ import Home from "./Pages/Home";
 import "./App.css";
 import SetElectionDate from "./RectorPages/SetElectionDate";
 import Profile from "./Pages/Profile";
-import CandidateApprovalPage from "./SecretariatPages/CandidateApprovalPage";
+import CandidateApprovalPage from "./OfficerPages/CandidateApprovalPage";
 
 function App() {
   const blabla = "13.05.2020";
@@ -40,13 +40,13 @@ function App() {
                       element={<SetElectionDate />}
                     />
                   )}
-                  {authCtx.userRole == "student" && (
+                  {authCtx.userRole == "officer" && (
                     <Route
                       path="/candidateapproval"
                       element={<CandidateApprovalPage />}
                     />
                   )}
-                  <Route path="/home" element={<Home time={blabla} />} />
+                  <Route path="/" element={<Home time={blabla} />} />
                   {(authCtx.userRole === "student" ||
                     authCtx.userRole === "candidate") && (
                     <Route path="/candidates" element={<Candidates />} />
