@@ -26,40 +26,40 @@ const Login = () => {
       const activationURL = `http://localhost:8080/login/${email}/${password}`;
       const res = await axios.get(activationURL);
       
-      console.log("adsadsads", res);
-
+     console.log("adsadsads", res);
       if (res.status === 200) {
-        localStorage.setItem("uid", res.data.user.user_id);
-        console.log("user id : " + res.data.user.user_id);
-        localStorage.setItem(
-          "userInfo",
-          JSON.stringify({ email: signInInfo.email })
-        );
-        const userRole = res.data.user.role;
-        authCtx.setUserData(userRole);
-
-        const isVoted = res.data.isVoted;
+        console.log(res.data.role)
+        if(res.data.role === "student" || res.data.role === "candidate"){
+        localStorage.setItem("uid", res.data.student.studentNumber);
+        console.log("user id : " + res.data.student.studentNumber);
+        const userDepartment = res.data.student.departmentId;
+        console.log("user department : " + userDepartment)
+        authCtx.setUserDepartmentData(userDepartment);
+        localStorage.setItem("userDepartment", userDepartment);
+        const userGpa = res.data.student.grade;
+        authCtx.setUserGpaData(userGpa);
+        localStorage.setItem("userGpa", userGpa);
+        const userTerm = res.data.student.term;
+        authCtx.setUserTermData(userTerm);
+        localStorage.setItem("userTerm", userTerm);
+        const userName = res.data.student.firstName;
+        authCtx.setUserNameData(userName);
+        const userLastName = res.data.student.lastName;
+        authCtx.setUserLastNameData(userLastName);
+        localStorage.setItem("userName", userName);
+        localStorage.setItem("userLastName", userLastName);
+        const isVoted = res.data.student.voted;
+        console.log("isVoted : " + isVoted)
         if (isVoted === 0) {
           authCtx.setIsVotedData(true);
         }
-        const userDepartment = res.data.user.departmentId;
-        authCtx.setUserDepartmentData(userDepartment);
-        const userName = res.data.user.firstName;
-        authCtx.setUserNameData(userName);
-        // const userGpa = res.data.gpa;
-        //authCtx.setUserGpaData(userGpa);
-        const userLastName = res.data.user.lastName;
-        authCtx.setUserLastNameData(userLastName);
-
+        }
+        console.log("user logged in")
+        const userRole = res.data.role;
+        authCtx.setUserData(userRole);
         localStorage.setItem("userRole", userRole);
-        localStorage.setItem("userDepartment", userDepartment);
-        localStorage.setItem("userName", userName);
-        // localStorage.setItem("userGpa", userGpa);
-        authCtx.onLogin({
-          email: enteredEmail,
-          password: enteredPassword,
-        });
-        console.log(authCtx);
+        console.log("logine giriyor")
+        authCtx.onLogin();
       }
     } catch (err) {
       changeAlertBoxVisible();
