@@ -20,7 +20,6 @@ public class AdminService {
     }
 
     public Admin findByUser_Email(String email){
-        System.out.println(adminRepo.findByUser_Email(email));
         return adminRepo.findByUser_Email(email);
     }
 
