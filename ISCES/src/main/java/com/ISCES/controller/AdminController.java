@@ -90,9 +90,10 @@ public class AdminController {// Bütün return typeler değişebilir . Response
 
   @GetMapping("/enterElectionDate") //  rector enters election date.
    public ResponseEntity<ElectionRequest> enterElectionDate(@RequestBody ElectionRequest electionRequest){
+      LocalDateTime now = LocalDateTime.now();// current date
         Long electionId;
         Election tempElection = new Election();
-        if(!electionService.isThereStartedElection()) { // if an election didn't start.
+        if(!electionService.isThereStartedElection() && electionRequest.getStartDate().isAfter(now) && electionRequest.getEndDate().isAfter(now) && electionRequest.getStartDate().isBefore(electionRequest.getEndDate())) { // if an election didn't start.
             electionId = Long.valueOf(electionService.getAllElections().size() + 1);
             tempElection.setElectionId(electionId);
             tempElection.setFinished(false);

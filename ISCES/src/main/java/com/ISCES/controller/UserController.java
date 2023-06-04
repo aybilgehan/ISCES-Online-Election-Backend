@@ -2,12 +2,10 @@ package com.ISCES.controller;
 
 
 import com.ISCES.entities.*;
-import com.ISCES.request.ElectionRequest;
 import com.ISCES.response.LoginResponse;
 import com.ISCES.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -102,8 +100,8 @@ public class UserController { // Bütün return typeler değişebilir . Response
 
 
     @GetMapping("/isElectionStarted")
-    public ResponseEntity<ElectionRequest> checkElectionInitialization(){
-        return electionService.isStartedElection();
+    public Boolean checkElectionInitialization(){
+        return electionService.isThereStartedElection();
     }
 
 

@@ -20,7 +20,7 @@ public class ElectionRequest {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm", shape = JsonFormat.Shape.STRING)
     private LocalDateTime endDate;
 
-    private Boolean isStarted;
+
 
     public ElectionRequest(LocalDateTime startDate,LocalDateTime endDate) {
         this.startDate = startDate;
@@ -30,7 +30,5 @@ public class ElectionRequest {
     public ElectionRequest() {
     }
 
-    public ElectionRequest(Boolean isStarted) {
-        this.isStarted = isStarted;
-    }
+
 }
