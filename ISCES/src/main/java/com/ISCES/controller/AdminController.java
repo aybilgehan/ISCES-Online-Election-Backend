@@ -1,15 +1,14 @@
 package com.ISCES.controller;
 
 import com.ISCES.entities.Candidate;
+import com.ISCES.entities.Election;
 import com.ISCES.entities.Student;
-import com.ISCES.service.CandidateService;
-import com.ISCES.service.AdminService;
-import com.ISCES.service.StudentService;
-import com.ISCES.service.UserService;
+import com.ISCES.service.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 @Getter
 @Setter
@@ -21,12 +20,14 @@ public class AdminController {// Bütün return typeler değişebilir . Response
     private UserService userService;
     private AdminService adminService;
     private StudentService studentService;
+    private ElectionService electionService;
 
-    public AdminController(CandidateService candidateService, UserService userService, StudentService studentService, AdminService adminService) {
+    public AdminController(CandidateService candidateService, UserService userService, StudentService studentService, AdminService adminService,ElectionService electionService) {
         this.candidateService = candidateService;
         this.userService = userService;
         this.studentService = studentService;
         this.adminService = adminService;
+        this.electionService = electionService;
     }
 
 
@@ -58,7 +59,7 @@ public class AdminController {// Bütün return typeler değişebilir . Response
     public Candidate confirmStudent(@PathVariable Long studentNumber){
         Student tempStudent = studentService.findByStudentNumber(studentNumber);
         Candidate tempCandidate = new Candidate();
-        if(tempStudent.getIsAppliedForCandidacy()){
+        if(tempStudent.getIsAppliedForCandidacy() && !tempStudent.getUser().getRole().equals("candidate")){
             Long tempCandidateId = Long.valueOf(candidateService.getAllCandidates().size()) + 1; // it's to assign an id to the candidate.
             tempCandidate.setCandidateId(tempCandidateId);
             tempCandidate.setStudent(tempStudent);
@@ -73,12 +74,29 @@ public class AdminController {// Bütün return typeler değişebilir . Response
     // GET MAPPING DEĞİŞECEK -> PutMapping
     @GetMapping("/rejectStudent/{studentNumber}") //  it returns student . If applications is not approved by officer , student is still student not candidate!!
     public Student rejectStudent(@PathVariable Long studentNumber){// candidacy of candidate is disapproved.
-        if(studentService.findByStudentNumber(studentNumber).getIsAppliedForCandidacy()){
+        if(studentService.findByStudentNumber(studentNumber).getIsAppliedForCandidacy() &&
+            !studentService.findByStudentNumber(studentNumber).getUser().getRole().equals("candidate")){
             studentService.findByStudentNumber(studentNumber).setIsAppliedForCandidacy(null); // isAppliedCandidacy of student is changed to null
             return studentService.save(studentService.findByStudentNumber(studentNumber));// It returns and saves the student who is rejected by officer.
         }
         return null;
     }
+
+
+  // @GetMapping("/enterElectionDate/{startDate}/{endDate}") //  rector enters election date.
+  // public Election enterElectionDate(LocalDate startDate, LocalDate endDate){
+  //     Long electionId;
+  //     Election tempElection = new Election();
+  //     electionId = Long.valueOf(electionService.getAllElections().size() + 1);
+  //     tempElection.setElectionId(electionId);
+  //     tempElection.setStartDate(startDate);
+  //     tempElection.setEndDate(endDate);
+  //     tempElection.setCompleted(false);
+  //     electionService.save(tempElection);
+  //     return electionService.save(tempElection);
+  // }
+
+
 
 
 }

@@ -7,6 +7,8 @@ DROP TABLE IF EXISTS `user`;
 DROP TABLE IF EXISTS `student`;
 DROP TABLE IF EXISTS `candidate`;
 DROP TABLE IF EXISTS `admin`;
+DROP TABLE IF EXISTS `election`;
+
 --
 -- Table structure for ısces
 --
@@ -49,6 +51,14 @@ CREATE TABLE `admin` (
   PRIMARY KEY (`admin_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE `election` (
+  `election_id` BIGINT NOT NULL,
+  `start_date` DATE NOT NULL,
+  `end_date` DATE NOT NULL,
+  `is_completed` DATE NOT NULL,
+  PRIMARY KEY (`election_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 
 
 
@@ -83,6 +93,7 @@ VALUES
 ('officer3@ofc.iyte.edu.tr','test123','officer'),
 ('officer4@ofc.iyte.edu.tr','test123','officer'),
 ('rector@rct.iyte.edu.tr','test123','rector');
+
 
 
 
