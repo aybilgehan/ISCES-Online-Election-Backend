@@ -2,10 +2,12 @@ package com.ISCES.controller;
 
 
 import com.ISCES.entities.*;
+import com.ISCES.request.ElectionRequest;
 import com.ISCES.response.LoginResponse;
 import com.ISCES.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -29,7 +31,7 @@ public class UserController { // Bütün return typeler değişebilir . Response
     private StudentService studentService;
     private AdminService adminService;
     private ElectionService electionService;
-        private final LocalDateTime now = LocalDateTime.now(); // currentdate
+
 
     @Autowired
     public UserController(UserService userService, CandidateService candidateService, StudentService studentService, AdminService adminService, ElectionService electionService) {
@@ -40,6 +42,8 @@ public class UserController { // Bütün return typeler değişebilir . Response
         this.electionService = electionService;
     }
 
+
+
     @GetMapping("/users")
     public List<User> getAllUsers(){
 
@@ -49,16 +53,13 @@ public class UserController { // Bütün return typeler değişebilir . Response
 
     @GetMapping("/login/{email}/{password}")// user logins with email and password
     public ResponseEntity<LoginResponse> login(@PathVariable String email, @PathVariable String password) {
+        LocalDateTime now = LocalDateTime.now(); // currentdate
         String controller = "";// message for frontend  (Logged-in )
         User user = userService.findByEmail(email);
         Election currentElection = electionService.findByIsFinished(false);
         Boolean isElectionStarted = null;
         if(currentElection != null){
             isElectionStarted = now.isAfter(currentElection.getStartDate()) && now.isBefore(currentElection.getEndDate());
-            System.out.println("Election time:" + currentElection.getStartDate());
-            System.out.println("Now: " + now);
-            System.out.println(now.isAfter(currentElection.getStartDate()));
-            System.out.println(now.isBefore(currentElection.getEndDate()));
         }
         if (user != null && user.getPassword().equals(password)){
             controller = "Logged-in";
@@ -100,7 +101,10 @@ public class UserController { // Bütün return typeler değişebilir . Response
 
 
 
-
+    @GetMapping("/isElectionStarted")
+    public ResponseEntity<ElectionRequest> checkElectionInitialization(){
+        return electionService.isStartedElection();
+    }
 
 
 
