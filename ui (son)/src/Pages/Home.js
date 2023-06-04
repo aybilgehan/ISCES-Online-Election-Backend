@@ -3,7 +3,6 @@ import "./Home.css";
 
 export default function Home(props) {
   return (
-    // ayarla domal
     <div className="home-temp-container">
       <div className="home-header">
         <h1 className="home-title">IZTECH ONLINE ELECTION SYSTEM</h1>
@@ -38,12 +37,12 @@ export default function Home(props) {
           </span>
         </div>
 
-        <div className="date fac-rep-el-date">
+       {/*  <div className="date fac-rep-el-date">
           <p>Faculty representative election date: </p>
           <span style={{ color: "#9a0e20", fontWeight: "bold" }}>
             {props.time}
           </span>
-        </div>
+        </div>*/}
       </div>
       <h3 className="how-it-works">HOW IT WORKS</h3>
       <div className="QA-section-container">

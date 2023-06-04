@@ -32,6 +32,13 @@ const Login = () => {
         if (returned.role === "candidate") {
           returned = returned.candidate;
         }
+        if (returned.role === "officer") {
+          returned = returned.admin;
+          const userDepartment = returned.departmentId;
+          console.log("user department : " + userDepartment);
+          authCtx.setUserDepartmentData(userDepartment);
+          localStorage.setItem("userDepartment", userDepartment); 
+        }
         if (res.data.role === "student" || res.data.role === "candidate") {
           localStorage.setItem("uid", returned.student.studentNumber);
           console.log("user id : " + returned.student.studentNumber);

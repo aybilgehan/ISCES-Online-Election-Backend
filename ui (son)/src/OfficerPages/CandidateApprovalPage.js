@@ -11,6 +11,7 @@ const CandidateApprovalPage = () => {
 
   useEffect(() => {
     fetchCandidateInfo();
+    console.log("fetched")
   }, []);
 
   const fetchCandidateInfo = async () => {

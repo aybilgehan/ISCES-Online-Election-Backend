@@ -13,6 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @RestController
+@CrossOrigin("http://localhost:3000")
 public class AdminController {// Bütün return typeler değişebilir . Response ve Request packageına yeni classlar eklenmeli frontendden hangi bilgi istendiğine göre
 
 
