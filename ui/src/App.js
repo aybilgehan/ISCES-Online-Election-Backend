@@ -16,7 +16,6 @@ import CandidateApprovalPage from "./OfficerPages/CandidateApprovalPage";
 function App() {
   const blabla = "13.05.2020";
   const authCtx = useContext(AuthContext);
-  console.log(authCtx.isLoggedIn);
   return (
     <div className="app-container">
       <BrowserRouter>

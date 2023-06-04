@@ -25,9 +25,7 @@ const Login = () => {
       const activationURL = `http://localhost:8080/login/${email}/${password}`;
       const res = await axios.get(activationURL);
 
-      console.log("adsadsads", res);
       if (res.status === 200) {
-        console.log(res.data.role);
         let returned = res.data;
         if (returned.role === "candidate") {
           returned = returned.candidate;
@@ -35,15 +33,12 @@ const Login = () => {
         if (returned.role === "officer") {
           returned = returned.admin;
           const userDepartment = returned.departmentId;
-          console.log("user department : " + userDepartment);
           authCtx.setUserDepartmentData(userDepartment);
           localStorage.setItem("userDepartment", userDepartment); 
         }
         if (res.data.role === "student" || res.data.role === "candidate") {
           localStorage.setItem("uid", returned.student.studentNumber);
-          console.log("user id : " + returned.student.studentNumber);
           const userDepartment = returned.student.departmentId;
-          console.log("user department : " + userDepartment);
           authCtx.setUserDepartmentData(userDepartment);
           localStorage.setItem("userDepartment", userDepartment);
           const userGpa = returned.student.grade;
@@ -59,17 +54,13 @@ const Login = () => {
           localStorage.setItem("userName", userName);
           localStorage.setItem("userLastName", userLastName);
           const isVoted = returned.student.voted;
-          console.log("isVoted : " + isVoted);
           if (isVoted === 0) {
             authCtx.setIsVotedData(true);
           }
         }
-
-        console.log("user logged in");
         const userRole = res.data.role;
         authCtx.setUserData(userRole);
         localStorage.setItem("userRole", userRole);
-        console.log("logine giriyor");
         authCtx.onLogin();
       }
     } catch (err) {

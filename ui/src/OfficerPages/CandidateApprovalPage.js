@@ -7,7 +7,7 @@ const CandidateApprovalPage = () => {
   // Provide dummy data for now
   const authCtx = useContext(AuthContext);
   const [unEvalCandidates, setUnEvalCandidates] = useState([]);
-  const url = `http://localhost:8080/unevaluatedStudents/1`;
+  const url = `http://localhost:8080/unevaluatedStudents/${authCtx.userDepartment}`;
 
   useEffect(() => {
     fetchCandidateInfo();
@@ -30,21 +30,6 @@ const CandidateApprovalPage = () => {
       console.log("Error updating approved candidate", error);
     }
   };
-
-  // const [candidates, setCandidates] = useState([
-  //   {
-  //     id: 1,
-  //     name: "Candidate 1",
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Candidate 2",
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "Candidate 3",
-  //   },
-  // ]);
 
   const approveCandidate = (studentNumber) => {
     // Remove the approved candidate from the list
