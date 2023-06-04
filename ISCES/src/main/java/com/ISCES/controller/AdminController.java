@@ -92,21 +92,21 @@ public class AdminController {// Bütün return typeler değişebilir . Response
    public ResponseEntity<ElectionRequest> enterElectionDate(@RequestBody ElectionRequest electionRequest){
         Long electionId;
         Election tempElection = new Election();
-        electionId = Long.valueOf(electionService.getAllElections().size() + 1);
-        tempElection.setElectionId(electionId);
-        tempElection.setFinished(false);
-        tempElection.setStartDate(electionRequest.getStartDate());
-        tempElection.setEndDate(electionRequest.getEndDate());
-        try {
-            electionService.save(tempElection);
-            return new ResponseEntity<>(new ElectionRequest(electionRequest.getStartDate(),electionRequest.getEndDate()),HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity<>(new ElectionRequest(),HttpStatus.BAD_REQUEST);
+        if(!electionService.isThereStartedElection()) { // if an election didn't start.
+            electionId = Long.valueOf(electionService.getAllElections().size() + 1);
+            tempElection.setElectionId(electionId);
+            tempElection.setFinished(false);
+            tempElection.setStartDate(electionRequest.getStartDate());
+            tempElection.setEndDate(electionRequest.getEndDate());
+            try {
+                electionService.save(tempElection);
+                return new ResponseEntity<>(new ElectionRequest(electionRequest.getStartDate(), electionRequest.getEndDate()), HttpStatus.OK);
+            } catch (Exception e) {
+                return new ResponseEntity<>(new ElectionRequest(), HttpStatus.BAD_REQUEST);
+            }
         }
-
+        return new ResponseEntity<>(new ElectionRequest(), HttpStatus.BAD_REQUEST);
     }
-
-
 
 
 

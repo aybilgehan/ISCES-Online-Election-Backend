@@ -28,6 +28,7 @@ public class Election {
     @Column(name = "start_date")
     private LocalDateTime startDate;
 
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm", shape = JsonFormat.Shape.STRING)
     @Column(name = "end_date")
     private LocalDateTime endDate;
