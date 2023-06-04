@@ -30,4 +30,8 @@ public class ElectionService {
         return electionRepo.findAll();
     }
 
+    @Transactional
+    public Election findByIsFinished(boolean isFinished){
+        return electionRepo.findByIsFinished(isFinished);
+    }
 }

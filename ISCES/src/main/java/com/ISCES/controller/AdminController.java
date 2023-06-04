@@ -3,17 +3,21 @@ package com.ISCES.controller;
 import com.ISCES.entities.Candidate;
 import com.ISCES.entities.Election;
 import com.ISCES.entities.Student;
+import com.ISCES.request.ElectionRequest;
 import com.ISCES.service.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 @Getter
 @Setter
 @RestController
-@CrossOrigin("http://localhost:3000")
 public class AdminController {// Bütün return typeler değişebilir . Response ve Request packageına yeni classlar eklenmeli frontendden hangi bilgi istendiğine göre
 
 
@@ -84,18 +88,24 @@ public class AdminController {// Bütün return typeler değişebilir . Response
     }
 
 
-  // @GetMapping("/enterElectionDate/{startDate}/{endDate}") //  rector enters election date.
-  // public Election enterElectionDate(LocalDate startDate, LocalDate endDate){
-  //     Long electionId;
-  //     Election tempElection = new Election();
-  //     electionId = Long.valueOf(electionService.getAllElections().size() + 1);
-  //     tempElection.setElectionId(electionId);
-  //     tempElection.setStartDate(startDate);
-  //     tempElection.setEndDate(endDate);
-  //     tempElection.setCompleted(false);
-  //     electionService.save(tempElection);
-  //     return electionService.save(tempElection);
-  // }
+  @GetMapping("/enterElectionDate") //  rector enters election date.
+   public ResponseEntity<ElectionRequest> enterElectionDate(@RequestBody ElectionRequest electionRequest){
+        Long electionId;
+        Election tempElection = new Election();
+        electionId = Long.valueOf(electionService.getAllElections().size() + 1);
+        tempElection.setElectionId(electionId);
+        tempElection.setFinished(false);
+        tempElection.setStartDate(electionRequest.getStartDate());
+        tempElection.setEndDate(electionRequest.getEndDate());
+        try {
+            electionService.save(tempElection);
+            return new ResponseEntity<>(new ElectionRequest(electionRequest.getStartDate(),electionRequest.getEndDate()),HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(new ElectionRequest(),HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
 
 
 
