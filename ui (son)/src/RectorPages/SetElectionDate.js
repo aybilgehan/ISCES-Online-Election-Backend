@@ -13,6 +13,7 @@ const SetElectionDate = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    localStorage.setItem("isDateSet", true)
     if (dateTime) {
       console.log("Selected date and time:", dateTime);
       axios.post(url, { dateTime: JSON.stringify(dateTime) }).then((response) => {
@@ -21,6 +22,11 @@ const SetElectionDate = () => {
     }
     setDateTime(null);
   };
+  const endElection = (e) => {
+    //BU KOD SADECE TEST İÇİN EKLENDİ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    e.preventDefault();
+    localStorage.setItem("isDateSet", false)
+  }
 
   return (
     <div>
@@ -41,6 +47,9 @@ const SetElectionDate = () => {
         <br />
         <br />
         <button type="submit">Set</button>
+      </form>
+      <form>
+        <button onSubmit={endElection}>End Election</button>
       </form>
     </div>
   );
