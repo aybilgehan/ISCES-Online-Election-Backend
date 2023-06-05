@@ -87,7 +87,7 @@ export default function Candidates() {
     </div>
   );
 
-  const electionNotStartBox = <h1>Election Has Not Started Yet!</h1>;
+  const electionNotStartBox = <h1>There is no election right now!</h1>;
   const reload = () => {
     window.location.reload();
   };
