@@ -53,7 +53,7 @@ public class UserController { // Bütün return typeler değişebilir . Response
     public ResponseEntity<LoginResponse> login(@PathVariable String email, @PathVariable String password) {
         String controller = "";// message for frontend  (Logged-in )
         User user = userService.findByEmail(email);
-        Boolean isElectionStarted = electionService.isThereStartedElection();
+        boolean isElectionStarted = electionService.isThereStartedElection();
         if (user != null && user.getPassword().equals(password)){
             controller = "Logged-in";
         }
@@ -95,7 +95,7 @@ public class UserController { // Bütün return typeler değişebilir . Response
 
 
     @GetMapping("/isInElectionProcess") // checks whether in election or not
-    public Boolean checkElectionInitialization(){
+    public boolean checkElectionInitialization(){
         return electionService.isThereStartedElection();
     }
 

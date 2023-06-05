@@ -17,9 +17,9 @@ public class LoginResponse { // we can change it .
     private Candidate candidate;
     private Admin admin;
     private String role;
-    private Boolean isElectionStarted;
+    private boolean isElectionStarted;
 
-    public LoginResponse(int status, String message,Student student,Boolean isElectionStarted) { //  response for student's login.
+    public LoginResponse(int status, String message,Student student,boolean isElectionStarted) { //  response for student's login.
         this.status = status;
         this.message = message;
         this.student = student;

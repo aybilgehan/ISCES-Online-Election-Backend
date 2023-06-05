@@ -39,7 +39,7 @@ public class ElectionService {
 
 
     @Transactional
-    public Boolean isThereStartedElection() {
+    public boolean isThereStartedElection() {
         LocalDateTime now = LocalDateTime.now();
         return electionRepo.findByIsFinished(false) != null && electionRepo.findByIsFinished(false).getStartDate().isBefore(now) && electionRepo.findByIsFinished(false).getEndDate().isAfter(now);
     } //  checks for is there any election that initialize by rector.
