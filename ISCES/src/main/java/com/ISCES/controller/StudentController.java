@@ -30,6 +30,17 @@ public class StudentController { // Bütün return typeler değişebilir . Respo
         this.candidateService = candidateService;
     }
 
+
+    @GetMapping("/students")
+    public List<Student> getAllStudents(){
+        return studentService.getAllStudents();
+    }
+
+    @GetMapping("/getStudent/{studentNumber}")
+    public Student findStudentById(@PathVariable Long studentNumber){
+        return studentService.findByStudentNumber(studentNumber);
+    }
+
     // GETMAPPING DEĞİŞECEK
     @GetMapping("/vote/{studentNumber}/{candidateId}") // studentNumber is voter's number, departmentıd "is candidate's id.
     public ResponseEntity<VoteResponse> vote(@PathVariable Long studentNumber, @PathVariable Long candidateId){

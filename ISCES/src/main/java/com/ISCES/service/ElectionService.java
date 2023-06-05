@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @NoArgsConstructor
@@ -38,8 +39,9 @@ public class ElectionService {
 
 
     @Transactional
-    public boolean isThereStartedElection() {
-        return electionRepo.findByIsFinished(false) != null;
+    public Boolean isThereStartedElection() {
+        LocalDateTime now = LocalDateTime.now();
+        return electionRepo.findByIsFinished(false) != null && electionRepo.findByIsFinished(false).getStartDate().isBefore(now) && electionRepo.findByIsFinished(false).getEndDate().isAfter(now);
     } //  checks for is there any election that initialize by rector.
 
 
