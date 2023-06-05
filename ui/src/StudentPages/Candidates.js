@@ -1,4 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
+import { Link } from "react-router-dom";
+import CandidateCard from "./CandidateCard";
 import AuthContext from "../context/AuthContext";
 import axios from "axios";
 
@@ -10,21 +12,8 @@ import axios from "axios";
 export default function Candidates() {
   const authCtx = useContext(AuthContext);
   const [candidates, setCandidates] = useState([]);
-  const [votedCandidateName, setVotedCandidateName] = useState();
   const url = `http://localhost:8080/candidates/${authCtx.userDepartment}`;
-  const studentNum = localStorage.getItem("uid");
-  const url2 = `http://localhost:8080/users`;
-  useEffect(() => {
-    fetchStudentInfo();
-  }, []);
-  const fetchStudentInfo = async () => {
-    try {
-      const response = await axios.get(url2);
-      console.log(response)
-    } catch (error) {
-      console.error("Error fetching candidates:", error);
-    }
-  };
+
   useEffect(() => {
     fetchCandidateInfo();
   }, []);
@@ -38,34 +27,55 @@ export default function Candidates() {
     }
   };
 
-  const voteHandler = async (candidate) => {
+  // const voteHandler = async (id) => {
+  //   try {
+  //     const response = await axios.get(
+  //       `http://localhost:8080/students/isvoted/${id}`
+  //     );
+  //     if (response.data === true) {
+  //       console.log("This user has already voted.");
+  //       return;
+  //     } else {
+  //       console.log(id, "id'sine sahip kullanici 1 oy kazandı");
+  //       const response1 = await axios.put(
+  //         `http://localhost:8080/students/setisvoted/${id}`
+  //       );
+  //       const response2 = await axios.put(
+  //         `http://localhost:8080/candidates/incrementvote/${id}`
+  //       );
+  //     }
+  //   } catch (error) {
+  //     console.error("Voting  :", error);
+  //   }
+  // };
+  const voteHandler = async (id) => {
     try {
-      const studentNumber = localStorage.getItem("uid");
-      const response = await axios.get(
-        `http://localhost:8080/vote/${studentNumber}/${candidate}`
-      );
-      fetchCandidateInfo();
-    }
-    catch (error) {
-      console.log(error)
+      const voted = authCtx.isVoted;
+      if (voted === true) {
+        console.log("This user has already voted.");
+        return;
+      } else {
+        console.log(id, "id'sine sahip kullanici 1 oy kazandı");
+        const studentNumber = localStorage.getItem("uid");
+        const response = await axios.get(
+          `http://localhost:8080/vote/${studentNumber}/${id}`
+        );
+        fetchCandidateInfo();
+      }
+    } catch (error) {
+      console.error("Voting  :", error);
     }
   };
-  console.log(votedCandidateName)
-  const votedScreen = (
-    <div className="AlertBox">
-      <h5>You voted {votedCandidateName}!</h5>
-    </div>
-  );
 
-  const candidatesForm = (
+  return (
     <div className="container">
       <ul>
-        {candidates.map((candidate) => (
-          <li className="list-item" key={candidate.candidateId}>
-            {candidate.student?.user.email}
-            <br />
+        {candidates.map((candidate, index) => (
+          <li className="list-item" key={index}>
+            {candidate.student.firstName}
+            <br></br>
             {candidate.votes}
-            <br />
+            <br></br>
             <button onClick={() => voteHandler(candidate.candidateId)}>
               Vote
             </button>
@@ -74,10 +84,4 @@ export default function Candidates() {
       </ul>
     </div>
   );
-  const showAlert = false
-  return (
-    <div className="App">
-      {showAlert ? votedScreen : candidatesForm}
-    </div>
-  )
 }
