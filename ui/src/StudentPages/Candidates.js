@@ -19,21 +19,33 @@ export default function Candidates() {
 
   useEffect(() => {
     fetchCandidateInfo();
-    //checkElectionIsOn();
-    setElectionIsOn(true);
-    console.log(electionIsOn)
-    setIsVoted(authCtx.isVoted);
-    console.log(voted)
+    checkElectionIsOn();
+    checkIsVoted();
   }, []);
+
+  const checkIsVoted = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/getStudent/${localStorage.getItem("uid")}`
+      );
+      console.log(response.data);
+
+      setIsVoted(response.data.voted);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const checkElectionIsOn = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/isInElectionProcess`);
+      const response = await axios.get(
+        `http://localhost:8080/isInElectionProcess`
+      );
       setElectionIsOn(response.data);
     } catch (error) {
-
+      console.log(error);
     }
-  }
+  };
   const fetchCandidateInfo = async () => {
     try {
       const response = await axios.get(url);
@@ -42,7 +54,6 @@ export default function Candidates() {
       console.error("Error fetching candidates:", error);
     }
   };
-
 
   const voteHandler = async (id, voted) => {
     try {
@@ -53,11 +64,10 @@ export default function Candidates() {
       } else {
         console.log(id, "id'sine sahip kullanici 1 oy kazandı");
         const studentNumber = localStorage.getItem("uid");
-        authCtx.setIsVotedData(true);
         const response = await axios.get(
           `http://localhost:8080/vote/${studentNumber}/${id}`
         );
-
+        setIsVoted(true);
       }
     } catch (error) {
       console.error("Voting  :", error);
@@ -73,11 +83,15 @@ export default function Candidates() {
             <br></br>
             {candidate.votes}
             <br></br>
-            {(userRole === "student" || userRole === "candidate") && electionIsOn===true && (
-              <button onClick={() => voteHandler(candidate.candidateId, voted)} disabled={voted}>
-                Vote
-              </button>
-            )}
+            {(userRole === "student" || userRole === "candidate") &&
+              electionIsOn === true && (
+                <button
+                  onClick={() => voteHandler(candidate.candidateId, voted)}
+                  disabled={voted}
+                >
+                  Vote
+                </button>
+              )}
           </li>
         ))}
       </ul>
