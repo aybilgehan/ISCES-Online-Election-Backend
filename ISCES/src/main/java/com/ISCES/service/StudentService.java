@@ -51,5 +51,9 @@ public class StudentService {
     public Student findByUser_Email(String email){
        return studentRepo.findByUser_Email(email);
     }
-
+    @Transactional
+    public Student setVotedCandidateName(Student student, String votedCandidateName) {
+        student.setVotedCandidateName(votedCandidateName);
+        return studentRepo.save(student);
+    }
 }

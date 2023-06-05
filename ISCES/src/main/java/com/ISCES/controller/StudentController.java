@@ -33,16 +33,19 @@ public class StudentController { // Bütün return typeler değişebilir . Respo
     // GETMAPPING DEĞİŞECEK
     @GetMapping("/vote/{studentNumber}/{candidateId}") // studentNumber is voter's number, departmentıd "is candidate's id.
     public ResponseEntity<VoteResponse> vote(@PathVariable Long studentNumber, @PathVariable Long candidateId){
-        String message = "Couldn't vote";
+       String message = "error";
         List<Candidate> candidateList = candidateService.findCandidateByDepartmentId(studentService.findByStudentNumber(studentNumber).getDepartmentId());
         if(!studentService.findByStudentNumber(studentNumber).isVoted() &&
-            studentService.findByStudentNumber(studentNumber).getDepartmentId().equals(candidateService.findById(candidateId).getStudent().getDepartmentId())){
-                // if student didn't vote   and departmentId of student and departmentId of candidate is equal.
-                studentService.findByStudentNumber(studentNumber).setVoted(true); //  the isVoted of voter is changed.
-                candidateService.getVote(candidateService.findById(candidateId)); // candidate's vote += 1
-                message = "Student which has id: " + studentNumber + " voted.";
-
-            return new ResponseEntity<>(new VoteResponse(message,studentNumber), HttpStatus.OK);
+                studentService.findByStudentNumber(studentNumber).getDepartmentId().equals(candidateService.findById(candidateId).getStudent().getDepartmentId())){
+            // if student didn't vote   and departmentId of student and departmentId of candidate is equal.
+            studentService.findByStudentNumber(studentNumber).setVoted(true); //  the isVoted of voter is changed.
+            candidateService.getVote(candidateService.findById(candidateId)); // candidate's vote += 1
+            Candidate votedCandidate = candidateService.findById(candidateId);
+            Long votedCandidateStudentNumber = votedCandidate.getStudent().getStudentNumber();
+            String votedCandidateName = studentService.findByStudentNumber(votedCandidateStudentNumber).getFirstName();
+            studentService.findByStudentNumber(studentNumber).setVotedCandidateName(votedCandidateName);
+            message = votedCandidateName;
+            return new ResponseEntity<>(new VoteResponse(message,studentNumber,candidateId), HttpStatus.OK);
         }
         return new ResponseEntity<>(new VoteResponse(message),HttpStatus.BAD_REQUEST);
     }
@@ -53,7 +56,7 @@ public class StudentController { // Bütün return typeler değişebilir . Respo
 
         if((studentService.findByStudentNumber(studentNumber).getIsAppliedForCandidacy() != null) &&
                 (!studentService.findByStudentNumber(studentNumber).getIsAppliedForCandidacy() )) { // if student didn't apply for candidacy or didn't rejected by officer (isApplied != false
-                                                                                            //                                                                      isApplied != null)
+            //                                                                      isApplied != null)
             Student tempStudent = studentService.findByStudentNumber(studentNumber);
             studentService.findByStudentNumber(studentNumber).setIsAppliedForCandidacy(true);// The isAppliedForCandidacy of the student applying for candidacy has been changed.
             studentService.save(studentService.findByStudentNumber(studentNumber)); // changes are saved for this student.

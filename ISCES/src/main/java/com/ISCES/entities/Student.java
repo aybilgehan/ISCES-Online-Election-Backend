@@ -18,6 +18,9 @@ public class Student {
     @Column(name="student_number")
     private Long studentNumber;
 
+    @Column(name="voted_candidate")
+    private String votedCandidateName;
+
     @Column(name="department_id")
     private Long departmentId;
 
