@@ -44,15 +44,17 @@ const SideBar = () => {
                 </div>
               </Link>
             )}
-            {(authCtx.userRole === "student" ||
-              authCtx.userRole === "candidate") && (
-              <Link className="option" to="/candidates">
-                <div>
-                  <ion-icon name="shield-checkmark-outline"></ion-icon>
-                  <button>Vote</button>
-                </div>
-              </Link>
-            )}
+                  <Link className="option" to="/candidates">
+              <div>
+                <ion-icon name="shield-checkmark-outline"></ion-icon>
+                <button>
+                  {authCtx.userRole === "officer" ||
+                  authCtx.userRole === "rector"
+                    ? "Candidates"
+                    : "Vote"}
+                </button>
+              </div>
+            </Link>
             {(authCtx.userRole === "student" ||
               authCtx.userRole === "candidate") && (
               <Link className="option" to="/council">

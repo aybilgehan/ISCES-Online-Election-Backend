@@ -46,10 +46,9 @@ function App() {
                     />
                   )}
                   <Route path="/" element={<Home time={blabla} />} />
-                  {(authCtx.userRole === "student" ||
-                    authCtx.userRole === "candidate") && (
+                 
                     <Route path="/candidates" element={<Candidates />} />
-                  )}
+               
                   <Route path="/election" element={<Election />} />
                   {(authCtx.userRole === "student" ||
                     authCtx.userRole === "candidate") && (

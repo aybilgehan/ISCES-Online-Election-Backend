@@ -1,7 +1,11 @@
-import React from "react";
+import React, {useEffect} from "react";
 import "./Home.css";
 
 export default function Home(props) {
+  useEffect(() => {
+    localStorage.getItem("isDateSet");
+  }, []);
+
   return (
     <div className="home-temp-container">
       <div className="home-header">
@@ -33,7 +37,9 @@ export default function Home(props) {
         <div className="date dep-rep-el-date">
           <p>Department representative election date: </p>
           <span style={{ color: "#9a0e20", fontWeight: "bold" }}>
-            {props.time}
+          {props.time && localStorage.getItem("isDateSet") === "true"
+          ? "Election is on"
+          : props.time}
           </span>
         </div>
 
