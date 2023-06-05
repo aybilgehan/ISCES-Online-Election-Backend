@@ -1,40 +1,18 @@
-import React, { useState, useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
-import CandidateCard from "./CandidateCard";
+import { useState, useContext, useEffect } from "react";
 import AuthContext from "../context/AuthContext";
 import axios from "axios";
 
-//candidatelar liste olarak çekilecek.(tik) her bir candidate'ın idsinden departmantlar çekilecek ve bizim aktif kullanıcımızın departmanı ile eşleşenler listelenecek.localhost:8080/getdepartment/authctx.id=== localhost:8080/getdepartment/candidate.id
-//kullanıcı oy kullandığında isvoted true olacak ve candidate'ın currentvote'u 1 artacak.
-//localhost:8080/incrementvote/candidate.id
-//localhost:8080/isvoted/authctx.id
-
 export default function Candidates() {
   const authCtx = useContext(AuthContext);
-  const [voted, setIsVoted] = useState(false);
   const [candidates, setCandidates] = useState([]);
-  const [electionIsOn, setElectionIsOn] = useState(false);
+  const [showAlertBox, setShowAlertBox] = useState(false);
+  const [isVoted, setIsVoted] = useState(false);
+  const [showSentVoteInfo, setShowSentVoteInfo] = useState(false);
+  const [votedCandidateID, setVotedCandidateID] = useState(null);
+  const [electionIsOn, setElectionIsOn] = useState(null);
   const url = `http://localhost:8080/candidates/${authCtx.userDepartment}`;
-  const userRole = authCtx.userRole;
-
-  useEffect(() => {
-    fetchCandidateInfo();
-    checkElectionIsOn();
-    checkIsVoted();
-  }, []);
-
-  const checkIsVoted = async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost:8080/getStudent/${localStorage.getItem("uid")}`
-      );
-      console.log(response.data);
-
-      setIsVoted(response.data.voted);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const studentNum = localStorage.getItem("uid");
+  const getStudentUrl = `http://localhost:8080/getStudent/${studentNum}`;
 
   const checkElectionIsOn = async () => {
     try {
@@ -43,9 +21,18 @@ export default function Candidates() {
       );
       setElectionIsOn(response.data);
     } catch (error) {
-      console.log(error);
+      console.error("Error checking election status:", error);
     }
   };
+
+  useEffect(() => {
+    checkElectionIsOn();
+    if (electionIsOn) {
+      fetchCandidateInfo();
+      fetchUserInfo();
+    }
+  }, [electionIsOn]);
+
   const fetchCandidateInfo = async () => {
     try {
       const response = await axios.get(url);
@@ -55,46 +42,99 @@ export default function Candidates() {
     }
   };
 
-  const voteHandler = async (id, voted) => {
+  const fetchUserInfo = async () => {
     try {
-      console.log("voted", voted);
-      if (voted === true) {
-        console.log("This user has already voted.");
-        return;
-      } else {
-        console.log(id, "id'sine sahip kullanici 1 oy kazandı");
-        const studentNumber = localStorage.getItem("uid");
-        const response = await axios.get(
-          `http://localhost:8080/vote/${studentNumber}/${id}`
-        );
-        setIsVoted(true);
-      }
+      const response = await axios.get(getStudentUrl);
+      setIsVoted(response.data.voted);
     } catch (error) {
-      console.error("Voting  :", error);
+      console.error("Error fetching user:", error);
     }
   };
 
-  return (
+  const voteHandler = async (id) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/vote/${studentNum}/${id}`
+      );
+      console.log(response);
+      if (response.status === 200) {
+        setShowSentVoteInfo(true);
+        setVotedCandidateID(id);
+      }
+    } catch (error) {
+      console.error("Voting:", error);
+    }
+  };
+
+  const alertBoxHandler = (candidate) => {
+    setVotedCandidateID(candidate.candidateId);
+    setShowAlertBox(!showAlertBox);
+  };
+
+  const voteForm = (
     <div className="container">
       <ul>
         {candidates.map((candidate, index) => (
           <li className="list-item" key={index}>
             {candidate.student.firstName}
-            <br></br>
+            <br />
             {candidate.votes}
-            <br></br>
-            {(userRole === "student" || userRole === "candidate") &&
-              electionIsOn === true && (
-                <button
-                  onClick={() => voteHandler(candidate.candidateId, voted)}
-                  disabled={voted}
-                >
-                  Vote
-                </button>
-              )}
+            <br />
+            <button onClick={() => alertBoxHandler(candidate)}>Vote</button>
           </li>
         ))}
       </ul>
+    </div>
+  );
+
+  const electionNotStartBox = <h1>Election Has Not Started Yet!</h1>;
+  const reload = () => {
+    window.location.reload();
+  };
+  const votedInfo = (
+    <div>
+      Your vote has been sent to {votedCandidateID}
+      <button onClick={reload}>OK</button>
+    </div>
+  );
+
+  const afterVoteScreen = (
+    <div>
+      You have already voted!
+      <h1>Current Candidates</h1>
+      <div className="container">
+        <ul>
+          {candidates.map((candidate, index) => (
+            <li className="list-item" key={index}>
+              {candidate.student.firstName}
+              <br />
+              {candidate.votes}
+              <br />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+
+  const alertBox = (
+    <div>
+      Are you sure you want to vote for {votedCandidateID}?
+      <button onClick={() => voteHandler(votedCandidateID)}>Yes</button>
+      <button onClick={alertBoxHandler}>No</button>
+    </div>
+  );
+
+
+
+  return (
+    <div>
+      {!electionIsOn && electionNotStartBox}
+      {showSentVoteInfo && votedInfo}
+      {(showAlertBox && !showSentVoteInfo) && alertBox}
+      {(!isVoted && electionIsOn && !showAlertBox) && voteForm}
+      {isVoted && afterVoteScreen}
+
     </div>
   );
 }
