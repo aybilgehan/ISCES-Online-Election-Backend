@@ -1,11 +1,24 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
+import axios from 'axios';
 import "./Home.css";
 
 export default function Home(props) {
+  const [electionIsOn, setElectionIsOn] = useState(false);
   useEffect(() => {
-    localStorage.getItem("isDateSet");
+    checkElectionIsOn();
   }, []);
+  //bunu backe
+  const checkElectionIsOn = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8080/isInElectionProcess`);
+      if (response.data === "true") {
+      setElectionIsOn(response.data);
+      }
+     
+    } catch (error) {
 
+    }
+  }
   return (
     <div className="home-temp-container">
       <div className="home-header">
@@ -37,7 +50,7 @@ export default function Home(props) {
         <div className="date dep-rep-el-date">
           <p>Department representative election date: </p>
           <span style={{ color: "#9a0e20", fontWeight: "bold" }}>
-          {props.time && localStorage.getItem("isDateSet") === "true"
+          {props.time && electionIsOn === "true"
           ? "Election is on"
           : props.time}
           </span>

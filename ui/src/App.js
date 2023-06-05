@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AuthContext from "./context/AuthContext";
 import Login from "./Pages/Login";
@@ -12,9 +12,18 @@ import "./App.css";
 import SetElectionDate from "./RectorPages/SetElectionDate";
 import Profile from "./Pages/Profile";
 import CandidateApprovalPage from "./OfficerPages/CandidateApprovalPage";
+import axios from "axios";
 
 function App() {
-  const blabla = "13.05.2020";
+  const [date, setDate] = useState(new Date());
+  const electionFetch = async () => {
+    const response = axios.get("http://localhost:8080/electionDate");
+    const data = await response.data;
+    setDate(data);
+  };
+  useEffect(() => {
+    electionFetch();
+  }, []);
   const authCtx = useContext(AuthContext);
   return (
     <div className="app-container">
@@ -45,7 +54,7 @@ function App() {
                       element={<CandidateApprovalPage />}
                     />
                   )}
-                  <Route path="/" element={<Home time={blabla} />} />
+                  <Route path="/" element={<Home time={date} />} />
                  
                     <Route path="/candidates" element={<Candidates />} />
                

@@ -11,13 +11,29 @@ import axios from "axios";
 
 export default function Candidates() {
   const authCtx = useContext(AuthContext);
+  const [voted, setIsVoted] = useState(false);
   const [candidates, setCandidates] = useState([]);
+  const [electionIsOn, setElectionIsOn] = useState(false);
   const url = `http://localhost:8080/candidates/${authCtx.userDepartment}`;
+  const userRole = authCtx.userRole;
 
   useEffect(() => {
     fetchCandidateInfo();
+    //checkElectionIsOn();
+    setElectionIsOn(true);
+    console.log(electionIsOn)
+    setIsVoted(authCtx.isVoted);
+    console.log(voted)
   }, []);
 
+  const checkElectionIsOn = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8080/isInElectionProcess`);
+      setElectionIsOn(response.data);
+    } catch (error) {
+
+    }
+  }
   const fetchCandidateInfo = async () => {
     try {
       const response = await axios.get(url);
@@ -27,40 +43,21 @@ export default function Candidates() {
     }
   };
 
-  // const voteHandler = async (id) => {
-  //   try {
-  //     const response = await axios.get(
-  //       `http://localhost:8080/students/isvoted/${id}`
-  //     );
-  //     if (response.data === true) {
-  //       console.log("This user has already voted.");
-  //       return;
-  //     } else {
-  //       console.log(id, "id'sine sahip kullanici 1 oy kazandı");
-  //       const response1 = await axios.put(
-  //         `http://localhost:8080/students/setisvoted/${id}`
-  //       );
-  //       const response2 = await axios.put(
-  //         `http://localhost:8080/candidates/incrementvote/${id}`
-  //       );
-  //     }
-  //   } catch (error) {
-  //     console.error("Voting  :", error);
-  //   }
-  // };
-  const voteHandler = async (id) => {
+
+  const voteHandler = async (id, voted) => {
     try {
-      const voted = authCtx.isVoted;
+      console.log("voted", voted);
       if (voted === true) {
         console.log("This user has already voted.");
         return;
       } else {
         console.log(id, "id'sine sahip kullanici 1 oy kazandı");
         const studentNumber = localStorage.getItem("uid");
+        authCtx.setIsVotedData(true);
         const response = await axios.get(
           `http://localhost:8080/vote/${studentNumber}/${id}`
         );
-        fetchCandidateInfo();
+
       }
     } catch (error) {
       console.error("Voting  :", error);
@@ -76,9 +73,11 @@ export default function Candidates() {
             <br></br>
             {candidate.votes}
             <br></br>
-            <button onClick={() => voteHandler(candidate.candidateId)}>
-              Vote
-            </button>
+            {(userRole === "student" || userRole === "candidate") && electionIsOn===true && (
+              <button onClick={() => voteHandler(candidate.candidateId, voted)} disabled={voted}>
+                Vote
+              </button>
+            )}
           </li>
         ))}
       </ul>
