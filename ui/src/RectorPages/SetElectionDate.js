@@ -19,8 +19,12 @@ const SetElectionDate = () => {
     e.preventDefault();
     localStorage.setItem("isDateSet", true);
     if (startDate) {
-      let startDateConverted = startDate.toISOString().substring(0, 19);
-      let endDateConverted = endDate.toISOString().substring(0, 19);
+      let startDateConverted = new Date(
+        startDate.getTime() + 3 * 60 * 60 * 1000
+      );
+      let endDateConverted = new Date(endDate.getTime() + 3 * 60 * 60 * 1000);
+      startDateConverted = startDateConverted.toISOString().substring(0, 19);
+      endDateConverted = endDateConverted.toISOString().substring(0, 19);
       console.log("Selected date and time:", startDateConverted);
       console.log("Selected date and time:", endDateConverted);
       const startUrl = `http://localhost:8080/enterElectionDate/${startDateConverted}/${endDateConverted}`;

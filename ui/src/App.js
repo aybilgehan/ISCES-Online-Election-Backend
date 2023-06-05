@@ -15,15 +15,6 @@ import CandidateApprovalPage from "./OfficerPages/CandidateApprovalPage";
 import axios from "axios";
 
 function App() {
-  const [date, setDate] = useState(new Date());
-  const electionFetch = async () => {
-    const response = axios.get("http://localhost:8080/electionDate");
-    const data = await response.data;
-    setDate(data);
-  };
-  useEffect(() => {
-    electionFetch();
-  }, []);
   const authCtx = useContext(AuthContext);
   return (
     <div className="app-container">
@@ -54,10 +45,10 @@ function App() {
                       element={<CandidateApprovalPage />}
                     />
                   )}
-                  <Route path="/" element={<Home time={date} />} />
-                 
-                    <Route path="/candidates" element={<Candidates />} />
-               
+                  <Route path="/" element={<Home />} />
+
+                  <Route path="/candidates" element={<Candidates />} />
+
                   <Route path="/election" element={<Election />} />
                   {(authCtx.userRole === "student" ||
                     authCtx.userRole === "candidate") && (

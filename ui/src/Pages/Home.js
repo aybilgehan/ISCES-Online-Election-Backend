@@ -1,24 +1,30 @@
-import React, {useEffect, useState} from "react";
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import "./Home.css";
 
 export default function Home(props) {
+  const [date, setDate] = useState(new Date());
   const [electionIsOn, setElectionIsOn] = useState(false);
+
+  const electionFetch = async () => {
+    const response = await axios.get("http://localhost:8080/electionDate");
+    setDate({ startDate: response.data.startDate });
+  };
   useEffect(() => {
+    electionFetch();
     checkElectionIsOn();
   }, []);
   //bunu backe
   const checkElectionIsOn = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/isInElectionProcess`);
+      const response = await axios.get(
+        `http://localhost:8080/isInElectionProcess`
+      );
       if (response.data === "true") {
-      setElectionIsOn(response.data);
+        setElectionIsOn(response.data);
       }
-     
-    } catch (error) {
-
-    }
-  }
+    } catch (error) {}
+  };
   return (
     <div className="home-temp-container">
       <div className="home-header">
@@ -50,13 +56,13 @@ export default function Home(props) {
         <div className="date dep-rep-el-date">
           <p>Department representative election date: </p>
           <span style={{ color: "#9a0e20", fontWeight: "bold" }}>
-          {props.time && electionIsOn === "true"
-          ? "Election is on"
-          : props.time}
+            {date.startDate && electionIsOn === "true"
+              ? "Election is on"
+              : date.startDate}
           </span>
         </div>
 
-       {/*  <div className="date fac-rep-el-date">
+        {/*  <div className="date fac-rep-el-date">
           <p>Faculty representative election date: </p>
           <span style={{ color: "#9a0e20", fontWeight: "bold" }}>
             {props.time}

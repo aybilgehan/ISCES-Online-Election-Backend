@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 @Getter
 @Setter
@@ -113,6 +114,17 @@ public class AdminController {// Bütün return typeler değişebilir . Response
         return new ResponseEntity<>(new ElectionRequest(), HttpStatus.BAD_REQUEST);
     }
 
+    @GetMapping("/electionDate")
+    public Election getElectionDate(){
+        List<Election> elections= new ArrayList<Election>();
+        elections=electionService.getAllElections();
+        for(Election election: elections){
+            if(!election.isFinished()){
+                return election;
+            }
 
+        }
+        return null;
+    }
 
 }
