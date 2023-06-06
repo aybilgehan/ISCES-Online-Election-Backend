@@ -14,7 +14,7 @@ export default function CandidateForm() {
     console.log(candidateData);
     try {
       const response = await axios.post(
-        `http://localhost:8080/applyToBeCandidate/`,
+        `https://iztechelection.herokuapp.com/applyToBeCandidate/`,
         candidateData
       );
     } catch (error) {

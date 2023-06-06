@@ -18,17 +18,17 @@ export default function Candidates() {
     authCtx.userRole === "candidate" ||
     authCtx.userRole === "officer"
   ) {
-    url = `http://localhost:8080/candidates/${authCtx.userDepartment}`;
+    url = `https://iztechelection.herokuapp.com/candidates/${authCtx.userDepartment}`;
   } else {
-    url = `http://localhost:8080/candidates/allCandidates`;
+    url = `https://iztechelection.herokuapp.com/candidates/allCandidates`;
   }
   const studentNum = localStorage.getItem("uid");
-  const getStudentUrl = `http://localhost:8080/getStudent/${studentNum}`;
+  const getStudentUrl = `https://iztechelection.herokuapp.com/getStudent/${studentNum}`;
 
   const checkElectionIsOn = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/isInElectionProcess`
+        `https://iztechelection.herokuapp.com/isInElectionProcess`
       );
       setElectionIsOn(response.data);
     } catch (error) {
@@ -71,7 +71,7 @@ export default function Candidates() {
   const voteHandler = async (id) => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/vote/${studentNum}/${id}`
+        `https://iztechelection.herokuapp.com/vote/${studentNum}/${id}`
       );
       console.log(response);
       if (response.status === 200) {

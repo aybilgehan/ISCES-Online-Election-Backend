@@ -27,7 +27,7 @@ const SetElectionDate = () => {
   const checkElectionIsOn = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8080/isInElectionProcess"
+        "https://iztechelection.herokuapp.com/isInElectionProcess"
       );
       setIsInElectionProcess(response.data);
     } catch (error) {
@@ -49,7 +49,7 @@ const SetElectionDate = () => {
   };
   async function electionFetch(startDate, endDate) {
     try {
-      const url = `http://localhost:8080/enterElectionDate/${startDate}/${endDate}`;
+      const url = `https://iztechelection.herokuapp.com/enterElectionDate/${startDate}/${endDate}`;
 
       const response = await axios.get(url);
       
@@ -124,7 +124,7 @@ const SetElectionDate = () => {
   }, []);
   const getElectionDetails = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/electionDate`);
+      const response = await axios.get(`https://iztechelection.herokuapp.com/electionDate`);
       console.log(response.data);
       if (response.data.startDate > new Date()) {
         console.log(1);

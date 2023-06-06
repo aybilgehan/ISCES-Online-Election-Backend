@@ -13,7 +13,7 @@ function Election() {
   const checkElectionIsOn = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/isInElectionProcess`
+        `https://iztechelection.herokuapp.com/isInElectionProcess`
       );
       setElectionIsOn(response.data);
     } catch (error) {}
@@ -21,7 +21,7 @@ function Election() {
 
   const fetchCandidateInfo = async () => {
     try {
-      let url = `http://localhost:8080/candidates/${department}`;
+      let url = `https://iztechelection.herokuapp.com/candidates/${department}`;
       const response = await axios.get(url);
       const transformedCandidates = [
         ["Name", "Percentage"],
