@@ -6,7 +6,7 @@ import axios from "axios";
 
 function Election() {
   const authCtx = useContext(AuthContext);
-  const [department, setDepartment] = useState();
+  const [department, setDepartment] = useState(1);
   const [electionIsOn, setElectionIsOn] = useState(false);
   const [filteredCandidates, setFilteredCandidates] = useState([]);
   const [candidates, setCandidates] = useState([]);
@@ -62,7 +62,6 @@ function Election() {
     <div className="container">
       <form>
         <select value={department} onChange={chartHandler}>
-          <option value="">All Departments</option>
           <option value="1">Electronic Engineering</option>
           <option value="2">Computer Engineering</option>
           <option value="3">Mechanical Engineering</option>

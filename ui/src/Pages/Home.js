@@ -3,28 +3,27 @@ import axios from "axios";
 import "./Home.css";
 
 export default function Home(props) {
-  const [date, setDate] = useState(new Date());
-  const [electionIsOn, setElectionIsOn] = useState(false);
+  const [electionStartDate, setElectionStartDate] = useState("NOT ANNOUNCED");
+  const [electionEndDate, setElectionEndDate] = useState("NOT ANNOUNCED");
 
-  const electionFetch = async () => {
-    const response = await axios.get("http://localhost:8080/electionDate");
-    setDate({ startDate: response.data.startDate });
-  };
-  useEffect(() => {
-    electionFetch();
-    checkElectionIsOn();
-  }, []);
-  //bunu backe
-  const checkElectionIsOn = async () => {
+  useEffect( () => {
+    getElectionDetails()
+  }, [])
+
+  const getElectionDetails = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/isInElectionProcess`
+        `http://localhost:8080/getCurrentElection`
       );
-      if (response.data === "true") {
-        setElectionIsOn(response.data);
+      if(response.data.isStart) {
+        setElectionStartDate(response.data.startDate);
+        setElectionEndDate(response.data.endDate);
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }
   };
+
   return (
     <div className="home-temp-container">
       <div className="home-header">
@@ -54,20 +53,17 @@ export default function Home(props) {
 
       <div className="dates">
         <div className="date dep-rep-el-date">
-          <p>Department representative election date: </p>
+          <p>Department representative election start date: </p>
           <span style={{ color: "#9a0e20", fontWeight: "bold" }}>
-            {date.startDate && electionIsOn === "true"
-              ? "Election is on"
-              : date.startDate}
+            {electionStartDate}
           </span>
         </div>
-
-        {/*  <div className="date fac-rep-el-date">
-          <p>Faculty representative election date: </p>
+        <div className="date dep-rep-el-date">
+          <p>Department representative election end date: </p>
           <span style={{ color: "#9a0e20", fontWeight: "bold" }}>
-            {props.time}
+            {electionEndDate}
           </span>
-        </div>*/}
+        </div>
       </div>
       <h3 className="how-it-works">HOW IT WORKS</h3>
       <div className="QA-section-container">
