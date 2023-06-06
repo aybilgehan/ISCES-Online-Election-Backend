@@ -15,6 +15,7 @@ import CandidateApprovalPage from "./OfficerPages/CandidateApprovalPage";
 import axios from "axios";
 
 function App() {
+ 
   const authCtx = useContext(AuthContext);
   return (
     <div className="app-container">
