@@ -1,25 +1,39 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "./CandidateForm.css";
+import axios from "axios";
 export default function CandidateForm() {
-  const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
+  const studentNum = localStorage.getItem("uid")
+  const [motivationText, setMotivationText] = useState("");
   const [transcript, setTranscript] = useState("");
   const [criminalRecord, setCriminalRecord] = useState("");
   const [validCandidate, setValidCandidate] = useState(false);
   const [alertBoxContent, setAlertBoxContent] = useState("");
   // user id'im ile aday adayı olmadığım belli olacak. eğer ispending ise değiştir olacak. eğer kabulsem sayfada zaten adaysın yazacak.
+  const apply = async (candidateData)=> {
+    console.log(candidateData);
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/applyToBeCandidate/${studentNum}`
+      );
+      console.log("***********")
+      console.log(response);
+      if (response.status === 200) {
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  };
   function submitHandler(e) {
     e.preventDefault();
-    if (name && surname && transcript && criminalRecord) {
+    if (transcript && criminalRecord && motivationText) {
       const candidateData = {
-        name,
-        surname,
+        studentNum,
+        motivationText,
         transcript,
         criminalRecord,
       };
-      console.log("Gönderilen veriler: ", candidateData);
-      setName("");
-      setSurname("");
+      apply(candidateData);
+      setMotivationText("");
       setTranscript("");
       setCriminalRecord("");
       setValidCandidate(true);
@@ -37,8 +51,8 @@ export default function CandidateForm() {
           Your motivation to become a candidate:
           <input
             type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={motivationText}
+            onChange={(e) => setMotivationText(e.target.value)}
           />
         </label>
         <br />
