@@ -87,7 +87,7 @@ const Login = () => {
     <div className="login-container">
       <div className="login-page">
         <header>
-          <h1>IZTECH ONLINE ELECTION SYSTEM</h1>
+          <h1>IZTECH ONLINE ELECTION SYSTEM!</h1>
         </header>
         <div className="login-outer-box">
           <img
