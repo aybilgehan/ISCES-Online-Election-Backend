@@ -12,6 +12,7 @@ import "./App.css";
 import SetElectionDate from "./RectorPages/SetElectionDate";
 import Profile from "./Pages/Profile";
 import CandidateApprovalPage from "./OfficerPages/CandidateApprovalPage";
+import axios from "axios";
 
 function App() {
  

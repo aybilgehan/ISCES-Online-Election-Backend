@@ -13,7 +13,7 @@ export default function Home(props) {
   const checkElectionIsOn = async () => {
     try {
       const response = await axios.get(
-        `https://iztechelection.herokuapp.com/isInElectionProcess`
+        `http://localhost:8080/isInElectionProcess`
       );
       if (response.data === "false") {
         setElectionStartDate("NOT ANNOUNCED");
@@ -26,7 +26,7 @@ export default function Home(props) {
 
   const getElectionDetails = async () => {
     try {
-      const response = await axios.get(`https://iztechelection.herokuapp.com/electionDate`);
+      const response = await axios.get(`http://localhost:8080/electionDate`);
       console.log(response.data);
       if (response.data) {
         setElectionStartDate(response.data.startDate);

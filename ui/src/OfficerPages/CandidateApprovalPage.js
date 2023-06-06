@@ -6,7 +6,7 @@ const CandidateApprovalPage = () => {
   const authCtx = useContext(AuthContext);
   const [unEvalCandidates, setUnEvalCandidates] = useState([]);
   const [isElectionOn, setIsElectionOn] = useState(false);
-  const url = `https://iztechelection.herokuapp.com/${authCtx.userDepartment}`;
+  const url = `http://localhost:8080/unevaluatedStudents/${authCtx.userDepartment}`;
   let returned = <h1>Election has already started!</h1>;
 
   useEffect(() => {
@@ -18,7 +18,7 @@ const CandidateApprovalPage = () => {
   const checkElectionIsOn = async () => {
     try {
       const response = await axios.get(
-        `https://iztechelection.herokuapp.com/isInElectionProcess`
+        `http://localhost:8080/isInElectionProcess`
       );
       console.log(response.data);
       console.log(typeof response.data);
@@ -56,7 +56,7 @@ const CandidateApprovalPage = () => {
     );
     setUnEvalCandidates(updatedCandidates);
 
-    const urlForUpdate = `https://iztechelection.herokuapp.com/confirmStudent/${studentNumber}`;
+    const urlForUpdate = `http://localhost:8080/confirmStudent/${studentNumber}`;
     updateCandidates(urlForUpdate);
   };
 
@@ -66,7 +66,7 @@ const CandidateApprovalPage = () => {
     );
     setUnEvalCandidates(updatedCandidates);
 
-    const urlForUpdate = `https://iztechelection.herokuapp.com/rejectStudent/${studentNumber}`;
+    const urlForUpdate = `http://localhost:8080/rejectStudent/${studentNumber}`;
     updateCandidates(urlForUpdate);
   };
 

@@ -146,11 +146,5 @@ public class UserController { // Bütün return typeler değişebilir . Response
 
 
     }
-@GetMapping("/allDelegates")
-    public List<Delegate> getAllDelegates(){
-        return delegateService.getAllDelegates();
-    }
-user controllera
-gitcek
 
 }
