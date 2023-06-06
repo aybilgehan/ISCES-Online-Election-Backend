@@ -60,21 +60,23 @@ function Election() {
 
   return (
     <div className="container">
-      <form>
-        <select value={department} onChange={chartHandler}>
-          <option value="1">Electronic Engineering</option>
-          <option value="2">Computer Engineering</option>
-          <option value="3">Mechanical Engineering</option>
-        </select>
-      </form>
       {electionIsOn ? (
         <h1>Election is currently in progress.</h1>
       ) : candidateCount !== 0 ? (
-        <Chart
-          chartType="PieChart"
-          data={filteredCandidates}
-          options={options}
-        />
+        <div>
+          <form>
+            <select value={department} onChange={chartHandler}>
+              <option value="1">Electronic Engineering</option>
+              <option value="2">Computer Engineering</option>
+              <option value="3">Mechanical Engineering</option>
+            </select>
+          </form>
+          <Chart
+            chartType="PieChart"
+            data={filteredCandidates}
+            options={options}
+          />
+        </div>
       ) : (
         <h1>There are no candidates for this department.</h1>
       )}

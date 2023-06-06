@@ -25,7 +25,7 @@ const SideBar = () => {
             {authCtx.userRole == "officer" && (
               <Link className="option" to="/candidateapproval">
                 <div>
-                  <ion-icon name="calendar-outline"></ion-icon>
+                  <ion-icon name="checkmark-done-outline"></ion-icon>
                   <button>Candidate Approval</button>
                 </div>
               </Link>
@@ -44,7 +44,7 @@ const SideBar = () => {
                 </div>
               </Link>
             )}
-                  <Link className="option" to="/candidates">
+            <Link className="option" to="/candidates">
               <div>
                 <ion-icon name="shield-checkmark-outline"></ion-icon>
                 <button>

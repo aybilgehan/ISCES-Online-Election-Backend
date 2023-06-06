@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { cloneElement, useEffect, useState } from "react";
 import axios from "axios";
 import "./Home.css";
 
@@ -6,21 +6,34 @@ export default function Home(props) {
   const [electionStartDate, setElectionStartDate] = useState("NOT ANNOUNCED");
   const [electionEndDate, setElectionEndDate] = useState("NOT ANNOUNCED");
 
-  useEffect( () => {
-    getElectionDetails()
-  }, [])
+  useEffect(() => {
+    getElectionDetails();
+    checkElectionIsOn();
+  }, []);
+  const checkElectionIsOn = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/isInElectionProcess`
+      );
+      if (response.data === "false") {
+        setElectionStartDate("NOT ANNOUNCED");
+        setElectionEndDate("NOT ANNOUNCED");
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   const getElectionDetails = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:8080/getCurrentElection`
-      );
-      if(response.data.isStart) {
+      const response = await axios.get(`http://localhost:8080/electionDate`);
+      console.log(response.data);
+      if (response.data) {
         setElectionStartDate(response.data.startDate);
         setElectionEndDate(response.data.endDate);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 

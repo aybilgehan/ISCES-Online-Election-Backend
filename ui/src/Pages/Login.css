@@ -125,6 +125,11 @@
 .login-form form button:active {
   background-color: #8b0d1e;
 }
+.login-right-inner-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .forgot-password-link {
   margin-top: 12px;

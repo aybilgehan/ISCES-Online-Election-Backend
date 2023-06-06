@@ -2,21 +2,23 @@ import { useContext, useState } from "react";
 import "./CandidateForm.css";
 import axios from "axios";
 export default function CandidateForm() {
-  const studentNum = localStorage.getItem("uid")
+  const studentNum = localStorage.getItem("uid");
   const [motivationText, setMotivationText] = useState("");
   const [transcript, setTranscript] = useState("");
   const [criminalRecord, setCriminalRecord] = useState("");
   const [validCandidate, setValidCandidate] = useState(false);
   const [alertBoxContent, setAlertBoxContent] = useState("");
   // user id'im ile aday adayı olmadığım belli olacak. eğer ispending ise değiştir olacak. eğer kabulsem sayfada zaten adaysın yazacak.
-  const apply = async (candidateData)=> {
+
+  const apply = async (candidateData) => {
     console.log(candidateData);
     try {
       const response = await axios.post(
         `http://localhost:8080/applyToBeCandidate/`,
-      candidateData);
+        candidateData
+      );
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   };
   function submitHandler(e) {
@@ -41,29 +43,31 @@ export default function CandidateForm() {
   }
 
   return (
-    <div className="container">
-      <form onSubmit={submitHandler}>
-        <label className="form-label">
-          Your motivation to become a candidate:
+    <div className="be-candidate-container">
+      <form className="be-candidate-form" onSubmit={submitHandler}>
+        <label className="motivation-label">
+          <span>Your motivation to become a candidate : </span>
           <input
             type="text"
+            className="transcript-input"
             value={motivationText}
             onChange={(e) => setMotivationText(e.target.value)}
           />
         </label>
         <br />
         <br />
-        <label className="form-label">
-          Transcript of Records:
+        <label className="transcript-record-label">
+          <span>Transcript of Records:</span>
           <input
+            className="transcript-input"
             type="file"
             accept="application/pdf"
             onChange={(e) => setTranscript(e.target.files[0])}
           />
         </label>
         <br />
-        <label className="form-label">
-          Criminal Record:
+        <label className="criminal-record-label">
+          <span>Criminal Record:</span>
           <input
             type="file"
             accept="application/pdf"
@@ -71,12 +75,15 @@ export default function CandidateForm() {
           />
         </label>
         <br />
-        <button type="submit">Be Candidate</button>
+
+        <button className="be-candidate-button" type="submit">
+          Be Candidate
+        </button>
       </form>
       {validCandidate ? (
-        <div style={{ color: "green" }}>{alertBoxContent}</div>
+        <div className="alertBox-box">{alertBoxContent}</div> // true
       ) : (
-        <div style={{ color: "red" }}>{alertBoxContent}</div>
+        <div className="alertBox-box">{alertBoxContent}</div> // false
       )}
     </div>
   );

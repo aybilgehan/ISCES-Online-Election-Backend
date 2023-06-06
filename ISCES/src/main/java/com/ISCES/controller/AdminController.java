@@ -90,8 +90,11 @@ public class AdminController {// Bütün return typeler değişebilir . Response
     }
 
 
-  @PostMapping("/enterElectionDate") //  rector enters election date.
-   public ResponseEntity<ElectionRequest> enterElectionDate(@RequestBody ElectionRequest electionRequest){
+  @GetMapping("/enterElectionDate/{startDate}/{endDate}") //  rector enters election date.
+   public ResponseEntity<ElectionRequest> enterElectionDate(@PathVariable String startDate,@PathVariable String endDate){
+      LocalDateTime start = LocalDateTime.parse(startDate);
+      LocalDateTime end= LocalDateTime.parse(endDate);
+      ElectionRequest electionRequest=new ElectionRequest(start,end);
         LocalDateTime now = LocalDateTime.now();// current date
         Long electionId;
         Election tempElection = new Election();

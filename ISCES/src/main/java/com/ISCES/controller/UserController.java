@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -113,6 +114,19 @@ public class UserController { // Bütün return typeler değişebilir . Response
 
 
         return false; // if election is not setted yet
+    }
+
+    @GetMapping("/electionDate")
+    public Election getElectionDate(){
+        List<Election> elections= new ArrayList<Election>();
+        elections=electionService.getAllElections();
+        for(Election election: elections){
+            if(!election.isFinished()){
+                return election;
+            }
+
+        }
+        return null;
     }
 
 

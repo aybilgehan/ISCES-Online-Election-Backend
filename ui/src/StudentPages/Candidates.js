@@ -4,7 +4,7 @@ import axios from "axios";
 
 export default function Candidates() {
   const authCtx = useContext(AuthContext);
-  console.log(authCtx.userRole)
+  console.log(authCtx.userRole);
   const [candidates, setCandidates] = useState([]);
   const [showAlertBox, setShowAlertBox] = useState(false);
   const [isVoted, setIsVoted] = useState(false);
@@ -12,10 +12,13 @@ export default function Candidates() {
   const [votedCandidateID, setVotedCandidateID] = useState(null);
   const [electionIsOn, setElectionIsOn] = useState(null);
   var url;
-  if (authCtx.userRole === "student" || authCtx.userRole ==="candidate"){
+  if (
+    authCtx.userRole === "student" ||
+    authCtx.userRole === "candidate" ||
+    authCtx.userRole === "officer"
+  ) {
     url = `http://localhost:8080/candidates/${authCtx.userDepartment}`;
-  }
-  else {
+  } else {
     url = `http://localhost:8080/candidates/allCandidates`;
   }
   const studentNum = localStorage.getItem("uid");
@@ -43,6 +46,10 @@ export default function Candidates() {
   const fetchCandidateInfo = async () => {
     try {
       const response = await axios.get(url);
+      console.log(url);
+
+      console.log(response.data);
+
       setCandidates(response.data);
     } catch (error) {
       console.error("Error fetching candidates:", error);
@@ -77,38 +84,66 @@ export default function Candidates() {
     setVotedCandidateID(candidate.candidateId);
     setShowAlertBox(!showAlertBox);
   };
-  const departmentIds = [1,2,3,4]
+  const departmentIds = [1, 2, 3, 4];
   const voteForm = (
     <div className="container">
-      <ul>
-        {departmentIds.map((departmentId) => (
-          <li key={departmentId}>
-            <strong>{departmentId}</strong>
-            <ul>
-              {candidates.map((candidate, index) => {
-                if (candidate.student.departmentId === departmentId) {
-                  return (
-                    <li key={index}>
-                      Candidate Name: {candidate.student.firstName}
-                      <br />
-                      Candidate Vote: {candidate.votes}
-                      <br />
-                      {/* Diğer bilgileri buraya ekleyebilirsiniz */}
-                      {authCtx.userRole === "student" || authCtx.userRole === "candidate" && (
-                        <button onClick={() => alertBoxHandler(candidate)}>Vote</button>
-                      )}
-                    </li>
-                  );
-                }
-                return null;
-              })}
-            </ul>
-          </li>
-        ))}
-      </ul>
+      {candidates.length > 0 && authCtx.userRole === "officer" && (
+        <ul>
+          {candidates.map((candidate, index) => {
+            return (
+              <li key={index}>
+                Candidate Name: {candidate.student.firstName}
+                <br />
+                Candidate Vote: {candidate.votes}
+                <br />
+                {/* Diğer bilgileri buraya ekleyebilirsiniz */}
+                {authCtx.userRole === "student" ||
+                  (authCtx.userRole === "candidate" && (
+                    <button onClick={() => alertBoxHandler(candidate)}>
+                      Vote
+                    </button>
+                  ))}
+              </li>
+            );
+
+            return null;
+          })}
+        </ul>
+      )}
+      {candidates.length > 0 && authCtx.userRole === "rector" && (
+        <ul>
+          {departmentIds.map((departmentId) => (
+            <li key={departmentId}>
+              <strong>Department: {departmentId}</strong>
+              <ul>
+                {candidates.map((candidate, index) => {
+                  if (candidate.student.departmentId === departmentId) {
+                    return (
+                      <li key={index}>
+                        Candidate Name: {candidate.student.firstName}
+                        <br />
+                        Candidate Vote: {candidate.votes}
+                        <br />
+                        {/* Diğer bilgileri buraya ekleyebilirsiniz */}
+                        {authCtx.userRole === "student" ||
+                          (authCtx.userRole === "candidate" && (
+                            <button onClick={() => alertBoxHandler(candidate)}>
+                              Vote
+                            </button>
+                          ))}
+                      </li>
+                    );
+                  }
+                  return null;
+                })}
+              </ul>
+            </li>
+          ))}
+        </ul>
+      )}
+      {candidates.length == 0 && <h3>There are no candidates yet.</h3>}
     </div>
   );
-  
 
   const electionNotStartBox = <h1>There is no election right now!</h1>;
   const reload = () => {
@@ -148,16 +183,17 @@ export default function Candidates() {
     </div>
   );
 
-
+  console.log(isVoted);
+  console.log(electionIsOn);
+  console.log(showAlertBox);
 
   return (
     <div>
       {!electionIsOn && electionNotStartBox}
       {showSentVoteInfo && votedInfo}
-      {(showAlertBox && !showSentVoteInfo) && alertBox}
-      {(!isVoted && electionIsOn && !showAlertBox) && voteForm}
+      {showAlertBox && !showSentVoteInfo && alertBox}
+      {!isVoted && electionIsOn && !showAlertBox && voteForm}
       {isVoted && afterVoteScreen}
-
     </div>
   );
 }

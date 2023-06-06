@@ -34,7 +34,7 @@ const Login = () => {
           returned = returned.admin;
           const userDepartment = returned.departmentId;
           authCtx.setUserDepartmentData(userDepartment);
-          localStorage.setItem("userDepartment", userDepartment); 
+          localStorage.setItem("userDepartment", userDepartment);
         }
         if (res.data.role === "student" || res.data.role === "candidate") {
           localStorage.setItem("uid", returned.student.studentNumber);
@@ -137,7 +137,7 @@ const Login = () => {
               </a>
             </div>
           </div>
-          <div className="right-inner-box">
+          <div className="login-right-inner-box">
             <img
               className="login-img"
               src={require("../images/login/server_cluster.png")}
