@@ -19,11 +19,11 @@ const Login = () => {
   }
   const submitHandler = async (event) => {
     event.preventDefault();
-  const email = enteredEmail.trim();
-  const password = enteredPassword.trim();
-  try {
-    const activationURL = "https://localhost:8080/login";
-    const res = await axios.post(activationURL, { email, password });
+    const email = enteredEmail.trim();
+    const password = enteredPassword.trim();
+    try {
+      const activationURL = `https://localhost:8080/login/${email}/${password}`;
+    const res = await axios.get(activationURL);
       if (res.status === 200) {
         let returned = res.data;
         if (returned.role === "candidate") {
