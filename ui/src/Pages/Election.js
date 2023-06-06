@@ -69,6 +69,7 @@ function Election() {
               <option value="1">Electronic Engineering</option>
               <option value="2">Computer Engineering</option>
               <option value="3">Mechanical Engineering</option>
+              <option value="4">Civil Engineering</option>
             </select>
           </form>
           <Chart
@@ -78,7 +79,17 @@ function Election() {
           />
         </div>
       ) : (
-        <h1>There are no candidates for this department.</h1>
+        <div>
+          <form>
+            <select value={department} onChange={chartHandler}>
+              <option value="1">Electronic Engineering</option>
+              <option value="2">Computer Engineering</option>
+              <option value="3">Mechanical Engineering</option>
+              <option value="4">Civil Engineering</option>
+            </select>
+          </form>
+          <h1>There are no candidates for this department.</h1>
+        </div>
       )}
     </div>
   );

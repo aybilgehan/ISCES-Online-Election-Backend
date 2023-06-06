@@ -11,6 +11,7 @@ export default function Candidates() {
   const [showSentVoteInfo, setShowSentVoteInfo] = useState(false);
   const [votedCandidateID, setVotedCandidateID] = useState(null);
   const [electionIsOn, setElectionIsOn] = useState(null);
+  const [departmentName, setDepartmentName] = useState(null);
   var url;
   if (
     authCtx.userRole === "student" ||
@@ -59,7 +60,9 @@ export default function Candidates() {
   const fetchUserInfo = async () => {
     try {
       const response = await axios.get(getStudentUrl);
-      setIsVoted(response.data.voted);
+      if (authCtx.userRole === "student" || authCtx.userRole === "candidate") {
+        setIsVoted(response.data.voted);
+      }
     } catch (error) {
       console.error("Error fetching user:", error);
     }
@@ -84,7 +87,14 @@ export default function Candidates() {
     setVotedCandidateID(candidate.candidateId);
     setShowAlertBox(!showAlertBox);
   };
+  const departmentNames = [
+    "Electrical Engineering",
+    "Computer Engineering",
+    "Mechanical Engineering",
+    "Civil Engineering",
+  ];
   const departmentIds = [1, 2, 3, 4];
+
   const voteForm = (
     <div className="container">
       {candidates.length > 0 && authCtx.userRole === "officer" && (
@@ -114,7 +124,7 @@ export default function Candidates() {
         <ul>
           {departmentIds.map((departmentId) => (
             <li key={departmentId}>
-              <strong>Department: {departmentId}</strong>
+              <strong>Department: {departmentNames[departmentId - 1]}</strong>
               <ul>
                 {candidates.map((candidate, index) => {
                   if (candidate.student.departmentId === departmentId) {
