@@ -2,107 +2,141 @@ import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
-import "./SetElectionDate.css";
 
 const SetElectionDate = () => {
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
-  const [electionIsOn, setElectionIsOn] = useState(false);
+  const [enteredStartDate, setEnteredStartDate] = useState(null);
+  const [enteredEndDate, setEnteredEndDate] = useState(null);
+  const [showAlertBox, setShowAlertBox] = useState(false);
+  const [isInElectionProcess, setIsInElectionProcess] = useState(false);
+  const alertBox = (
+    <div>
+      Invalid date<button onClick={changeAlertBoxVisible}>ok</button>
+    </div>
+  );
+  const inElectionBox = <h1>We are already in election!</h1>;
 
   useEffect(() => {
     checkElectionIsOn();
   }, []);
-
   const checkElectionIsOn = async () => {
     try {
       const response = await axios.get(
         "http://localhost:8080/isInElectionProcess"
       );
-      setElectionIsOn(response.data);
+      setIsInElectionProcess(response.data);
     } catch (error) {
       // Handle error
     }
   };
-
+  function changeAlertBoxVisible() {
+    setEnteredStartDate(null);
+    setEnteredEndDate(null);
+    setShowAlertBox(!showAlertBox);
+    //reload();
+  }
+  const reload = () => {
+    window.location.reload();
+  };
   const handleDateTimeChange = (date, inputType) => {
     if (inputType === "start") {
-      setStartDate(date);
+      setEnteredStartDate(date);
     } else if (inputType === "end") {
-      setEndDate(date);
+      setEnteredEndDate(date);
     }
   };
+  async function electionFetch(startDate, endDate) {
+    try {
+      const url = `http://localhost:8080/enterElectionDate/${startDate}/${endDate}`;
 
+      const response = await axios.get(url);
+      setIsInElectionProcess(true);
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+  function isInputValid(startDate, endDate) {
+    if (startDate && endDate) {
+      const currentDate = new Date();
+      console.log(currentDate);
+
+      return startDate < endDate && startDate > currentDate;
+    }
+    return false;
+  }
   const handleSubmit = (e) => {
     e.preventDefault();
     localStorage.setItem("isDateSet", true);
-    if (startDate) {
+    if (isInputValid(enteredStartDate, enteredEndDate)) {
       let startDateConverted = new Date(
-        startDate.getTime() + 3 * 60 * 60 * 1000
+        enteredStartDate.getTime() + 3 * 60 * 60 * 1000
       );
-      let endDateConverted = new Date(endDate.getTime() + 3 * 60 * 60 * 1000);
+      let endDateConverted = new Date(
+        enteredEndDate.getTime() + 3 * 60 * 60 * 1000
+      );
       startDateConverted = startDateConverted.toISOString().substring(0, 19);
       endDateConverted = endDateConverted.toISOString().substring(0, 19);
-      console.log("Selected date and time:", startDateConverted);
-      console.log("Selected date and time:", endDateConverted);
-      const startUrl = `http://localhost:8080/enterElectionDate/${startDateConverted}/${endDateConverted}`;
-      axios.get(startUrl).then((response) => {
-        console.log(response.status, response);
-      });
+      // setEnteredStartDate(startDateConverted);
+      // setEnteredEndDate(endDateConverted);
+      console.log(startDateConverted);
+      console.log(endDateConverted);
+
+      electionFetch(startDateConverted, endDateConverted);
+    } else {
+      changeAlertBoxVisible();
     }
-    setStartDate(null);
-    setEndDate(null);
   };
-
+  console.log(isInElectionProcess);
+  const endElection = (e) => {
+    //BU KOD SADECE TEST İÇİN EKLENDİ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    e.preventDefault();
+    localStorage.setItem("isDateSet", false);
+  };
+  const setElectionForm = (
+    <div>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="start-date-time">Set Start Date and Time</label>
+        <br />
+        <br />
+        <DatePicker
+          id="start-date-time"
+          selected={enteredStartDate}
+          onChange={(date) => handleDateTimeChange(date, "start")}
+          dateFormat="yyyy-MM-dd HH:mm"
+          showTimeInput
+          timeInputLabel="Time:"
+          timeFormat="HH:mm"
+          placeholderText="YYYY-MM-DD HH:mm"
+        />
+        <br />
+        <br />
+        <label htmlFor="end-date-time">Set End Date and Time</label>
+        <br />
+        <br />
+        <DatePicker
+          id="end-date-time"
+          selected={enteredEndDate}
+          onChange={(date) => handleDateTimeChange(date, "end")}
+          dateFormat="yyyy-MM-dd HH:mm"
+          showTimeInput
+          timeInputLabel="Time:"
+          timeFormat="HH:mm"
+          placeholderText="YYYY-MM-DD HH:mm"
+        />
+        <br />
+        <br />
+        <button type="submit">Set</button>
+      </form>
+      <form>
+        <button onSubmit={endElection}>End Election</button>
+      </form>
+    </div>
+  );
+  console.log(showAlertBox);
   return (
-    <div className="set-election-date-container">
-      {!electionIsOn ? (
-        <form onSubmit={handleSubmit}>
-          <div className="date-time-boxes">
-            <div className="start-date-time-box date-time-box">
-              <label htmlFor="start-date-time">Set Start Date and Time</label>
-              <br />
-              <br />
-              <DatePicker
-                id="start-date-time"
-                selected={startDate}
-                onChange={(date) => handleDateTimeChange(date, "start")}
-                dateFormat="yyyy-MM-dd HH:mm"
-                showTimeInput
-                timeInputLabel="Time:"
-                timeFormat="HH:mm"
-                placeholderText="YYYY-MM-DD HH:mm"
-              />
-            </div>
-
-            <br />
-            <br />
-            <div className="end-date-time-box date-time-box">
-              <label htmlFor="end-date-time">Set End Date and Time</label>
-              <br />
-              <br />
-              <DatePicker
-                id="end-date-time"
-                selected={endDate}
-                onChange={(date) => handleDateTimeChange(date, "end")}
-                dateFormat="yyyy-MM-dd HH:mm"
-                showTimeInput
-                timeInputLabel="Time:"
-                timeFormat="HH:mm"
-                placeholderText="YYYY-MM-DD HH:mm"
-              />
-            </div>
-          </div>
-          <br />
-          <br />
-          <button className="set-election-date-button" type="submit">
-            Set
-          </button>
-        </form>
-      ) : (
-        <div>Election is currently active.</div>
-      )}
+    <div>
+      {isInElectionProcess && inElectionBox}
+      {showAlertBox ? alertBox : setElectionForm}
     </div>
   );
 };
-
 export default SetElectionDate;
