@@ -2,12 +2,15 @@ CREATE DATABASE  IF NOT EXISTS `isces_directory`;
 USE `isces_directory`;
 
 
-
+DROP TABLE IF EXISTS `folder`;
+DROP TABLE IF EXISTS `files`;
 DROP TABLE IF EXISTS `user`;
 DROP TABLE IF EXISTS `student`;
 DROP TABLE IF EXISTS `candidate`;
 DROP TABLE IF EXISTS `admin`;
 DROP TABLE IF EXISTS `election`;
+
+
 
 --
 -- Table structure for ısces
@@ -59,6 +62,17 @@ CREATE TABLE `election` (
   PRIMARY KEY (`election_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE `folder` (
+  `folder_id` BIGINT PRIMARY KEY AUTO_INCREMENT,
+  `student_number` BIGINT NOT NULL,
+  `folder_directory` VARCHAR(255)
+)ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `files` (
+  `id` BIGINT PRIMARY KEY AUTO_INCREMENT,
+  `file_path` VARCHAR(255),
+  `folder_id` BIGINT
+)ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
 
@@ -100,7 +114,7 @@ VALUES
 
 INSERT INTO `student`
 VALUES
-(270201051, 1, 'Ahmet', 'Özdemir', 2.73, 3, 0, 'ahmetozdemir1@std.iyte.edu.tr', false),
+(270201051, 1, 'Ahmet', 'Özdemir', 2.47, 3, 0, 'ahmetozdemir1@std.iyte.edu.tr', false),
 (270201052, 1, 'Ahmet', 'Özdemir', 2.73, 3, 0, 'ahmetozdemir2@std.iyte.edu.tr', false),
 (270201053, 1, 'Ahmet', 'Özdemir', 2.73, 3, 0, 'ahmetozdemir3@std.iyte.edu.tr', false),
 (270201054, 1, 'Ahmet', 'Özdemir', 2.73, 3, 0, 'ahmetozdemir4@std.iyte.edu.tr', false),

@@ -55,4 +55,8 @@ public class CandidateService {
     public Candidate findByStudent_StudentNumber(Long studentNumber){
         return candidateRepo.findByStudent_StudentNumber(studentNumber);
     }
+
+    public void deleteCandidate(Candidate candidate){
+        candidateRepo.delete(candidate);
+    }
 }

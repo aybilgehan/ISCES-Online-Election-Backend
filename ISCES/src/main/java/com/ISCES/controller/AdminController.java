@@ -8,13 +8,12 @@ import com.ISCES.service.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
+
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 @Getter
 @Setter
@@ -74,6 +73,7 @@ public class AdminController {// Bütün return typeler değişebilir . Response
             Candidate savedCandidate = candidateService.save(tempCandidate);
             return candidateService.save(tempCandidate); // it returns the candidate who is approved by officer.
         }
+        // mail yollanacak adaylığı kabul edilen öğrenciye
         return tempCandidate;
     }
 
@@ -85,46 +85,51 @@ public class AdminController {// Bütün return typeler değişebilir . Response
             studentService.findByStudentNumber(studentNumber).setIsAppliedForCandidacy(null); // isAppliedCandidacy of student is changed to null
             return studentService.save(studentService.findByStudentNumber(studentNumber));// It returns and saves the student who is rejected by officer.
         }
+        // reddedilen öğrenciye mail yollanıcak.
         return null;
     }
 
 
-    @GetMapping("/enterElectionDate/{startDate}/{endDate}")  //  rector enters election date.
-   public ResponseEntity<ElectionRequest> enterElectionDate(@PathVariable String startDate,@PathVariable String endDate){
-        LocalDateTime start = LocalDateTime.parse(startDate);
-        LocalDateTime end= LocalDateTime.parse(endDate);
-        ElectionRequest electionRequest=new ElectionRequest(start,end);
-
+  @PostMapping("/enterElectionDate") //  rector enters election date.
+   public ResponseEntity<ElectionRequest> enterElectionDate(@RequestBody ElectionRequest electionRequest){
         LocalDateTime now = LocalDateTime.now();// current date
         Long electionId;
         Election tempElection = new Election();
-        if(!electionService.isThereStartedElection() && electionRequest.getStartDate().isAfter(now) && electionRequest.getEndDate().isAfter(now) && electionRequest.getStartDate().isBefore(electionRequest.getEndDate())) { // if an election didn't start.
+        if(!electionService.isEnteredElectionDateByRector() && electionRequest.getStartDate().isAfter(now) && electionRequest.getEndDate().isAfter(now) && electionRequest.getStartDate().isBefore(electionRequest.getEndDate())) { // if an election didn't start.
             electionId = Long.valueOf(electionService.getAllElections().size() + 1);
             tempElection.setElectionId(electionId);
-            tempElection.setFinished(false);
+            tempElection.setIsFinished(false);
             tempElection.setStartDate(electionRequest.getStartDate());
             tempElection.setEndDate(electionRequest.getEndDate());
+               for(Student student: studentService.getAllStudents()){
+                   if(student.isVoted()){ //  isVoted of voters are changed to false  for next year election
+                       student.setVoted(false);
+                   }
+                   else if(student.getIsAppliedForCandidacy()){ // changed to false for all students
+                       student.setIsAppliedForCandidacy(false);
+                   }
+                   else if(student.getUser().getRole().equals("candidate")){ //  changed false for  next year election
+                       student.getUser().setRole("student");
+                   }
+               }
+               for(Candidate candidate: candidateService.getAllCandidates()){ //  candidates are deleted.
+                   candidateService.deleteCandidate(candidate);
+               }
+
+               // mail yollama eklenecek
+
+
+
             try {
                 electionService.save(tempElection);
                 return new ResponseEntity<>(new ElectionRequest(electionRequest.getStartDate(), electionRequest.getEndDate()), HttpStatus.OK);
             } catch (Exception e) {
-                return new ResponseEntity<>(new ElectionRequest(), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(new ElectionRequest("Election couldn't be setted."), HttpStatus.BAD_REQUEST);
             }
         }
-        return new ResponseEntity<>(new ElectionRequest(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new ElectionRequest("Rector has already entered a date"), HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping("/electionDate")
-    public Election getElectionDate(){
-        List<Election> elections= new ArrayList<Election>();
-        elections=electionService.getAllElections();
-        for(Election election: elections){
-            if(!election.isFinished()){
-                return election;
-            }
 
-        }
-        return null;
-    }
 
 }

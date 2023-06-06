@@ -20,6 +20,8 @@ public class ElectionRequest {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm", shape = JsonFormat.Shape.STRING)
     private LocalDateTime endDate;
 
+    private String message;
+
 
 
     public ElectionRequest(LocalDateTime startDate,LocalDateTime endDate) {
@@ -27,7 +29,8 @@ public class ElectionRequest {
         this.endDate = endDate;
     }
 
-    public ElectionRequest() {
+    public ElectionRequest(String message) {
+        this.message = message;
     }
 
 

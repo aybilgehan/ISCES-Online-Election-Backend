@@ -23,4 +23,8 @@ public class AdminService {
         return adminRepo.findByUser_Email(email);
     }
 
+    public Admin findByDepartmentId(Long departmentId){
+        return adminRepo.findByDepartmentId(departmentId);
+    }
+
 }

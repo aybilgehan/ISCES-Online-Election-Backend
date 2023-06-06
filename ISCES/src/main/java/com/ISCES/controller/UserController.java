@@ -51,9 +51,10 @@ public class UserController { // Bütün return typeler değişebilir . Response
 
     @GetMapping("/login/{email}/{password}")// user logins with email and password
     public ResponseEntity<LoginResponse> login(@PathVariable String email, @PathVariable String password) {
+        LocalDateTime now = LocalDateTime.now();
         String controller = "";// message for frontend  (Logged-in )
         User user = userService.findByEmail(email);
-        boolean isElectionStarted = electionService.isThereStartedElection();
+        boolean isElectionStarted = electionService.isThereStartedElection(now);
         if (user != null && user.getPassword().equals(password)){
             controller = "Logged-in";
         }
@@ -94,9 +95,21 @@ public class UserController { // Bütün return typeler değişebilir . Response
 
 
 
-    @GetMapping("/isInElectionProcess") // checks whether in election or not
+    @GetMapping("/isInElectionProcess") // checks whether in election process or not
     public boolean checkElectionInitialization(){
-        return electionService.isThereStartedElection();
+        LocalDateTime now = LocalDateTime.now();
+        if(electionService.isThereStartedElection(now)){
+            return true;
+        }       // if we are in election process
+
+        else if(!electionService.isThereStartedElection(now) && electionService.findByIsFinished(false).getEndDate().isBefore(now)){//  if election finished...
+            Election tempElection = electionService.findByIsFinished(false);
+            tempElection.setIsFinished(true);
+            electionService.save(tempElection);
+            return false; //  returns false and updates database.
+        }
+
+        return electionService.isThereStartedElection(now); // if election is not started yet...
     }
 
 

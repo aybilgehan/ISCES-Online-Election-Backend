@@ -3,7 +3,6 @@ package com.ISCES.controller;
 
 import com.ISCES.entities.Candidate;
 import com.ISCES.service.CandidateService;
-import com.ISCES.service.UserService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
