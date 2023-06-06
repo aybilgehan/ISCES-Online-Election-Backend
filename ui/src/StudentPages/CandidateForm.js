@@ -12,13 +12,9 @@ export default function CandidateForm() {
   const apply = async (candidateData)=> {
     console.log(candidateData);
     try {
-      const response = await axios.get(
-        `http://localhost:8080/applyToBeCandidate/${studentNum}`
-      );
-      console.log("***********")
-      console.log(response);
-      if (response.status === 200) {
-      }
+      const response = await axios.post(
+        `http://localhost:8080/applyToBeCandidate/`,
+      candidateData);
     } catch (error) {
       console.error(error)
     }
