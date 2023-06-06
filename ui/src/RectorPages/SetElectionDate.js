@@ -8,6 +8,12 @@ const SetElectionDate = () => {
   const [enteredEndDate, setEnteredEndDate] = useState(null);
   const [showAlertBox, setShowAlertBox] = useState(false);
   const [isInElectionProcess, setIsInElectionProcess] = useState(false);
+  const [isElectionSettedNotStarted, setIsElectionSettedNotStarted] = useState(false);
+  const electionSettedSuccessfully = (
+    <div>
+      <p>Election Setted Successfully</p>
+    </div>
+  )
   const alertBox = (
     <div>
       Invalid date<button onClick={changeAlertBoxVisible}>ok</button>
@@ -32,11 +38,8 @@ const SetElectionDate = () => {
     setEnteredStartDate(null);
     setEnteredEndDate(null);
     setShowAlertBox(!showAlertBox);
-    //reload();
   }
-  const reload = () => {
-    window.location.reload();
-  };
+
   const handleDateTimeChange = (date, inputType) => {
     if (inputType === "start") {
       setEnteredStartDate(date);
@@ -49,7 +52,7 @@ const SetElectionDate = () => {
       const url = `http://localhost:8080/enterElectionDate/${startDate}/${endDate}`;
 
       const response = await axios.get(url);
-      setIsInElectionProcess(true);
+      
     } catch (error) {
       console.log(error.message);
     }
@@ -57,14 +60,12 @@ const SetElectionDate = () => {
   function isInputValid(startDate, endDate) {
     if (startDate && endDate) {
       const currentDate = new Date();
-      console.log(currentDate);
 
       return startDate < endDate && startDate > currentDate;
     }
     return false;
   }
   const handleSubmit = (e) => {
-    e.preventDefault();
     localStorage.setItem("isDateSet", true);
     if (isInputValid(enteredStartDate, enteredEndDate)) {
       let startDateConverted = new Date(
@@ -75,22 +76,12 @@ const SetElectionDate = () => {
       );
       startDateConverted = startDateConverted.toISOString().substring(0, 19);
       endDateConverted = endDateConverted.toISOString().substring(0, 19);
-      // setEnteredStartDate(startDateConverted);
-      // setEnteredEndDate(endDateConverted);
-      console.log(startDateConverted);
-      console.log(endDateConverted);
-
       electionFetch(startDateConverted, endDateConverted);
     } else {
       changeAlertBoxVisible();
     }
   };
-  console.log(isInElectionProcess);
-  const endElection = (e) => {
-    //BU KOD SADECE TEST İÇİN EKLENDİ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    e.preventDefault();
-    localStorage.setItem("isDateSet", false);
-  };
+
   const setElectionForm = (
     <div>
       <form onSubmit={handleSubmit}>
@@ -126,16 +117,43 @@ const SetElectionDate = () => {
         <br />
         <button type="submit">Set</button>
       </form>
-      <form>
-        <button onSubmit={endElection}>End Election</button>
-      </form>
     </div>
   );
-  console.log(showAlertBox);
+  useEffect(() => {
+    getElectionDetails();
+  }, []);
+  const getElectionDetails = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8080/electionDate`);
+      console.log(response.data);
+      if (response.data.startDate > new Date()) {
+        console.log(1);
+        setIsElectionSettedNotStarted(true);
+        setIsInElectionProcess(false);
+      }
+      else if (response.data == ""){
+        console.log(2)
+        setIsElectionSettedNotStarted(false);
+        setIsInElectionProcess(false);
+      }
+      else {
+        console.log(3);
+        setIsElectionSettedNotStarted(true);
+        setIsInElectionProcess(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  console.log("isElectionsettedNotStarted", isElectionSettedNotStarted);
+  console.log("isinelectionproccess",isInElectionProcess);
+
   return (
     <div>
       {isInElectionProcess && inElectionBox}
-      {showAlertBox ? alertBox : setElectionForm}
+      {showAlertBox && alertBox}
+      {isElectionSettedNotStarted && electionSettedSuccessfully}
+      {(!isElectionSettedNotStarted && !showAlertBox && !isInElectionProcess) && setElectionForm}
     </div>
   );
 };
