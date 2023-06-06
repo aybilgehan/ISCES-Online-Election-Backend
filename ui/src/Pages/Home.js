@@ -40,7 +40,7 @@ export default function Home(props) {
   return (
     <div className="home-temp-container">
       <div className="home-header">
-        <h1 className="home-title">IZTECH ONLINE ELECTION SYSTEM!</h1>
+        <h1 className="home-title">IZTECH ONLINE ELECTION SYSTEM</h1>
       </div>
       <section>
         <div className="home-left-box">
