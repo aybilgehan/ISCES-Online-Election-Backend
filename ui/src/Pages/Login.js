@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import AuthContext from "../context/AuthContext";
 import "./Login.css";
 import axios from "axios";
+import fetch from "node-fetch";
 const Login = () => {
   const alertBox = (
     <div className="AlertBox">
@@ -20,6 +21,7 @@ const Login = () => {
   const submitHandler = async (event) => {
     event.preventDefault();
 <<<<<<< HEAD
+<<<<<<< HEAD
   const email = enteredEmail.trim();
   const password = enteredPassword.trim();
   try {
@@ -33,6 +35,20 @@ const Login = () => {
       const res = await axios.get(activationURL);
 
 >>>>>>> parent of 0ffc3fa (deploy connection)
+=======
+    const email = enteredEmail.trim();
+    const password = enteredPassword.trim();
+    try {
+      fetch('https://iztechelection.herokuapp.com/login', {  // Enter your IP address here
+
+      method: 'POST', 
+      mode: 'cors', 
+      res: JSON.stringify({email:email,password:password}) // body data type must match "Content-Type" header
+
+    })
+     
+
+>>>>>>> parent of 0def6ea (123karaduman123)
       if (res.status === 200) {
         let returned = res.data;
         if (returned.role === "candidate") {
