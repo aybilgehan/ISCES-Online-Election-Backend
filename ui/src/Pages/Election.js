@@ -5,11 +5,9 @@ import AuthContext from "../context/AuthContext";
 import axios from "axios";
 
 function Election() {
-  const authCtx = useContext(AuthContext);
   const [department, setDepartment] = useState(1);
   const [electionIsOn, setElectionIsOn] = useState(false);
   const [filteredCandidates, setFilteredCandidates] = useState([]);
-  const [candidates, setCandidates] = useState([]);
   const [candidateCount, setCandidateCount] = useState(0);
 
   const checkElectionIsOn = async () => {
@@ -34,9 +32,9 @@ function Election() {
       ];
       console.log(transformedCandidates);
 
-      setCandidates(transformedCandidates);
       setCandidateCount(response.data.length); // Set the candidate count
       setFilteredCandidates(transformedCandidates);
+      console.log(filteredCandidates);
     } catch (error) {
       console.error("Error fetching candidates:", error);
     }
@@ -60,9 +58,8 @@ function Election() {
 
   return (
     <div className="container">
-      {electionIsOn ? (
-        <h1>Election is currently in progress.</h1>
-      ) : candidateCount !== 0 ? (
+      {electionIsOn && <h1>Election is currently in progress.</h1>}
+      {!electionIsOn && candidateCount !== 0 && (
         <div>
           <form>
             <select value={department} onChange={chartHandler}>
@@ -78,7 +75,8 @@ function Election() {
             options={options}
           />
         </div>
-      ) : (
+      )}
+      {!electionIsOn && candidateCount === 0 && (
         <div>
           <form>
             <select value={department} onChange={chartHandler}>

@@ -97,7 +97,7 @@ export default function Candidates() {
 
   const voteForm = (
     <div className="container">
-      {candidates.length > 0 && authCtx.userRole === "officer" && (
+      {candidates.length > 0 && authCtx.userRole !== "officer" && (
         <ul>
           {candidates.map((candidate, index) => {
             return (
