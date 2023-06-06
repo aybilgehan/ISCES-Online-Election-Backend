@@ -22,8 +22,8 @@ const Login = () => {
     const email = enteredEmail.trim();
     const password = enteredPassword.trim();
     try {
-      const activationURL = `https://iztechelection.herokuapp.com/login/${email}/${password}`;
-      const res = await axios.get(activationURL);
+      const activationURL = `https://iztechelection.herokuapp.com/login`;
+      const res = await axios.post(activationURL,{email:email,password:password});
 
       if (res.status === 200) {
         let returned = res.data;
