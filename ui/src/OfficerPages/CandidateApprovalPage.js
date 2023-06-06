@@ -7,7 +7,7 @@ const CandidateApprovalPage = () => {
   const [unEvalCandidates, setUnEvalCandidates] = useState([]);
   const [isElectionOn, setIsElectionOn] = useState(false);
   const url = `http://localhost:8080/unevaluatedStudents/${authCtx.userDepartment}`;
-  let returned = <h1>There is no election right now!</h1>;
+  let returned = <h1>Election has already started!</h1>;
 
   useEffect(() => {
     checkElectionIsOn();
@@ -74,7 +74,7 @@ const CandidateApprovalPage = () => {
 
   return (
     <>
-      {isElectionOn ? (
+      {!isElectionOn ? (
         <div>
           {unEvalCandidates.length > 0 ? (
             <div>
