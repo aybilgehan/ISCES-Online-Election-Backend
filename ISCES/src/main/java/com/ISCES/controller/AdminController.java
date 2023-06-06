@@ -95,39 +95,37 @@ public class AdminController {// Bütün return typeler değişebilir . Response
         LocalDateTime now = LocalDateTime.now();// current date
         Long electionId;
         Election tempElection = new Election();
-        if(!electionService.isEnteredElectionDateByRector() && electionRequest.getStartDate().isAfter(now) && electionRequest.getEndDate().isAfter(now) && electionRequest.getStartDate().isBefore(electionRequest.getEndDate())) { // if an election didn't start.
-            electionId = Long.valueOf(electionService.getAllElections().size() + 1);
-            tempElection.setElectionId(electionId);
-            tempElection.setIsFinished(false);
-            tempElection.setStartDate(electionRequest.getStartDate());
-            tempElection.setEndDate(electionRequest.getEndDate());
-               for(Student student: studentService.getAllStudents()){
-                   if(student.isVoted()){ //  isVoted of voters are changed to false  for next year election
-                       student.setVoted(false);
-                   }
-                   else if(student.getIsAppliedForCandidacy()){ // changed to false for all students
-                       student.setIsAppliedForCandidacy(false);
-                   }
-                   else if(student.getUser().getRole().equals("candidate")){ //  changed false for  next year election
-                       student.getUser().setRole("student");
-                   }
-               }
-               for(Candidate candidate: candidateService.getAllCandidates()){ //  candidates are deleted.
-                   candidateService.deleteCandidate(candidate);
-               }
-
-               // mail yollama eklenecek
-
-
-
-            try {
-                electionService.save(tempElection);
-                return new ResponseEntity<>(new ElectionRequest(electionRequest.getStartDate(), electionRequest.getEndDate()), HttpStatus.OK);
-            } catch (Exception e) {
-                return new ResponseEntity<>(new ElectionRequest("Election couldn't be setted."), HttpStatus.BAD_REQUEST);
+        if(!electionService.isEnteredElectionDateByRector()) { // if rector didn't set an election.
+            if (electionRequest.getStartDate().isAfter(now) && electionRequest.getEndDate().isAfter(now) && electionRequest.getStartDate().isBefore(electionRequest.getEndDate())) { // if rector enters notvalid date for now.
+                electionId = Long.valueOf(electionService.getAllElections().size() + 1);
+                tempElection.setElectionId(electionId);
+                tempElection.setFinished(false);
+                tempElection.setStartDate(electionRequest.getStartDate());
+                tempElection.setEndDate(electionRequest.getEndDate());
+                for (Student student : studentService.getAllStudents()) {
+                    if (student.isVoted()) { //  isVoted of voters are changed to false  for next year election
+                        student.setVoted(false);
+                    } else if (student.getIsAppliedForCandidacy()) { // changed to false for all students
+                        student.setIsAppliedForCandidacy(false);
+                    } else if (student.getUser().getRole().equals("candidate")) { //  changed false for  next year election
+                        student.getUser().setRole("student");
+                    }
+                }
+                for (Candidate candidate : candidateService.getAllCandidates()) { //  candidates are deleted.
+                    candidateService.deleteCandidate(candidate);
+                }
+                // mail yollama eklenecek
+                try {
+                    electionService.save(tempElection);
+                    return new ResponseEntity<>(new ElectionRequest(electionRequest.getStartDate(), electionRequest.getEndDate()), HttpStatus.OK);
+                } catch (Exception e) {
+                    return new ResponseEntity<>(new ElectionRequest("Election couldn't be setted."), HttpStatus.BAD_REQUEST);
+                }
             }
+            return new ResponseEntity<>(new ElectionRequest("Entered date is not valid. Try to enter different end date or start date"), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(new ElectionRequest("Rector has already entered a date"), HttpStatus.BAD_REQUEST);
+
+        return new ResponseEntity<>(new ElectionRequest("Rector has already setted an election"), HttpStatus.BAD_REQUEST);
     }
 
 

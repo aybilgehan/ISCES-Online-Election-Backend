@@ -35,7 +35,7 @@ public class Election {
 
 
     @Column(name = "is_finished")
-    private Boolean isFinished;
+    private boolean isFinished;
 
 
 }

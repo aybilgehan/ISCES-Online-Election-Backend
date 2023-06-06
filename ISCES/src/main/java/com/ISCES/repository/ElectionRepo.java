@@ -5,5 +5,5 @@ import com.ISCES.request.ElectionRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ElectionRepo extends JpaRepository<Election, Long> {
-    Election findByIsFinished(Boolean isFinished);
+    Election findByIsFinished(boolean isFinished);
 }

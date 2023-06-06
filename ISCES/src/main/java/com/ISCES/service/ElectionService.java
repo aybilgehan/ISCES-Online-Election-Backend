@@ -32,7 +32,7 @@ public class ElectionService {
     }
 
     @Transactional
-    public Election findByIsFinished(Boolean isFinished){
+    public Election findByIsFinished(boolean isFinished){
         return electionRepo.findByIsFinished(isFinished);
     }
 
@@ -40,12 +40,17 @@ public class ElectionService {
 
     @Transactional
     public boolean isThereStartedElection(LocalDateTime currentTime) {
-        return electionRepo.findByIsFinished(false) != null && electionRepo.findByIsFinished(false).getStartDate().isBefore(currentTime) && electionRepo.findByIsFinished(false).getEndDate().isAfter(currentTime);
+        Election election = electionRepo.findByIsFinished(false); // a not finished election
+        if (election == null) {
+            return false;
+        }
+        return  election.getStartDate().isBefore(currentTime) && election.getEndDate().isAfter(currentTime); // if times are okay.
     } //  checks for is there any election that initialize by rector.
 
     @Transactional
     public boolean isEnteredElectionDateByRector(){
-        return electionRepo.findByIsFinished(false) != null; // checks is there  entered election
+        Election election = electionRepo.findByIsFinished(false);
+        return election != null; // checks is there  entered election
     }
 
 

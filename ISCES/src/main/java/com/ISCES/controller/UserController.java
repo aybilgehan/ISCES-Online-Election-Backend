@@ -98,18 +98,21 @@ public class UserController { // Bütün return typeler değişebilir . Response
     @GetMapping("/isInElectionProcess") // checks whether in election process or not
     public boolean checkElectionInitialization(){
         LocalDateTime now = LocalDateTime.now();
+        Election election = electionService.findByIsFinished(false);
         if(electionService.isThereStartedElection(now)){
-            return true;
-        }       // if we are in election process
-
-        else if(!electionService.isThereStartedElection(now) && electionService.findByIsFinished(false).getEndDate().isBefore(now)){//  if election finished...
-            Election tempElection = electionService.findByIsFinished(false);
-            tempElection.setIsFinished(true);
-            electionService.save(tempElection);
-            return false; //  returns false and updates database.
+            return true; // if we are in election process
+        }
+        else if(election != null) {
+            if (!electionService.isThereStartedElection(now) && electionService.findByIsFinished(false).getEndDate().isBefore(now)) {//  if election finished...
+                Election tempElection = electionService.findByIsFinished(false);
+                tempElection.setFinished(true);
+                electionService.save(tempElection);
+                return false; //  returns false and updates database.
+            }
         }
 
-        return electionService.isThereStartedElection(now); // if election is not started yet...
+
+        return false; // if election is not setted yet
     }
 
 

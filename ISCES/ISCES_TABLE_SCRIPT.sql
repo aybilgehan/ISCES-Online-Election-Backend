@@ -58,7 +58,7 @@ CREATE TABLE `election` (
   `election_id` BIGINT NOT NULL,
   `start_date` DATETIME NOT NULL,
   `end_date` DATETIME NOT NULL,
-  `is_finished` TINYINT,
+  `is_finished` TINYINT NOT NULL,
   PRIMARY KEY (`election_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

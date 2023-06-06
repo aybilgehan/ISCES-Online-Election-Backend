@@ -30,7 +30,7 @@ public class StudentService {
     private FolderRepo  folderRepo;
     private FileRepo fileRepo;
 
-
+    @Autowired
     public StudentService(StudentRepo studentRepo, FolderRepo folderRepo, FileRepo fileRepo) {
         this.studentRepo = studentRepo;
         this.folderRepo = folderRepo;
