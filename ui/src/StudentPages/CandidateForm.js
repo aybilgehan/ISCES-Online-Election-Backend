@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import "./CandidateForm.css";
 import axios from "axios";
+import AuthContext from "../context/AuthContext";
 export default function CandidateForm() {
   const studentNum = localStorage.getItem("uid");
   const [motivationText, setMotivationText] = useState("");
@@ -8,14 +9,15 @@ export default function CandidateForm() {
   const [criminalRecord, setCriminalRecord] = useState("");
   const [validCandidate, setValidCandidate] = useState(false);
   const [alertBoxContent, setAlertBoxContent] = useState("");
+
+  const authCtx = useContext(AuthContext);
   // user id'im ile aday adayı olmadığım belli olacak. eğer ispending ise değiştir olacak. eğer kabulsem sayfada zaten adaysın yazacak.
 
   const apply = async (candidateData) => {
     console.log(candidateData);
     try {
-      const response = await axios.post(
-        `http://localhost:8080/applyToBeCandidate/`,
-        candidateData
+      const response = await axios.get(
+        `http://localhost:8080/applyToBeCandidate/${authCtx.studentNumber}`
       );
     } catch (error) {
       console.error(error);

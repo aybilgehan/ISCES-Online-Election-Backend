@@ -22,8 +22,9 @@ const Login = () => {
     const email = enteredEmail.trim();
     const password = enteredPassword.trim();
     try {
-      const activationURL = `https://localhost:8080/login/${email}/${password}`;
+      const activationURL = `http://localhost:8080/login/${email}/${password}`;
     const res = await axios.get(activationURL);
+  
       if (res.status === 200) {
         let returned = res.data;
         if (returned.role === "candidate") {

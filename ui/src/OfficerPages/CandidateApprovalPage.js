@@ -56,7 +56,7 @@ const CandidateApprovalPage = () => {
     );
     setUnEvalCandidates(updatedCandidates);
 
-    const urlForUpdate = `http://localhost:8080/confirmStudent/${studentNumber}`;
+    const urlForUpdate = `http://localhost:8080/confirmStudent/${authCtx.studentNumber}`;
     updateCandidates(urlForUpdate);
   };
 
@@ -66,7 +66,7 @@ const CandidateApprovalPage = () => {
     );
     setUnEvalCandidates(updatedCandidates);
 
-    const urlForUpdate = `http://localhost:8080/rejectStudent/${studentNumber}`;
+    const urlForUpdate = `http://localhost:8080/rejectStudent/${authCtx.studentNumber}`;
     updateCandidates(urlForUpdate);
   };
 
