@@ -11,31 +11,31 @@ const SetElectionDate = () => {
   const [isInElectionProcess, setIsInElectionProcess] = useState(false);
   const [isElectionSettedNotStarted, setIsElectionSettedNotStarted] =
     useState(false);
+
+  function cancelElection() {
+    
+  }
   const electionSettedSuccessfully = (
     <div>
-      <p>Election Setted Successfully</p>
+      <h1>Election Setted Successfully</h1>
+      <p>-Details-</p>
+      <p>Start Date:{enteredStartDate}</p>
+      <p>End Date: {enteredEndDate}</p>
+      <button onClick={cancelElection}>Cancel Election</button>
     </div>
   );
   const alertBox = (
-    <div>
-      Invalid date<button onClick={changeAlertBoxVisible}>ok</button>
+    <div className="AlertBox">
+      <h5>Invalid date</h5>
+      <button onClick={changeAlertBoxVisible}>OK</button>
     </div>
   );
-  const inElectionBox = <h1>We are already in election!</h1>;
 
-  useEffect(() => {
-    checkElectionIsOn();
-  }, []);
-  const checkElectionIsOn = async () => {
-    try {
-      const response = await axios.get(
-        "http://localhost:8080/isInElectionProcess"
-      );
-      setIsInElectionProcess(response.data);
-    } catch (error) {
-      // Handle error
-    }
-  };
+  const inElectionBox = 
+  <div>
+    <h1 className="alert-box-header">We are in election!</h1>
+    <button onClick={cancelElection}>Cancel Election</button>;
+  </div>
   function changeAlertBoxVisible() {
     setEnteredStartDate(null);
     setEnteredEndDate(null);
@@ -133,27 +133,32 @@ const SetElectionDate = () => {
   const getElectionDetails = async () => {
     try {
       const response = await axios.get(`http://localhost:8080/electionDate`);
-      console.log(response.data);
-      if (response.data.startDate > new Date()) {
+      const a = new Date(response.data.startDate)
+      const b = new Date();
+      if (response.data.startDate && a>b) {
         console.log(1);
         setIsElectionSettedNotStarted(true);
         setIsInElectionProcess(false);
-      } else if (response.data == "") {
-        console.log(2);
+        setEnteredStartDate(response.data.startDate)
+        setEnteredEndDate(response.data.endDate)
+      } else if (response.data.finished === "false") {
+        console.log(2)
+        setIsElectionSettedNotStarted(false);
+        setIsInElectionProcess(true);
+      } else if (response.data.finished === "true"){
+        console.log(3)
         setIsElectionSettedNotStarted(false);
         setIsInElectionProcess(false);
-      } else {
-        console.log(3);
-        setIsElectionSettedNotStarted(true);
+      }
+      else {
+        console.log(4)
+        setIsElectionSettedNotStarted(false);
         setIsInElectionProcess(false);
       }
     } catch (error) {
       console.log(error);
     }
   };
-  console.log("isElectionsettedNotStarted", isElectionSettedNotStarted);
-  console.log("isinelectionproccess", isInElectionProcess);
-
   return (
     <div>
       {isInElectionProcess && inElectionBox}

@@ -47,15 +47,17 @@ export default function CandidateForm() {
   return (
     <div className="be-candidate-container">
       <form className="be-candidate-form" onSubmit={submitHandler}>
-        <label className="motivation-label">
-          <span>Your motivation to become a candidate : </span>
-          <input
-            type="text"
+        <div className="motivation-label">
+          <span>Your motivation to become a candidate:</span>
+          <br />
+          <textarea
+            rows={4} // Satır sayısını isteğinize göre ayarlayabilirsiniz
+            cols={50} // Sütun sayısını isteğinize göre ayarlayabilirsiniz
             className="transcript-input"
             value={motivationText}
             onChange={(e) => setMotivationText(e.target.value)}
           />
-        </label>
+        </div>
         <br />
         <br />
         <label className="transcript-record-label">

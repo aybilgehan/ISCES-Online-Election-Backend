@@ -148,7 +148,7 @@ VALUES
 (270201071, 4, 'Mesut', 'Tomay', 3.50, 3, 0, 'mesuttomay@std.iyte.edu.tr', false),
 (270201072, 4, 'Ali', 'Bicim', 3.21, 3, 0, 'alibicim@std.iyte.edu.tr', false),
 (270201073, 4, 'Umut', 'Varol', 1.59, 3, 0, 'umutvarol@std.iyte.edu.tr', false),
-(270201074, 4, 'SevinÃ§', 'Aykurt', 2.22, 3, 0, 'sevincaykurt@std.iyte.edu.tr', false),
+(270201074, 4, 'Sevinc', 'Aykurt', 2.22, 3, 0, 'sevincaykurt@std.iyte.edu.tr', false),
 (270201075, 4, 'Halil', 'Uyanik', 3.41, 3, 0, 'haliluyanik@std.iyte.edu.tr', false);
 
 
