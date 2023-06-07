@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -121,7 +123,9 @@ public class UserController { // Bütün return typeler değişebilir . Response
                 for (Department department : departmentRepo.findAll()) {
                     List<Candidate> candidateList = candidateService.findCandidateByDepartmentId(department.getDepartmentId());
                     if(candidateList.size() != 0){
+                        List<Integer> voteList = new ArrayList<Integer>();
                         for (Candidate candidate : candidateList) {
+                            voteList.add(candidate.getVotes().intValue());
                             if (candidate.getVotes() > max) {
                                 max = candidate.getVotes();
                             }
@@ -143,8 +147,12 @@ public class UserController { // Bütün return typeler değişebilir . Response
             }
         }
         return false; // if we are not in election
-
-
     }
+    @GetMapping("/allDelegates")
+    public List<Delegate> getAllDelegates(){
+        return delegateService.getAllDelegates();
+    }
+
+
 
 }
