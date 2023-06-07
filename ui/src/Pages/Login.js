@@ -23,8 +23,9 @@ const Login = () => {
     const password = enteredPassword.trim();
     try {
       const activationURL = `http://localhost:8080/login/${email}/${password}`;
-    const res = await axios.get(activationURL);
-  
+      const res = await axios.get(activationURL);
+      console.log(res.data);
+
       if (res.status === 200) {
         let returned = res.data;
         if (returned.role === "candidate") {
@@ -32,13 +33,13 @@ const Login = () => {
         }
         if (returned.role === "officer") {
           returned = returned.admin;
-          const userDepartment = returned.departmentId;
+          const userDepartment = returned.department.departmentId;
           authCtx.setUserDepartmentData(userDepartment);
           localStorage.setItem("userDepartment", userDepartment);
         }
         if (res.data.role === "student" || res.data.role === "candidate") {
           localStorage.setItem("uid", returned.student.studentNumber);
-          const userDepartment = returned.student.departmentId;
+          const userDepartment = returned.student.department.departmentId;
           authCtx.setUserDepartmentData(userDepartment);
           localStorage.setItem("userDepartment", userDepartment);
           const userGpa = returned.student.grade;

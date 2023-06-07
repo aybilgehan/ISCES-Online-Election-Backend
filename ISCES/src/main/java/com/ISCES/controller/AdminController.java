@@ -121,7 +121,7 @@ public class AdminController {// Bütün return typeler değişebilir . Response
                 for (Student student : studentService.getAllStudents()) {
                     if (student.isVoted()) { //  isVoted of voters are changed to false  for next year election
                         student.setVoted(false);
-                    } else if (student.getIsAppliedForCandidacy()) { // changed to false for all students
+                    } else if (student.getIsAppliedForCandidacy()!=false) { // changed to false for all students
                         student.setIsAppliedForCandidacy(false);
                     } else if (student.getUser().getRole().equals("candidate")) { //  changed false for  next year election
                         student.getUser().setRole("student");

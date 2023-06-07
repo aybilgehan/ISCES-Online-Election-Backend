@@ -15,7 +15,6 @@ import CandidateApprovalPage from "./OfficerPages/CandidateApprovalPage";
 import axios from "axios";
 
 function App() {
- 
   const authCtx = useContext(AuthContext);
   return (
     <div className="app-container">
@@ -30,10 +29,8 @@ function App() {
               authcontext rol kontrolü ile bunu sağlayacağız. */}
               {
                 <Route element={<SideBar />}>
-                  {(authCtx.userRole === "student" ||
-                    authCtx.userRole === "candidate") && (
-                    <Route path="/council" element={<Council />} />
-                  )}
+                  <Route path="/council" element={<Council />} />
+
                   {authCtx.userRole == "rector" && (
                     <Route
                       path="/setelectiondate"

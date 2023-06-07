@@ -30,10 +30,11 @@ const CandidateApprovalPage = () => {
       console.log(error.message);
     }
   };
-
+  console.log(authCtx);
   const fetchCandidateInfo = async () => {
     try {
       const response = await axios.get(url);
+
       console.log(response.data);
 
       setUnEvalCandidates(response.data);
@@ -56,7 +57,7 @@ const CandidateApprovalPage = () => {
     );
     setUnEvalCandidates(updatedCandidates);
 
-    const urlForUpdate = `http://localhost:8080/confirmStudent/${authCtx.studentNumber}`;
+    const urlForUpdate = `http://localhost:8080/confirmStudent/${studentNumber}`;
     updateCandidates(urlForUpdate);
   };
 
@@ -66,7 +67,7 @@ const CandidateApprovalPage = () => {
     );
     setUnEvalCandidates(updatedCandidates);
 
-    const urlForUpdate = `http://localhost:8080/rejectStudent/${authCtx.studentNumber}`;
+    const urlForUpdate = `http://localhost:8080/rejectStudent/${studentNumber}`;
     updateCandidates(urlForUpdate);
   };
 

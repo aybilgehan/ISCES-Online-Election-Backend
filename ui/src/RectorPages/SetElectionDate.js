@@ -8,12 +8,13 @@ const SetElectionDate = () => {
   const [enteredEndDate, setEnteredEndDate] = useState(null);
   const [showAlertBox, setShowAlertBox] = useState(false);
   const [isInElectionProcess, setIsInElectionProcess] = useState(false);
-  const [isElectionSettedNotStarted, setIsElectionSettedNotStarted] = useState(false);
+  const [isElectionSettedNotStarted, setIsElectionSettedNotStarted] =
+    useState(false);
   const electionSettedSuccessfully = (
     <div>
       <p>Election Setted Successfully</p>
     </div>
-  )
+  );
   const alertBox = (
     <div>
       Invalid date<button onClick={changeAlertBoxVisible}>ok</button>
@@ -50,9 +51,8 @@ const SetElectionDate = () => {
   async function electionFetch(startDate, endDate) {
     try {
       const url = `http://localhost:8080/enterElectionDate/${startDate}/${endDate}`;
-
+      console.log(startDate);
       const response = await axios.get(url);
-      
     } catch (error) {
       console.log(error.message);
     }
@@ -130,13 +130,11 @@ const SetElectionDate = () => {
         console.log(1);
         setIsElectionSettedNotStarted(true);
         setIsInElectionProcess(false);
-      }
-      else if (response.data == ""){
-        console.log(2)
+      } else if (response.data == "") {
+        console.log(2);
         setIsElectionSettedNotStarted(false);
         setIsInElectionProcess(false);
-      }
-      else {
+      } else {
         console.log(3);
         setIsElectionSettedNotStarted(true);
         setIsInElectionProcess(false);
@@ -146,14 +144,17 @@ const SetElectionDate = () => {
     }
   };
   console.log("isElectionsettedNotStarted", isElectionSettedNotStarted);
-  console.log("isinelectionproccess",isInElectionProcess);
+  console.log("isinelectionproccess", isInElectionProcess);
 
   return (
     <div>
       {isInElectionProcess && inElectionBox}
       {showAlertBox && alertBox}
       {isElectionSettedNotStarted && electionSettedSuccessfully}
-      {(!isElectionSettedNotStarted && !showAlertBox && !isInElectionProcess) && setElectionForm}
+      {!isElectionSettedNotStarted &&
+        !showAlertBox &&
+        !isInElectionProcess &&
+        setElectionForm}
     </div>
   );
 };
