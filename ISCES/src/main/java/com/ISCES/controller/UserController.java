@@ -90,7 +90,6 @@ public class UserController { // Bütün return typeler değişebilir . Response
                         Admin rector = adminService.findByUser_Email(email);
                         return new ResponseEntity<>(new LoginResponse(200, controller, rector,isElectionStarted), HttpStatus.OK);
                     }
-
             }
 
             else {
@@ -114,35 +113,46 @@ public class UserController { // Bütün return typeler değişebilir . Response
             return true; // we are in election
         } else if (election != null) {
             if (!electionService.isThereStartedElection(now) && electionService.findByIsFinished(false).getEndDate().isBefore(now)) {//  if election finished...
-                Election tempElection = electionService.findByIsFinished(false);
-                tempElection.setFinished(true);
-                electionService.save(tempElection);
-                Long max = Long.valueOf(0);
-                Long delegateId = Long.valueOf(1);
-                List<Department> departmentList = departmentRepo.findAll();
                 for (Department department : departmentRepo.findAll()) {
-                    List<Candidate> candidateList = candidateService.findCandidateByDepartmentId(department.getDepartmentId());
+                    List<Candidate> candidateList = candidateService.findCandidateByDepartmentId(department.getDepartmentId(),false); // candidate of current election.
                     if(candidateList.size() != 0){
                         List<Integer> voteList = new ArrayList<Integer>();
+                        Long max = Long.valueOf(0);
                         for (Candidate candidate : candidateList) {
                             voteList.add(candidate.getVotes().intValue());
                             if (candidate.getVotes() > max) {
                                 max = candidate.getVotes();
                             }
                         }
-                        Candidate candidate = candidateService.findByVotes(max);
-                        if(candidate != null) {
-                            User user = candidate.getStudent().getUser();
-                            user.setRole("representative"); // role is setted as representative
- //  candidate ,user and student  saved the changes.
-                            Delegate delegate = new Delegate(delegateId, candidate); // new delegate has been created.
+
+                        int maxController = Collections.max(voteList);
+                        List<Candidate> candidate = candidateService.findByVotes(Long.valueOf(maxController),department.getDepartmentId());
+                        Long delegateId = Long.valueOf(delegateService.getAllDelegates().size() + 1);
+                        boolean istiedaa = Collections.frequency(voteList,maxController) >= 2;
+                        if(!istiedaa){ //  there is no tie.
+                            User user = candidate.get(0).getStudent().getUser();
+                           user.setRole("representative"); // role is setted as representative
+                            if(user.getRole().equals("candidate")){
+                                user.setRole("student");
+                            }
+                            //  candidate ,user and student  saved the changes.
+                            Delegate delegate = new Delegate(delegateId, candidate.get(0),true); // new delegate has been created.
                             delegateService.save(delegate);
                             // added representative to list.
-                            delegateId = delegateId + Long.valueOf(1);
+                        }
+                        else{
+                            for(Candidate candidateTied: candidate){
+                                    Delegate delegate = new Delegate(delegateId,candidateTied,null);
+                                    delegateService.save(delegate);
+                                    delegateId++;
+                            }
                         }
                     }
 
                 }
+                Election tempElection = electionService.findByIsFinished(false);
+                tempElection.setFinished(true);
+                electionService.save(tempElection);
                 return false; //  returns false and updates database.
             }
         }
@@ -150,7 +160,12 @@ public class UserController { // Bütün return typeler değişebilir . Response
     }
     @GetMapping("/allDelegates")
     public List<Delegate> getAllDelegates(){
-        return delegateService.getAllDelegates();
+        return delegateService.findByIsConfirmed(true);
+    }
+
+    @GetMapping("/tiedDelegates")
+    public List<Delegate> getTiedDelegates(){
+        return delegateService.findByIsConfirmed(null);// candidates that are not confirmed yet.
     }
 
 

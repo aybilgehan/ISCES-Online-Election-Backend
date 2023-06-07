@@ -46,8 +46,8 @@ public class CandidateService {
 
 
     @Transactional
-    public List<Candidate> findCandidateByDepartmentId(Long departmentId){
-        return candidateRepo.findByStudent_Department_DepartmentId(departmentId);
+    public List<Candidate> findCandidateByDepartmentId(Long departmentId, Boolean isFinished){
+        return candidateRepo.findByStudent_Department_DepartmentIdAndElection_IsFinished(departmentId, isFinished);
     }
 
 
@@ -61,13 +61,24 @@ public class CandidateService {
     }
 
     @Transactional
-    public Candidate findByVotes(Long votes){
-        return candidateRepo.findByVotes(votes);
+    public List<Candidate> findByVotes(Long votes,Long departmentId){
+        return candidateRepo.findByVotesAndElection_IsFinishedAndStudent_Department_DepartmentId(votes,false,departmentId);
     }
 
     @Transactional
     public void deleteAll(){
         candidateRepo.deleteAll();
+    }
+
+
+    @Transactional
+    public List<Candidate> findByElection_ElectionId(Long electionId){
+        return candidateRepo.findByElection_ElectionId(electionId);
+    }
+
+    @Transactional
+    public List<Candidate> findByElection_isFinished(Boolean isFinished){
+        return candidateRepo.findByElection_IsFinished(isFinished);
     }
 
 }

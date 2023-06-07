@@ -56,7 +56,7 @@ public class StudentController { // Bütün return typeler değişebilir . Respo
     // studentNumber is voter's number, departmentıd "is candidate's id.
     public ResponseEntity<VoteResponse> vote(@PathVariable Long studentNumber, @PathVariable Long candidateId) {
         String message = "Couldn't vote";
-        List<Candidate> candidateList = candidateService.findCandidateByDepartmentId(studentService.findByStudentNumber(studentNumber).getDepartment().getDepartmentId());
+        List<Candidate> candidateList = candidateService.findCandidateByDepartmentId(studentService.findByStudentNumber(studentNumber).getDepartment().getDepartmentId(),false);
         if (!studentService.findByStudentNumber(studentNumber).isVoted() &&
                 studentService.findByStudentNumber(studentNumber).getDepartment().equals(candidateService.findById(candidateId).getStudent().getDepartment())){
             // if student didn't vote   and departmentId of student and departmentId of candidate is equal.
@@ -82,6 +82,7 @@ public class StudentController { // Bütün return typeler değişebilir . Respo
                     studentService.findByStudentNumber(studentNumber).setIsAppliedForCandidacy(true);// The isAppliedForCandidacy of the student applying for candidacy has been changed.
                     studentService.save(studentService.findByStudentNumber(studentNumber)); // changes are saved for this student.
                     if (studentService.findByStudentNumber(studentNumber).getGrade() > 2.50) {
+
                         CandidacyRequest candidacyRequest = new CandidacyRequest(studentNumber, "Your application is succesful!"); // it's for student who is not applied for candidacy before for this election.
                         return ResponseEntity.ok(candidacyRequest);
                     }

@@ -22,7 +22,7 @@ public class CandidateController { // Bütün return typeler değişebilir . Res
 
     @GetMapping("/candidates/{departmentId}")
     public List<Candidate> getAllCandidatesByDepartmentId(@PathVariable Long departmentId){
-        return candidateService.findCandidateByDepartmentId(departmentId);
+        return candidateService.findCandidateByDepartmentId(departmentId,false);
     }
 
 
