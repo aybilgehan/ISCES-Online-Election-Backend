@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
+import "./SetElectionDate.css";
 
 const SetElectionDate = () => {
   const [enteredStartDate, setEnteredStartDate] = useState(null);
@@ -83,39 +84,46 @@ const SetElectionDate = () => {
   };
 
   const setElectionForm = (
-    <div>
+    <div className="set-election-date-container">
       <form onSubmit={handleSubmit}>
-        <label htmlFor="start-date-time">Set Start Date and Time</label>
+        <div className="date-time-boxes">
+          <div className="start-date-time-box date-time-box">
+            <label htmlFor="start-date-time">Set Start Date and Time</label>
+            <br />
+            <br />
+            <DatePicker
+              id="start-date-time"
+              selected={enteredStartDate}
+              onChange={(date) => handleDateTimeChange(date, "start")}
+              dateFormat="yyyy-MM-dd HH:mm"
+              showTimeInput
+              timeInputLabel="Time:"
+              timeFormat="HH:mm"
+              placeholderText="YYYY-MM-DD HH:mm"
+            />
+          </div>
+          <div className="end-date-time-box date-time-box">
+            <label htmlFor="end-date-time">Set End Date and Time</label>
+            <br />
+            <br />
+
+            <DatePicker
+              id="end-date-time"
+              selected={enteredEndDate}
+              onChange={(date) => handleDateTimeChange(date, "end")}
+              dateFormat="yyyy-MM-dd HH:mm"
+              showTimeInput
+              timeInputLabel="Time:"
+              timeFormat="HH:mm"
+              placeholderText="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
         <br />
         <br />
-        <DatePicker
-          id="start-date-time"
-          selected={enteredStartDate}
-          onChange={(date) => handleDateTimeChange(date, "start")}
-          dateFormat="yyyy-MM-dd HH:mm"
-          showTimeInput
-          timeInputLabel="Time:"
-          timeFormat="HH:mm"
-          placeholderText="YYYY-MM-DD HH:mm"
-        />
-        <br />
-        <br />
-        <label htmlFor="end-date-time">Set End Date and Time</label>
-        <br />
-        <br />
-        <DatePicker
-          id="end-date-time"
-          selected={enteredEndDate}
-          onChange={(date) => handleDateTimeChange(date, "end")}
-          dateFormat="yyyy-MM-dd HH:mm"
-          showTimeInput
-          timeInputLabel="Time:"
-          timeFormat="HH:mm"
-          placeholderText="YYYY-MM-DD HH:mm"
-        />
-        <br />
-        <br />
-        <button type="submit">Set</button>
+        <button className="set-election-date-button" type="submit">
+          Set
+        </button>
       </form>
     </div>
   );
