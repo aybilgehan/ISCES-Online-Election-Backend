@@ -107,12 +107,12 @@ export default function Candidates() {
                 Candidate Vote: {candidate.votes}
                 <br />
                 {/* Diğer bilgileri buraya ekleyebilirsiniz */}
-                {authCtx.userRole === "student" ||
-                  (authCtx.userRole === "candidate" && (
-                    <button onClick={() => alertBoxHandler(candidate)}>
-                      Vote
-                    </button>
-                  ))}
+                {(authCtx.userRole === "student" ||
+                  authCtx.userRole === "candidate") && (
+                  <button onClick={() => alertBoxHandler(candidate)}>
+                    Vote
+                  </button>
+                )}
               </li>
             );
 

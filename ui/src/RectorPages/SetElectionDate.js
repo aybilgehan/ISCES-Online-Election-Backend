@@ -14,7 +14,7 @@ const SetElectionDate = () => {
 
   const electionSettedSuccessfully = (
     <div>
-      <h1>Election Setted Successfully</h1>
+      <h1>Election Set Successfully</h1>
       <p>-Details-</p>
       <p>Start Date:{enteredStartDate}</p>
       <p>End Date: {enteredEndDate}</p>
@@ -28,13 +28,14 @@ const SetElectionDate = () => {
     </div>
   );
 
-  const inElectionBox =
+  const inElectionBox = (
     <div>
       <h1 className="alert-box-header">We are in election!</h1>
       <p>Start Date:{enteredStartDate}</p>
       <p>End Date: {enteredEndDate}</p>
       <button onClick={finishElection}>Cancel Election</button>;
     </div>
+  );
   function changeAlertBoxVisible() {
     setEnteredStartDate(null);
     setEnteredEndDate(null);
@@ -133,38 +134,35 @@ const SetElectionDate = () => {
     try {
       const response = await axios.get(`http://localhost:8080/finishElection`);
       window.location.reload();
-    }
-    catch (error) {
-      console.log(error)
+    } catch (error) {
+      console.log(error);
     }
   }
   const getElectionDetails = async () => {
     try {
       const response = await axios.get(`http://localhost:8080/electionDate`);
-      const startDate = new Date(response.data.startDate)
-      const endDate = new Date(response.data.endDate)
+      const startDate = new Date(response.data.startDate);
+      const endDate = new Date(response.data.endDate);
       const currentDate = new Date();
-      console.log(response)
+      console.log(response);
       if (startDate > currentDate) {
         setIsElectionSettedNotStarted(true);
         setIsInElectionProcess(false);
-        setEnteredStartDate(response.data.startDate)
-        setEnteredEndDate(response.data.endDate)
-      } else if ((startDate < currentDate) && (endDate > currentDate)) {
-        setEnteredStartDate(response.data.startDate)
-        setEnteredEndDate(response.data.endDate)
+        setEnteredStartDate(response.data.startDate);
+        setEnteredEndDate(response.data.endDate);
+      } else if (startDate < currentDate && endDate > currentDate) {
+        setEnteredStartDate(response.data.startDate);
+        setEnteredEndDate(response.data.endDate);
         setIsElectionSettedNotStarted(false);
         setIsInElectionProcess(true);
       } else if (endDate < currentDate) {
         finishElection();
         setIsElectionSettedNotStarted(false);
         setIsInElectionProcess(false);
-      }
-      else {
+      } else {
         setIsElectionSettedNotStarted(false);
         setIsInElectionProcess(false);
       }
-     
     } catch (error) {
       console.log(error);
     }
