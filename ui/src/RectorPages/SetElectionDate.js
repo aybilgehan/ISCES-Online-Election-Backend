@@ -12,16 +12,13 @@ const SetElectionDate = () => {
   const [isElectionSettedNotStarted, setIsElectionSettedNotStarted] =
     useState(false);
 
-  function cancelElection() {
-    
-  }
   const electionSettedSuccessfully = (
     <div>
       <h1>Election Setted Successfully</h1>
       <p>-Details-</p>
       <p>Start Date:{enteredStartDate}</p>
       <p>End Date: {enteredEndDate}</p>
-      <button onClick={cancelElection}>Cancel Election</button>
+      <button onClick={finishElection}>Cancel Election</button>
     </div>
   );
   const alertBox = (
@@ -31,11 +28,13 @@ const SetElectionDate = () => {
     </div>
   );
 
-  const inElectionBox = 
-  <div>
-    <h1 className="alert-box-header">We are in election!</h1>
-    <button onClick={cancelElection}>Cancel Election</button>;
-  </div>
+  const inElectionBox =
+    <div>
+      <h1 className="alert-box-header">We are in election!</h1>
+      <p>Start Date:{enteredStartDate}</p>
+      <p>End Date: {enteredEndDate}</p>
+      <button onClick={finishElection}>Cancel Election</button>;
+    </div>
   function changeAlertBoxVisible() {
     setEnteredStartDate(null);
     setEnteredEndDate(null);
@@ -130,31 +129,42 @@ const SetElectionDate = () => {
   useEffect(() => {
     getElectionDetails();
   }, []);
+  async function finishElection() {
+    try {
+      const response = await axios.get(`http://localhost:8080/finishElection`);
+      window.location.reload();
+    }
+    catch (error) {
+      console.log(error)
+    }
+  }
   const getElectionDetails = async () => {
     try {
       const response = await axios.get(`http://localhost:8080/electionDate`);
-      const a = new Date(response.data.startDate)
-      const b = new Date();
-      if (response.data.startDate && a>b) {
-        console.log(1);
+      const startDate = new Date(response.data.startDate)
+      const endDate = new Date(response.data.endDate)
+      const currentDate = new Date();
+      console.log(response)
+      if (startDate > currentDate) {
         setIsElectionSettedNotStarted(true);
         setIsInElectionProcess(false);
         setEnteredStartDate(response.data.startDate)
         setEnteredEndDate(response.data.endDate)
-      } else if (response.data.finished === "false") {
-        console.log(2)
+      } else if ((startDate < currentDate) && (endDate > currentDate)) {
+        setEnteredStartDate(response.data.startDate)
+        setEnteredEndDate(response.data.endDate)
         setIsElectionSettedNotStarted(false);
         setIsInElectionProcess(true);
-      } else if (response.data.finished === "true"){
-        console.log(3)
+      } else if (endDate < currentDate) {
+        finishElection();
         setIsElectionSettedNotStarted(false);
         setIsInElectionProcess(false);
       }
       else {
-        console.log(4)
         setIsElectionSettedNotStarted(false);
         setIsInElectionProcess(false);
       }
+     
     } catch (error) {
       console.log(error);
     }
