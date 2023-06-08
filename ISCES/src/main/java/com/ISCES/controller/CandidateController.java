@@ -18,23 +18,17 @@ public class CandidateController { // Bütün return typeler değişebilir . Res
         this.candidateService = candidateService;
     }
 
-
-
-    @GetMapping("/candidates/{departmentId}")
-    public List<Candidate> getAllCandidatesByDepartmentId(@PathVariable Long departmentId){
+    @GetMapping("/candidates/allCandidates/{departmentId}")
+    public List<Candidate> getAllCurrentCandidates(@PathVariable Long departmentId){  // candidates of current election candidates
         return candidateService.findCandidateByDepartmentId(departmentId,false);
     }
 
 
 
-    @GetMapping("/candidates/allCandidates")
-    public List<Candidate> getAllCurrentCandidates(){  // candidates of current election candidates
-        return candidateService.findByElection_isFinished(false);
+    @GetMapping("/candidates/allPreviousElectionCandidates/{departmentId}")
+    public List<Candidate> getAllPreviousElectionCandidates(@PathVariable Long departmentId){// candidates of previous election.
+        return candidateService.findPreviousElectionCandidates(departmentId);
     }
 
 
-    @GetMapping("/candidates/allPreviousElectionCandidates")
-    public List<Candidate> getAllPreviousElectionCandidates(){// candidates of previos election.
-        return candidateService.findByElection_isFinished(true);
-    }
 }

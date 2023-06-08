@@ -17,8 +17,8 @@ public interface CandidateRepo extends JpaRepository<Candidate,Long> {
 
     List<Candidate> findByVotesAndElection_IsFinishedAndStudent_Department_DepartmentId(Long votes,Boolean isFinished,Long departmentId);
 
-    List<Candidate> findByElection_ElectionId(Long electionId);
-    List<Candidate> findByElection_IsFinished(Boolean isFinished);
+    List<Candidate> findByElection_ElectionIdAndStudent_Department_DepartmentId(Long electionId,Long departmentId);
 
+    List<Candidate> findByElection_ElectionId(Long electionId);
 
 }

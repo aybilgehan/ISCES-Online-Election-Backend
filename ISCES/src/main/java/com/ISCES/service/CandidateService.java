@@ -3,6 +3,7 @@ package com.ISCES.service;
 
 import com.ISCES.entities.Candidate;
 import com.ISCES.repository.CandidateRepo;
+import com.ISCES.repository.ElectionRepo;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,12 @@ import java.util.List;
 @Service
 public class CandidateService {
     private CandidateRepo candidateRepo;
+    private ElectionRepo electionRepo;
 
     @Autowired
-    public CandidateService(CandidateRepo candidateRepo) {
+    public CandidateService(CandidateRepo candidateRepo, ElectionRepo electionRepo) {
         this.candidateRepo = candidateRepo;
+        this.electionRepo = electionRepo;
     }
 
     public List<Candidate> getAllCandidates(){
@@ -72,13 +75,22 @@ public class CandidateService {
 
 
     @Transactional
-    public List<Candidate> findByElection_ElectionId(Long electionId){
-        return candidateRepo.findByElection_ElectionId(electionId);
+    public List<Candidate> findPreviousElectionCandidates(Long departmentId){
+        Long lastElectionId = Long.valueOf(electionRepo.findAll().size());
+        if(lastElectionId == 0){
+            return null;
+        }
+        System.out.println(candidateRepo.findAll().get(0).getElection().getElectionId());
+        System.out.println(candidateRepo.findAll().get(0).getStudent().getDepartment().getDepartmentId());
+        System.out.println(candidateRepo.findByElection_ElectionIdAndStudent_Department_DepartmentId(lastElectionId,departmentId));
+        return candidateRepo.findByElection_ElectionIdAndStudent_Department_DepartmentId(lastElectionId,departmentId);
     }
 
     @Transactional
-    public List<Candidate> findByElection_isFinished(Boolean isFinished){
-        return candidateRepo.findByElection_IsFinished(isFinished);
+    public List<Candidate> findByElectionId(Long electionId){
+        return candidateRepo.findByElection_ElectionId(electionId);
     }
+
+
 
 }

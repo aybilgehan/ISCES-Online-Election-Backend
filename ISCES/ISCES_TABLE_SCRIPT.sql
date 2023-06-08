@@ -67,7 +67,7 @@ CREATE TABLE `election` (
 
 CREATE TABLE `folder` (
   `folder_id` BIGINT PRIMARY KEY AUTO_INCREMENT,
-  `student_number` BIGINT NOT NULL,
+  `student_number` BIGINT,
   `folder_directory` VARCHAR(255)
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -100,23 +100,23 @@ INSERT INTO `user`
 VALUES
 ('ahmetozdemir@std.iyte.edu.tr', 'test123', 'student'),
 ('emrekaraduman@std.iyte.edu.tr', 'test123', 'student'),
-('keremyasar@std.iyte.edu.tr', 'test123', 'student'),
-('mehmetsonmez@std.iyte.edu.tr', 'test123', 'student'),
+('elifilgen@std.iyte.edu.tr', 'test123', 'student'),
+('iremyasa@std.iyte.edu.tr', 'test123', 'student'),
 ('ecesavran@std.iyte.edu.tr', 'test123', 'student'),
 ('bilgehanay@std.iyte.edu.tr', 'test123', 'student'),
 ('betulsoylek@std.iyte.edu.tr', 'test123', 'student'),
 ('gencayturgut@std.iyte.edu.tr', 'test123', 'student'),
 ('kaganyalim@std.iyte.edu.tr', 'test123', 'student'),
-('cuneytalim@std.iyte.edu.tr', 'test123', 'student'),
-('yusufolmez@std.iyte.edu.tr', 'test123', 'student'),
-('hilmicem@std.iyte.edu.tr', 'test123', 'student'),
-('husnudeler@std.iyte.edu.tr', 'test123', 'student'),
+('ulaskeles@std.iyte.edu.tr', 'test123', 'student'),
+('mehmetkaryelioglu@std.iyte.edu.tr', 'test123', 'student'),
+('beyzanurekici@std.iyte.edu.tr', 'test123', 'student'),
+('dogacura@std.iyte.edu.tr', 'test123', 'student'),
 ('baharcandan@std.iyte.edu.tr', 'test123', 'student'),
-('silabozkurt@std.iyte.edu.tr', 'test123', 'student'),
-('mesuttomay@std.iyte.edu.tr', 'test123', 'student'),
-('alibicim@std.iyte.edu.tr', 'test123', 'student'),
+('ezgiaykurt@std.iyte.edu.tr', 'test123', 'student'),
+('yigitkertmen@std.iyte.edu.tr', 'test123', 'student'),
+('tunaymergen@std.iyte.edu.tr', 'test123', 'student'),
 ('umutvarol@std.iyte.edu.tr', 'test123', 'student'),
-('sevincaykurt@std.iyte.edu.tr', 'test123', 'student'),
+('sezerozbek@std.iyte.edu.tr', 'test123', 'student'),
 ('haliluyanik@std.iyte.edu.tr', 'test123', 'student'),
 ('officer1@ofc.iyte.edu.tr','test123','officer'),
 ('officer2@ofc.iyte.edu.tr','test123','officer'),
@@ -132,23 +132,23 @@ INSERT INTO `student`
 VALUES
 (270201051, 1, 'Ahmet', 'Ozdemir', 3.98, 3, 0, 'ahmetozdemir@std.iyte.edu.tr', false),
 (270201052, 1, 'Emre', 'Karaduman', 3.99, 3, 0, 'emrekaraduman@std.iyte.edu.tr', false),
-(270201053, 1, 'Kerem', 'Yasar', 2.22, 3, 0, 'keremyasar@std.iyte.edu.tr', false),
-(270201054, 1, 'Mehmet', 'Sonmez', 2.43, 3, 0, 'mehmetsonmez@std.iyte.edu.tr', false),
+(270201053, 1, 'Elif', 'Ilgen', 2.22, 3, 0, 'elifilgen@std.iyte.edu.tr', false),
+(270201054, 1, 'Irem', 'Yasa', 2.43, 3, 0, 'iremyasa@std.iyte.edu.tr', false),
 (270201055, 1, 'Ece', 'Savran', 2.54, 3, 0, 'ecesavran@std.iyte.edu.tr', false),
 (270201021, 2, 'Bilgehan', 'Ay', 3.51, 3, 0, 'bilgehanay@std.iyte.edu.tr', false),
 (270201022, 2, 'Betul', 'Soylek', 3.41, 3, 0, 'betulsoylek@std.iyte.edu.tr', false),
 (270201023, 2, 'Gencay', 'Turgut', 3.13, 3, 0, 'gencayturgut@std.iyte.edu.tr', false),
 (270201024, 2, 'Kagan', 'Yalim', 3.23, 3, 0, 'kaganyalim@std.iyte.edu.tr', false),
-(270201025, 2, 'Cuneyt', 'Alim', 3.14, 3, 0, 'cuneytalim@std.iyte.edu.tr', false),
-(270201031, 3, 'Yusuf', 'Olmez', 3.32, 3, 0, 'yusufolmez@std.iyte.edu.tr', false),
-(270201032, 3, 'Hilmi', 'Cem', 3.11, 3, 0, 'hilmicem@std.iyte.edu.tr', false),
-(270201033, 3, 'Husnu', 'Deler', 3.41, 3, 0, 'husnudeler@std.iyte.edu.tr', false),
+(270201025, 2, 'Ulas', 'Keles', 3.14, 3, 0, 'ulaskeles@std.iyte.edu.tr', false),
+(270201031, 3, 'Mehmet', 'Karyelioglu', 3.32, 3, 0, 'mehmetkaryelioglu@std.iyte.edu.tr', false),
+(270201032, 3, 'Beyzanur', 'Ekici', 3.11, 3, 0, 'beyzanurekici@std.iyte.edu.tr', false),
+(270201033, 3, 'Doga', 'Cura', 3.41, 3, 0, 'dogacura@std.iyte.edu.tr', false),
 (270201034, 3, 'Bahar', 'Candan', 3.12, 3, 0, 'baharcandan@std.iyte.edu.tr', false),
-(270201035, 3, 'Sila', 'Bozkurt', 3.05, 3, 0, 'silabozkurt@std.iyte.edu.tr', false),
-(270201071, 4, 'Mesut', 'Tomay', 3.50, 3, 0, 'mesuttomay@std.iyte.edu.tr', false),
-(270201072, 4, 'Ali', 'Bicim', 3.21, 3, 0, 'alibicim@std.iyte.edu.tr', false),
+(270201035, 3, 'Ezgi', 'Aykurt', 3.05, 3, 0, 'ezgiaykurt@std.iyte.edu.tr', false),
+(270201071, 4, 'Yigit', 'Kertmen', 3.50, 3, 0, 'yigitkertmen@std.iyte.edu.tr', false),
+(270201072, 4, 'Tunay', 'Mergen', 3.21, 3, 0, 'tunaymergen@std.iyte.edu.tr', false),
 (270201073, 4, 'Umut', 'Varol', 1.59, 3, 0, 'umutvarol@std.iyte.edu.tr', false),
-(270201074, 4, 'SevinÃ§', 'Aykurt', 2.22, 3, 0, 'sevincaykurt@std.iyte.edu.tr', false),
+(270201074, 4, 'Sezer', 'Ozbek', 2.22, 3, 0, 'sezerozbek@std.iyte.edu.tr', false),
 (270201075, 4, 'Halil', 'Uyanik', 3.41, 3, 0, 'haliluyanik@std.iyte.edu.tr', false);
 
 
@@ -162,12 +162,13 @@ VALUES
 (4,'officer4firstname','officer4lastname','officer4@ofc.iyte.edu.tr',4),
 (5,'rectorfirstname','rectorlastname','rector@rct.iyte.edu.tr',null);
 
+
 INSERT INTO `department`
 VALUES
-(1,'1'),
-(2,'2'),
-(3,'3'),
-(4,'4');
+(1,'Electrical Engineering'),
+(2,'Computer Engineering'),
+(3,'Mechanical Engineering'),
+(4,'Civil Engineering');
 
 
 

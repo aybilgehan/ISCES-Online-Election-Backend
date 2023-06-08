@@ -72,7 +72,7 @@ public class StudentController { // Bütün return typeler değişebilir . Respo
         // GETMAPPING DEĞİŞECEK
 
 
-        @GetMapping("/applyToBeCandidate/{studentNumber}")// it's for students to apply to be a candidate         !!!!!!!!! BELGE EKLEME YAPARKEN BU KISIMDA DEĞİŞİKLİK YAPILACAK !!!!!
+    @GetMapping("/applyToBeCandidate/{studentNumber}")// it's for students to apply to be a candidate         !!!!!!!!! BELGE EKLEME YAPARKEN BU KISIMDA DEĞİŞİKLİK YAPILACAK !!!!!
     public ResponseEntity<CandidacyRequest> applyToBeCandidate(@PathVariable Long studentNumber) {
         LocalDateTime now = LocalDateTime.now();
         if(electionService.isEnteredElectionDateByRector()){
@@ -109,7 +109,7 @@ public class StudentController { // Bütün return typeler değişebilir . Respo
 
 
 
-    @PostMapping("/uploadFolder")
+    @GetMapping("/uploadFolder")
     public ResponseEntity<ApplyCandidacyResponse> uploadFolder(@RequestParam("studentNumber") Long studentNumber,
                                                                   @RequestParam("files") MultipartFile[] files) throws Exception {
         CandidacyRequest request = new CandidacyRequest(studentNumber,files);

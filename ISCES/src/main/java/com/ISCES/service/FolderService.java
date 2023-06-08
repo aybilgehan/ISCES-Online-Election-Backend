@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Service
@@ -17,7 +19,7 @@ public class FolderService {
     }
 
 
-    public Folder findByStudent_StudentNumber(Long studentNumber) {
+    public List<Folder> findByStudent_StudentNumber(Long studentNumber) {
         return folderRepo.findByStudent_StudentNumber(studentNumber);
     }
 }

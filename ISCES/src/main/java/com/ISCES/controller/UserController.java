@@ -8,6 +8,7 @@ import com.ISCES.response.LoginResponse;
 import com.ISCES.response.isInEletionProcessResponse;
 import com.ISCES.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -91,7 +92,6 @@ public class UserController { // Bütün return typeler değişebilir . Response
                         return new ResponseEntity<>(new LoginResponse(200, controller, rector,isElectionStarted), HttpStatus.OK);
                     }
             }
-
             else {
                 // Http status 4**
                 return new ResponseEntity<>(new LoginResponse(400, "Invalid Requests"), HttpStatus.BAD_REQUEST);
@@ -120,21 +120,18 @@ public class UserController { // Bütün return typeler değişebilir . Response
                         Long max = Long.valueOf(0);
                         for (Candidate candidate : candidateList) {
                             voteList.add(candidate.getVotes().intValue());
-                            if (candidate.getVotes() > max) {
+                            if (candidate.getVotes() >= max) {
                                 max = candidate.getVotes();
                             }
                         }
-
                         int maxController = Collections.max(voteList);
                         List<Candidate> candidate = candidateService.findByVotes(Long.valueOf(maxController),department.getDepartmentId());
                         Long delegateId = Long.valueOf(delegateService.getAllDelegates().size() + 1);
                         boolean istiedaa = Collections.frequency(voteList,maxController) >= 2;
                         if(!istiedaa){ //  there is no tie.
                             User user = candidate.get(0).getStudent().getUser();
-                           user.setRole("representative"); // role is setted as representative
-                            if(user.getRole().equals("candidate")){
-                                user.setRole("student");
-                            }
+                            user.setRole("representative");
+                            userService.save(user);// role is setted as representative
                             //  candidate ,user and student  saved the changes.
                             Delegate delegate = new Delegate(delegateId, candidate.get(0),true); // new delegate has been created.
                             delegateService.save(delegate);
@@ -166,6 +163,16 @@ public class UserController { // Bütün return typeler değişebilir . Response
     @GetMapping("/tiedDelegates")
     public List<Delegate> getTiedDelegates(){
         return delegateService.findByIsConfirmed(null);// candidates that are not confirmed yet.
+    }
+
+    @GetMapping("/isInCandidacyProcess")
+    public boolean checkCandidacyProcess(){
+        LocalDateTime now = LocalDateTime.now();
+        Election election = electionService.findByIsFinished(false); // not finished election
+        if(election!= null){
+            return now.isBefore(election.getStartDate());
+        }
+       return false; // election is not set by rector
     }
 
 
