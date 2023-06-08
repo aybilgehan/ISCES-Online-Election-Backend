@@ -35,6 +35,6 @@ public class CandidateController { // Bütün return typeler değişebilir . Res
 
     @GetMapping("/candidates/allPreviousElectionCandidates")
     public List<Candidate> getAllPreviousElectionCandidates(){// candidates of previos election.
-        return candidateService.findByElection_isFinished(false);
+        return candidateService.findByElection_isFinished(true);
     }
 }

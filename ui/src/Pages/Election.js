@@ -6,6 +6,7 @@ import axios from "axios";
 
 function Election() {
   const [department, setDepartment] = useState(1);
+  const [selectedDepartment, setSelectedDepartment] = useState(null);
   const [electionIsOn, setElectionIsOn] = useState(false);
   const [filteredCandidates, setFilteredCandidates] = useState([]);
   const [candidateCount, setCandidateCount] = useState(0);
@@ -25,13 +26,13 @@ function Election() {
   };
 
   useEffect(() => {
-    checkElectionIsOn();
     fetchCandidateInfo();
+    checkElectionIsOn();
   }, [department]);
 
   const fetchCandidateInfo = async () => {
     try {
-      let url = `http://localhost:8080/candidates/${department}`;
+      let url = `http://localhost:8080/candidates/allPreviousElectionCandidates`;
       const response = await axios.get(url);
       console.log(response);
 
@@ -61,7 +62,7 @@ function Election() {
   const chartHandler = (event) => {
     console.log(event.target.value);
 
-    setDepartment(event.target.value);
+    setSelectedDepartment(event.target.value);
   };
 
   const concludeElection = () => {
@@ -191,7 +192,7 @@ function Election() {
       {!electionIsOn && candidateCount !== 0 && (
         <div>
           <form>
-            <select value={department} onChange={chartHandler}>
+            <select value={selectedDepartment} onChange={chartHandler}>
               <option value="1">Electronic Engineering</option>
               <option value="2">Computer Engineering</option>
               <option value="3">Mechanical Engineering</option>
@@ -209,7 +210,7 @@ function Election() {
       {!electionIsOn && candidateCount === 0 && (
         <div>
           <form>
-            <select value={department} onChange={chartHandler}>
+            <select value={selectedDepartment} onChange={chartHandler}>
               <option value="1">Electronic Engineering</option>
               <option value="2">Computer Engineering</option>
               <option value="3">Mechanical Engineering</option>

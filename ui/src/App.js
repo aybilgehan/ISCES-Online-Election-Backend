@@ -13,9 +13,23 @@ import SetElectionDate from "./RectorPages/SetElectionDate";
 import Profile from "./Pages/Profile";
 import CandidateApprovalPage from "./OfficerPages/CandidateApprovalPage";
 import axios from "axios";
-
 function App() {
+  const url = "http://localhost:8080/isInElectionProcess";
   const authCtx = useContext(AuthContext);
+  useEffect(() => {
+    checkElectionIsOn();
+  }, []);
+  const checkElectionIsOn = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/isInElectionProcess`
+      );
+      console.log(response.data);
+      console.log(typeof response.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   return (
     <div className="app-container">
       <BrowserRouter>
