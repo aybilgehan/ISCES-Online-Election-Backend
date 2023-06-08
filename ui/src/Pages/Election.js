@@ -3,16 +3,19 @@ import "./Election.css";
 import { Chart } from "react-google-charts";
 
 import axios from "axios";
+import AuthContext from "../context/AuthContext";
 
 function Election() {
+  const authCtx = useContext(AuthContext);
   const [department, setDepartment] = useState(1);
-  const [selectedDepartment, setSelectedDepartment] = useState(null);
+  const [selectedDepartment, setSelectedDepartment] = useState(1);
   const [electionIsOn, setElectionIsOn] = useState(false);
   const [filteredCandidates, setFilteredCandidates] = useState([]);
   const [candidateCount, setCandidateCount] = useState(0);
   const [candidates, setCandidates] = useState([]);
   const [selectedCandidates, setSelectedCandidates] = useState({});
   const [isVoted, setIsVoted] = useState(false);
+  const [tiedDelegates, setTiedDelegates] = useState([]);
 
   const checkElectionIsOn = async () => {
     try {
@@ -28,11 +31,23 @@ function Election() {
   useEffect(() => {
     fetchCandidateInfo();
     checkElectionIsOn();
-  }, [department]);
+  }, [department, selectedDepartment]);
 
+  useEffect(() => {
+    fetchTiedCandidates();
+  });
+
+  const fetchTiedCandidates = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/tiedDelegates");
+      setTiedDelegates(response.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   const fetchCandidateInfo = async () => {
     try {
-      let url = `http://localhost:8080/candidates/allPreviousElectionCandidates`;
+      let url = `http://localhost:8080/candidates/allPreviousElectionCandidates/${selectedDepartment}`;
       const response = await axios.get(url);
       console.log(response);
 
@@ -71,15 +86,15 @@ function Election() {
     let candidateWithMaxVotes = [];
     let hasMultipleMaxValues = false;
 
-    for (let i = 0; i < candidates.length; i++) {
-      const votes = candidates[i].votes;
+    for (let i = 0; i < tiedDelegates.length; i++) {
+      const votes = tiedDelegates[i].votes;
 
       if (votes > maxVote) {
         maxVote = votes;
-        candidateWithMaxVotes = [candidates[i]];
+        candidateWithMaxVotes = [tiedDelegates[i]];
         hasMultipleMaxValues = false;
       } else if (votes === maxVote) {
-        candidateWithMaxVotes.push(candidates[i]);
+        candidateWithMaxVotes.push(tiedDelegates[i]);
         hasMultipleMaxValues = true;
       }
     }
@@ -96,9 +111,9 @@ function Election() {
 
     // Check if there are equal maximum votes
     const maxVotes = Math.max(
-      ...candidates.map((candidate) => candidate.votes)
+      ...tiedDelegates.map((candidate) => candidate.votes)
     );
-    const candidatesWithMaxVotes = candidates.filter(
+    const candidatesWithMaxVotes = tiedDelegates.filter(
       (candidate) => candidate.votes === maxVotes
     );
 
@@ -110,7 +125,9 @@ function Election() {
 
     const departments = [
       ...new Set(
-        candidates.map((candidate) => candidate.student.department.departmentId)
+        tiedDelegates.map(
+          (candidate) => candidate.candidate.student.department.departmentId
+        )
       ),
     ];
 
@@ -121,7 +138,7 @@ function Election() {
       }));
     };
 
-    const handleConcludeTie = (department) => {
+    const handleConcludeTie = async (department) => {
       // Process the selected candidate ID for the department and send it to the backend
       const selectedCandidateId = selectedCandidates[department];
       // Send the selectedCandidateId to the backend using your preferred method (e.g., API call)
@@ -131,6 +148,8 @@ function Election() {
       );
       try {
         const url = `http://localhost:8080/concludeTie/${selectedCandidateId}`;
+        const res = await axios.get(url);
+        console.log(res);
       } catch (error) {
         console.log(error.message);
       }
@@ -138,34 +157,35 @@ function Election() {
 
     return (
       <>
-        {candidateWithMaxVotes.length > 1 && (
+        {tiedDelegates.length > 1 && (
           <>
             <h1>Conclude Tie</h1>
             {departments.map((department) => (
               <div className="department" key={department}>
                 <h2>{department}</h2>
                 <div className="candidates">
-                  {candidatesWithMaxVotes
+                  {tiedDelegates
                     .filter(
-                      (candidate) =>
-                        candidate.student.department.departmentId === department
+                      (delegate) =>
+                        delegate.candidate.student.department.departmentId ===
+                        department
                     )
-                    .map((candidate) => (
-                      <div className="candidate" key={candidate.candidateId}>
+                    .map((delegate) => (
+                      <div className="candidate" key={delegate.delegateId}>
                         <h3>
-                          {candidate.student.firstName}{" "}
-                          {candidate.student.lastName}
+                          {delegate.candidate.student.firstName}{" "}
+                          {delegate.candidate.student.lastName}
                         </h3>
                         <input
                           type="checkbox"
                           checked={
                             selectedCandidates[department] ===
-                            candidate.candidateId
+                            delegate.delegateId
                           }
                           onChange={() =>
                             handleCandidateSelect(
                               department,
-                              candidate.candidateId
+                              delegate.delegateId
                             )
                           }
                         />
@@ -204,7 +224,6 @@ function Election() {
             data={filteredCandidates}
             options={options}
           />
-          {!isVoted && concludeElection()}
         </div>
       )}
       {!electionIsOn && candidateCount === 0 && (
@@ -220,6 +239,7 @@ function Election() {
           <h1>There are no candidates for this department.</h1>
         </div>
       )}
+      {!isVoted && authCtx.userRole == "rector" && concludeElection()}
     </div>
   );
 }

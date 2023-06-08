@@ -18,7 +18,7 @@ export default function Candidates() {
     authCtx.userRole === "candidate" ||
     authCtx.userRole === "officer"
   ) {
-    url = `http://localhost:8080/candidates/${authCtx.userDepartment}`;
+    url = `http://localhost:8080/candidates/allCandidates/${authCtx.userDepartment}`;
   } else {
     url = `http://localhost:8080/candidates/allCandidates`;
   }

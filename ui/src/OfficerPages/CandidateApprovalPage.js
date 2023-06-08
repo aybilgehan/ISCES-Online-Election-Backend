@@ -7,11 +7,13 @@ const CandidateApprovalPage = () => {
   const authCtx = useContext(AuthContext);
   const [unEvalCandidates, setUnEvalCandidates] = useState([]);
   const [isElectionOn, setIsElectionOn] = useState(false);
+  const [isCandidacyOn, setIsCandidacyOn] = useState(false);
   const url = `http://localhost:8080/unevaluatedStudents/${authCtx.userDepartment}`;
-  let returned = <h1>Election has already started!</h1>;
+  let returned = <h1>Candidacy period has ended!</h1>;
 
   useEffect(() => {
     checkElectionIsOn();
+    checkCandidacyPeriod();
     fetchCandidateInfo();
     console.log("fetched");
   }, []);
@@ -26,6 +28,21 @@ const CandidateApprovalPage = () => {
 
       if (response.data) {
         setIsElectionOn(true);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  const checkCandidacyPeriod = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/isInCandidacyProcess`
+      );
+      console.log(response.data);
+      console.log(typeof response.data);
+
+      if (response.data) {
+        setIsCandidacyOn(true);
       }
     } catch (error) {
       console.log(error.message);
@@ -76,7 +93,7 @@ const CandidateApprovalPage = () => {
 
   return (
     <>
-      {!isElectionOn ? (
+      {isCandidacyOn ? (
         <div>
           {unEvalCandidates.length > 0 ? (
             <div className="vote-container">
