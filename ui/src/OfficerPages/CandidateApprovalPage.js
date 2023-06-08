@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import AuthContext from "../context/AuthContext";
 import axios from "axios";
+import "./CandidateApprovalPage.css";
 
 const CandidateApprovalPage = () => {
   const authCtx = useContext(AuthContext);
@@ -78,20 +79,26 @@ const CandidateApprovalPage = () => {
       {!isElectionOn ? (
         <div>
           {unEvalCandidates.length > 0 ? (
-            <div>
+            <div className="vote-container">
               {unEvalCandidates.map((candidate) => (
-                <div key={candidate.candidateId}>
-                  <h3>{candidate.firstName}</h3>
-                  <button
-                    onClick={() => approveCandidate(candidate.studentNumber)}
-                  >
-                    Approve
-                  </button>
-                  <button
-                    onClick={() => rejectCandidate(candidate.studentNumber)}
-                  >
-                    Reject
-                  </button>
+                <div className="vote-box" key={candidate.candidateId}>
+                  <div className="candidate-name">
+                    <h3>
+                      {candidate.firstName} {candidate.lastName}
+                    </h3>
+                  </div>
+                  <div className="buttons">
+                    <button
+                      onClick={() => approveCandidate(candidate.studentNumber)}
+                    >
+                      Approve
+                    </button>
+                    <button
+                      onClick={() => rejectCandidate(candidate.studentNumber)}
+                    >
+                      Reject
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>

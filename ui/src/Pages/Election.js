@@ -33,6 +33,8 @@ function Election() {
     try {
       let url = `http://localhost:8080/candidates/${department}`;
       const response = await axios.get(url);
+      console.log(response);
+
       const transformedCandidates = [
         ["Name", "Percentage"],
         ...response.data.map((candidate) => [
@@ -126,6 +128,11 @@ function Election() {
         `Conclude Tie for ${department}: Selected Candidate ID:`,
         selectedCandidateId
       );
+      try {
+        const url = `http://localhost:8080/concludeTie/${selectedCandidateId}`;
+      } catch (error) {
+        console.log(error.message);
+      }
     };
 
     return (
