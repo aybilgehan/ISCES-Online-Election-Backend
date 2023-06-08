@@ -15,7 +15,7 @@ const CandidateApprovalPage = () => {
     checkElectionIsOn();
     checkCandidacyPeriod();
     fetchCandidateInfo();
-    console.log("fetched");
+
   }, []);
 
   const checkElectionIsOn = async () => {
@@ -23,8 +23,7 @@ const CandidateApprovalPage = () => {
       const response = await axios.get(
         `http://localhost:8080/isInElectionProcess`
       );
-      console.log(response.data);
-      console.log(typeof response.data);
+
 
       if (response.data) {
         setIsElectionOn(true);
@@ -33,13 +32,13 @@ const CandidateApprovalPage = () => {
       console.log(error.message);
     }
   };
+  
   const checkCandidacyPeriod = async () => {
     try {
       const response = await axios.get(
         `http://localhost:8080/isInCandidacyProcess`
       );
-      console.log(response.data);
-      console.log(typeof response.data);
+
 
       if (response.data) {
         setIsCandidacyOn(true);
@@ -48,13 +47,10 @@ const CandidateApprovalPage = () => {
       console.log(error.message);
     }
   };
-  console.log(authCtx);
+  
   const fetchCandidateInfo = async () => {
     try {
       const response = await axios.get(url);
-
-      console.log(response.data);
-
       setUnEvalCandidates(response.data);
     } catch (error) {
       console.error("Error fetching candidates:", error);
@@ -88,8 +84,29 @@ const CandidateApprovalPage = () => {
     const urlForUpdate = `http://localhost:8080/rejectStudent/${studentNumber}`;
     updateCandidates(urlForUpdate);
   };
+  
+  const downloadCandidateFiles = async (studentNumber) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/downloadStudentFiles/${studentNumber}`,
+        {
+          responseType: 'blob' // Set the response type to 'blob'
+        }
+      );
 
-  console.log(unEvalCandidates);
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `student_files_${studentNumber}.zip`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('Error downloading student files:', error);
+    }
+  };
+
+
 
   return (
     <>
@@ -114,6 +131,11 @@ const CandidateApprovalPage = () => {
                       onClick={() => rejectCandidate(candidate.studentNumber)}
                     >
                       Reject
+                    </button>
+                    <button
+                      onClick={() => downloadCandidateFiles(candidate.studentNumber)}
+                    >
+                      Download Files
                     </button>
                   </div>
                 </div>

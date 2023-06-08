@@ -49,7 +49,6 @@ function Election() {
     try {
       let url = `http://localhost:8080/candidates/allPreviousElectionCandidates/${selectedDepartment}`;
       const response = await axios.get(url);
-      console.log(response);
 
       const transformedCandidates = [
         ["Name", "Percentage"],
@@ -58,12 +57,11 @@ function Election() {
           candidate.votes,
         ]),
       ];
-      console.log(transformedCandidates);
+  
 
       setCandidateCount(response.data.length); // Set the candidate count
       setFilteredCandidates(transformedCandidates);
       setCandidates(response.data);
-      console.log(filteredCandidates);
     } catch (error) {
       console.error("Error fetching candidates:", error);
     }
@@ -75,7 +73,7 @@ function Election() {
   };
 
   const chartHandler = (event) => {
-    console.log(event.target.value);
+
 
     setSelectedDepartment(event.target.value);
   };
@@ -99,15 +97,6 @@ function Election() {
       }
     }
 
-    console.log(
-      "Candidates with the highest percentage:",
-      candidateWithMaxVotes
-    );
-    console.log("Highest percentage:", maxVote);
-    console.log(
-      "Has multiple candidates with the highest percentage:",
-      hasMultipleMaxValues
-    );
 
     // Check if there are equal maximum votes
     const maxVotes = Math.max(
@@ -117,11 +106,6 @@ function Election() {
       (candidate) => candidate.votes === maxVotes
     );
 
-    console.log("Candidates with the maximum votes:", candidatesWithMaxVotes);
-    console.log(
-      "Has multiple candidates with the maximum votes:",
-      candidatesWithMaxVotes.length > 1
-    );
 
     const departments = [
       ...new Set(
@@ -142,14 +126,10 @@ function Election() {
       // Process the selected candidate ID for the department and send it to the backend
       const selectedCandidateId = selectedCandidates[department];
       // Send the selectedCandidateId to the backend using your preferred method (e.g., API call)
-      console.log(
-        `Conclude Tie for ${department}: Selected Candidate ID:`,
-        selectedCandidateId
-      );
+  
       try {
         const url = `http://localhost:8080/concludeTie/${selectedCandidateId}`;
         const res = await axios.get(url);
-        console.log(res);
       } catch (error) {
         console.log(error.message);
       }

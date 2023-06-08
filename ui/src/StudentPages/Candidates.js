@@ -4,14 +4,14 @@ import axios from "axios";
 
 export default function Candidates() {
   const authCtx = useContext(AuthContext);
-  console.log(authCtx.userRole);
+  
   const [candidates, setCandidates] = useState([]);
   const [showAlertBox, setShowAlertBox] = useState(false);
   const [isVoted, setIsVoted] = useState(false);
   const [showSentVoteInfo, setShowSentVoteInfo] = useState(false);
   const [votedCandidateID, setVotedCandidateID] = useState(null);
-  const [electionIsOn, setElectionIsOn] = useState(null);
-  const [departmentName, setDepartmentName] = useState(null);
+  const [electionIsOn, setElectionIsOn] = useState(false);
+  //const [departmentName, setDepartmentName] = useState(null);
   var url;
   if (
     authCtx.userRole === "student" ||
@@ -37,19 +37,16 @@ export default function Candidates() {
   };
 
   useEffect(() => {
-    checkElectionIsOn();
-    if (electionIsOn) {
+      checkElectionIsOn();
       fetchCandidateInfo();
       fetchUserInfo();
-    }
-  }, [electionIsOn]);
+
+  }, []);
 
   const fetchCandidateInfo = async () => {
     try {
       const response = await axios.get(url);
-      console.log(url);
 
-      console.log(response.data);
 
       setCandidates(response.data);
     } catch (error) {
@@ -73,7 +70,6 @@ export default function Candidates() {
       const response = await axios.get(
         `http://localhost:8080/vote/${studentNum}/${id}`
       );
-      console.log(response);
       if (response.status === 200) {
         setShowSentVoteInfo(true);
         setVotedCandidateID(id);
@@ -104,11 +100,9 @@ export default function Candidates() {
               <li key={index}>
                 Candidate Name: {candidate.student.firstName}
                 <br />
-                Candidate Vote: {candidate.votes}
-                <br />
                 {/* Diğer bilgileri buraya ekleyebilirsiniz */}
-                {(authCtx.userRole === "student" ||
-                  authCtx.userRole === "candidate") && (
+                {((authCtx.userRole === "student" ||
+                  authCtx.userRole === "candidate") && electionIsOn) && (
                   <button onClick={() => alertBoxHandler(candidate)}>
                     Vote
                   </button>
@@ -132,15 +126,13 @@ export default function Candidates() {
                       <li key={index}>
                         Candidate Name: {candidate.student.firstName}
                         <br />
-                        Candidate Vote: {candidate.votes}
-                        <br />
                         {/* Diğer bilgileri buraya ekleyebilirsiniz */}
-                        {authCtx.userRole === "student" ||
-                          (authCtx.userRole === "candidate" && (
+                        {((authCtx.userRole === "student" ||
+                          authCtx.userRole === "candidate") && electionIsOn) && (
                             <button onClick={() => alertBoxHandler(candidate)}>
                               Vote
                             </button>
-                          ))}
+                          )}
                       </li>
                     );
                   }
@@ -176,8 +168,6 @@ export default function Candidates() {
             <li className="list-item" key={index}>
               {candidate.student.firstName}
               <br />
-              {candidate.votes}
-              <br />
             </li>
           ))}
         </ul>
@@ -193,16 +183,13 @@ export default function Candidates() {
     </div>
   );
 
-  console.log(isVoted);
-  console.log(electionIsOn);
-  console.log(showAlertBox);
 
   return (
     <div>
       {!electionIsOn && electionNotStartBox}
       {showSentVoteInfo && votedInfo}
       {showAlertBox && !showSentVoteInfo && alertBox}
-      {!isVoted && electionIsOn && !showAlertBox && voteForm}
+      {!isVoted  && !showAlertBox && voteForm}
       {isVoted && afterVoteScreen}
     </div>
   );

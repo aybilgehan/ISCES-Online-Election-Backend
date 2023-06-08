@@ -24,7 +24,6 @@ const Login = () => {
     try {
       const activationURL = `http://localhost:8080/login/${email}/${password}`;
       const res = await axios.get(activationURL);
-      console.log(res.data);
 
       if (res.status === 200) {
         let returned = res.data;
