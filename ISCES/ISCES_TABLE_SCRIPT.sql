@@ -98,11 +98,6 @@ CREATE TABLE `delegate` (
 
 INSERT INTO `user`
 VALUES
-('elifilgen@std.iyte.edu.tr', 'test123', 'student'),
-('iremyasa@std.iyte.edu.tr', 'test123', 'student'),
-('ezgiaykurt@std.iyte.edu.tr', 'test123', 'student'),
-('yusufbeskan@std.iyte.edu.tr', 'test123', 'student'),
-('elifyasa@std.iyte.edu.tr', 'test123', 'student'),
 ('ahmetozdemir@std.iyte.edu.tr', 'test123', 'student'),
 ('emrekaraduman@std.iyte.edu.tr', 'test123', 'student'),
 ('keremyasar@std.iyte.edu.tr', 'test123', 'student'),
@@ -134,11 +129,7 @@ VALUES
 
 
 INSERT INTO `student`
-VALUE
-(270201049, 1, 'Ezgi', 'Aykurt', 2.98, 3, 0, 'ezgiaykurt@std.iyte.edu.tr', false),
-(270201048, 1, 'Irem', 'Yasa', 2.98, 3, 0, 'iremyasa@std.iyte.edu.tr', false),
-(270201047, 1, 'Elif', 'Ilgen', 2.98, 3, 0, 'elifilgen@std.iyte.edu.tr', false),
-(270201050, 1, 'Yusuf', 'Beskan', 2.98, 3, 0, 'yusufbeskan@std.iyte.edu.tr', false),
+VALUES
 (270201051, 1, 'Ahmet', 'Ozdemir', 3.98, 3, 0, 'ahmetozdemir@std.iyte.edu.tr', false),
 (270201052, 1, 'Emre', 'Karaduman', 3.99, 3, 0, 'emrekaraduman@std.iyte.edu.tr', false),
 (270201053, 1, 'Kerem', 'Yasar', 2.22, 3, 0, 'keremyasar@std.iyte.edu.tr', false),
@@ -157,7 +148,7 @@ VALUE
 (270201071, 4, 'Mesut', 'Tomay', 3.50, 3, 0, 'mesuttomay@std.iyte.edu.tr', false),
 (270201072, 4, 'Ali', 'Bicim', 3.21, 3, 0, 'alibicim@std.iyte.edu.tr', false),
 (270201073, 4, 'Umut', 'Varol', 1.59, 3, 0, 'umutvarol@std.iyte.edu.tr', false),
-(270201074, 4, 'Sevinc', 'Aykurt', 2.22, 3, 0, 'sevincaykurt@std.iyte.edu.tr', false),
+(270201074, 4, 'SevinÃ§', 'Aykurt', 2.22, 3, 0, 'sevincaykurt@std.iyte.edu.tr', false),
 (270201075, 4, 'Halil', 'Uyanik', 3.41, 3, 0, 'haliluyanik@std.iyte.edu.tr', false);
 
 

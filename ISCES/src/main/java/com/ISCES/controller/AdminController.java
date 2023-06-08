@@ -12,6 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +22,7 @@ import java.util.List;
 @Setter
 @RestController
 @CrossOrigin("http://localhost:3000")
+// Mail atma kısımları burda deploy etmeden önce bağlamalıyız!!!!!!!!
 public class AdminController {// Bütün return typeler değişebilir . Response ve Request packageına yeni classlar eklenmeli frontendden hangi bilgi istendiğine göre
 
 
@@ -30,9 +34,10 @@ public class AdminController {// Bütün return typeler değişebilir . Response
     private DelegateService delegateService;
     private EmailService emailService;
     private Email2Service email2Service;
+    private FolderService folderService;
 
 
-    public AdminController(Email2Service email2Service, EmailService emailService, DelegateService delegateService, CandidateService candidateService, UserService userService, StudentService studentService, AdminService adminService,ElectionService electionService) {
+    public AdminController(FolderService folderService,Email2Service email2Service, EmailService emailService, DelegateService delegateService, CandidateService candidateService, UserService userService, StudentService studentService, AdminService adminService,ElectionService electionService) {
         this.emailService = emailService;
         this.candidateService = candidateService;
         this.userService = userService;
@@ -41,7 +46,9 @@ public class AdminController {// Bütün return typeler değişebilir . Response
         this.electionService = electionService;
         this.delegateService = delegateService;
         this.email2Service = email2Service;
+        this.folderService = folderService;
     }
+
 
 
 
@@ -83,7 +90,7 @@ public class AdminController {// Bütün return typeler değişebilir . Response
             Candidate savedCandidate = candidateService.save(tempCandidate);
             return candidateService.save(tempCandidate); // it returns the candidate who is approved by officer.
         }
-        emailService.sendEmail(studentService.findByStudentNumber(studentNumber).getUser().getEmail(),true); //  sends email for confirmed students.
+       // emailService.sendEmail(studentService.findByStudentNumber(studentNumber).getUser().getEmail(),true); //  sends email for confirmed students.
         return tempCandidate;
     }
 
@@ -95,7 +102,7 @@ public class AdminController {// Bütün return typeler değişebilir . Response
             studentService.findByStudentNumber(studentNumber).setIsAppliedForCandidacy(null); // isAppliedCandidacy of student is changed to null
             return studentService.save(studentService.findByStudentNumber(studentNumber));// It returns and saves the student who is rejected by officer.
         }
-        emailService.sendEmail(studentService.findByStudentNumber(studentNumber).getUser().getEmail(),false); //  sends email for rejected students
+       // emailService.sendEmail(studentService.findByStudentNumber(studentNumber).getUser().getEmail(),false); //  sends email for rejected students
         return null;
     }
 
@@ -133,7 +140,7 @@ public class AdminController {// Bütün return typeler değişebilir . Response
                 try {
                     electionService.save(tempElection);
                     for(Student student: studentService.getAllStudents()){ //  sends all students election start date and end date.
-                        email2Service.sendEmail(student.getUser().getEmail(),electionRequest.getStartDate(),electionRequest.getEndDate());
+                        //email2Service.sendEmail(student.getUser().getEmail(),electionRequest.getStartDate(),electionRequest.getEndDate());
                     }
                     return new ResponseEntity<>(new ElectionRequest(electionRequest.getStartDate(), electionRequest.getEndDate()), HttpStatus.OK);
                 } catch (Exception e) {
@@ -172,7 +179,33 @@ public class AdminController {// Bütün return typeler değişebilir . Response
             election.setFinished(true); // set election as finisehd
             electionService.save(election); // save election to database
         }
+        // buraya de electionın bittiğinde userlara sonuçlara bakabileceğini söyleyen bir mail yollamamız lazım !!!!!!!!!!!!
         return election; // returns finished election.
     }
-    
+
+
+
+
+    // upload documentsle database e yüklenecek ordan da officer studentnumberla çekecek.
+     @GetMapping("/fileDownload/{studentNumber}/{filePath}") // eklemeler yapılacak uploadEtmemiz lazım önce betüle sor nasıl edildiğini!!!!!!!!!!!!
+     public Folder downloadDocuments(@PathVariable Long studentNumber, @PathVariable String downloadPath) {
+         Folder folder = folderService.findByStudent_StudentNumber(studentNumber);
+         List<com.ISCES.entities.File> files = folder.getFiles();
+         for (File file : files) {
+             try {
+                 FileInputStream fis = new FileInputStream(file.getFilePath());
+                 FileOutputStream fos = new FileOutputStream(downloadPath);
+                 byte[] buffer = new byte[1024];
+                 int length;
+                 while ((length = fis.read(buffer)) > 0) {
+                     fos.write(buffer, 0, length);
+                 }
+                 fos.close();
+                 fis.close();
+             } catch (IOException e) {
+                 System.out.println("downnload failed message:  " + e.getMessage());
+             }
+         }
+        return folder;
+    }
 }

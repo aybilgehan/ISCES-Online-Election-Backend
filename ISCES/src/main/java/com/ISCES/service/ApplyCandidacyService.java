@@ -75,7 +75,6 @@ public class ApplyCandidacyService {
                 return response;
             }
         }
-
         uploadedFolder.setFiles(uploadedFiles);
         uploadedFolder.setStudent(appliedStudent);
         folderRepo.save(uploadedFolder);
