@@ -18,6 +18,7 @@ import java.util.List;
 @Getter
 @Setter
 @RestController
+@CrossOrigin("http://localhost:3000")
 public class AdminController {// Bütün return typeler değişebilir . Response ve Request packageına yeni classlar eklenmeli frontendden hangi bilgi istendiğine göre
 
 
@@ -100,9 +101,6 @@ public class AdminController {// Bütün return typeler değişebilir . Response
 
 
 
-
-
-
     @GetMapping("/enterElectionDate/{startDate}/{endDate}") //  rector enters election date.
     public ResponseEntity<ElectionRequest> enterElectionDate(@PathVariable String startDate,@PathVariable String endDate){
         LocalDateTime start = LocalDateTime.parse(startDate);
@@ -150,8 +148,7 @@ public class AdminController {// Bütün return typeler değişebilir . Response
 
 
     @GetMapping("/electionDate")
-    public Election getElectionDate(){
-        return electionService.findByIsFinished(false);
+    public Election getElectionDate(){return electionService.findByIsFinished(false);
     }
 
 
@@ -168,4 +165,14 @@ public class AdminController {// Bütün return typeler değişebilir . Response
         }
     }
 
+    @GetMapping("/finishElection")
+    public Election finishElection(){
+        Election election = electionService.getAllElections().get(electionService.getAllElections().size() - 1);
+        if(!election.isFinished()){ // if isFinished of last election is false  -> if election hasn't ended yet.
+            election.setFinished(true); // set election as finisehd
+            electionService.save(election); // save election to database
+        }
+        return election; // returns finished election.
+    }
+    
 }

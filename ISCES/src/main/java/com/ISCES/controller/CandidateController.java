@@ -14,7 +14,7 @@ import java.util.List;
 @CrossOrigin("http://localhost:3000")
 public class CandidateController { // Bütün return typeler değişebilir . Response ve Request packageına yeni classlar eklenmeli frontendden hangi bilgi istendiğine göre
     CandidateService candidateService;
-    public CandidateController(CandidateService candidateService) {
+    public CandidateController(CandidateService candidateService){
         this.candidateService = candidateService;
     }
 
@@ -28,9 +28,13 @@ public class CandidateController { // Bütün return typeler değişebilir . Res
 
 
     @GetMapping("/candidates/allCandidates")
-    public List<Candidate> getAllCandidates(){
-        return candidateService.getAllCandidates();
+    public List<Candidate> getAllCurrentCandidates(){  // candidates of current election candidates
+        return candidateService.findByElection_isFinished(false);
     }
 
 
+    @GetMapping("/candidates/allPreviousElectionCandidates")
+    public List<Candidate> getAllPreviousElectionCandidates(){// candidates of previos election.
+        return candidateService.findByElection_isFinished(false);
+    }
 }
