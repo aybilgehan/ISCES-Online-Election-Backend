@@ -33,7 +33,6 @@ const SetElectionDate = () => {
       <h1 className="alert-box-header">We are in election!</h1>
       <p>Start Date:{enteredStartDate}</p>
       <p>End Date: {enteredEndDate}</p>
-      <button onClick={finishElection}>Cancel Election</button>;
     </div>
   );
   function changeAlertBoxVisible() {
