@@ -10,7 +10,18 @@ const CandidateApprovalPage = () => {
   const [isCandidacyOn, setIsCandidacyOn] = useState(false);
   const url = `http://localhost:8080/unevaluatedStudents/${authCtx.userDepartment}`;
   let returned = <h1>Candidacy period has ended!</h1>;
-
+  async function downloadFileHandler(stNum) {
+    window.open(`http://localhost:8080/downloadDocument/${stNum}`, '_blank');
+    try {
+      const res = await axios.get(
+        `http://localhost:8080/downloadDocument/${stNum}`
+      )
+      console.log(res);
+    }
+    catch (error) {
+      console.error(error);
+    }
+  }
   useEffect(() => {
     checkElectionIsOn();
     checkCandidacyPeriod();
@@ -85,26 +96,6 @@ const CandidateApprovalPage = () => {
     updateCandidates(urlForUpdate);
   };
   
-  const downloadCandidateFiles = async (studentNumber) => {
-    try {
-      const response = await axios.get(
-        `http://localhost:8080/downloadStudentFiles/${studentNumber}`,
-        {
-          responseType: 'blob' // Set the response type to 'blob'
-        }
-      );
-
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', `student_files_${studentNumber}.zip`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } catch (error) {
-      console.error('Error downloading student files:', error);
-    }
-  };
 
 
 
@@ -133,7 +124,7 @@ const CandidateApprovalPage = () => {
                       Reject
                     </button>
                     <button
-                      onClick={() => downloadCandidateFiles(candidate.studentNumber)}
+                      onClick={() => downloadFileHandler(candidate.studentNumber)}
                     >
                       Download Files
                     </button>

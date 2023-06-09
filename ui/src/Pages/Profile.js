@@ -13,7 +13,7 @@ const Profile = () => {
       return "Mechanical Engineering";
     }
   };
-
+  console.log(authCtx)
   return (
     <div className="profile-container">
       <div className="profile-box">

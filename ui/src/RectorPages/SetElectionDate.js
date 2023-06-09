@@ -96,7 +96,7 @@ const SetElectionDate = () => {
               onChange={(date) => handleDateTimeChange(date, "start")}
               dateFormat="yyyy-MM-dd HH:mm"
 
-              
+
               showTimeInput
               timeInputLabel="Time:"
               timeFormat="HH:mm"
@@ -129,23 +129,18 @@ const SetElectionDate = () => {
     </div>
   );
   useEffect(() => {
-    const interval = setInterval(() => {
-      getElectionDetails();
-    }, 10);
-  
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
-  
-  async function finishElection() {
-    try {
-      const response = await axios.get(`http://localhost:8080/finishElection`);
-      window.location.reload();
-    } catch (error) {
-      console.log(error);
+    // Update the document title using the browser API
+    getElectionDetails()
+  },[]);
+
+    async function finishElection() {
+      try {
+        const response = await axios.get(`http://localhost:8080/finishElection`);
+        window.location.reload();
+      } catch (error) {
+        console.log(error);
+      }
     }
-  }
   const getElectionDetails = async () => {
     try {
       const response = await axios.get(`http://localhost:8080/electionDate`);

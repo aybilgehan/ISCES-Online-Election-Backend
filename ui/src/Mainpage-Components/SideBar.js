@@ -7,14 +7,8 @@ const SideBar = () => {
   const [isVisible, setIsVisible] = useState(false);
   const authCtx = useContext(AuthContext);
   useEffect(() => {
-    const interval = setInterval(() => {
       getElectionDetails();
-    }, 10);
-  
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
+    },[]);
   const getElectionDetails = async () => {
     try {
       const response = await axios.get(`http://localhost:8080/electionDate`);
