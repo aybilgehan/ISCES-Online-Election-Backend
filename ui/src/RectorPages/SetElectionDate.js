@@ -129,8 +129,15 @@ const SetElectionDate = () => {
     </div>
   );
   useEffect(() => {
-    getElectionDetails();
+    const interval = setInterval(() => {
+      getElectionDetails();
+    }, 10);
+  
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
+  
   async function finishElection() {
     try {
       const response = await axios.get(`http://localhost:8080/finishElection`);
@@ -145,7 +152,6 @@ const SetElectionDate = () => {
       const startDate = new Date(response.data.startDate);
       const endDate = new Date(response.data.endDate);
       const currentDate = new Date();
-      console.log(response);
       if (startDate > currentDate) {
         setIsElectionSettedNotStarted(true);
         setIsInElectionProcess(false);
@@ -163,6 +169,12 @@ const SetElectionDate = () => {
       } else {
         setIsElectionSettedNotStarted(false);
         setIsInElectionProcess(false);
+      }
+      console.log(startDate)
+      console.log(currentDate)
+      console.log(endDate)
+      if (startDate.getTime() == currentDate.getTime() || endDate.getTime() == currentDate.getTime()) {
+        window.location.reload();
       }
     } catch (error) {
       console.log(error);
