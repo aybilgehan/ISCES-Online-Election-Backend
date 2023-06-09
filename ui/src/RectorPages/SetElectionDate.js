@@ -96,6 +96,8 @@ const SetElectionDate = () => {
               selected={enteredStartDate}
               onChange={(date) => handleDateTimeChange(date, "start")}
               dateFormat="yyyy-MM-dd HH:mm"
+
+              
               showTimeInput
               timeInputLabel="Time:"
               timeFormat="HH:mm"
