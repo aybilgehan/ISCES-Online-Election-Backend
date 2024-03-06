@@ -30,7 +30,7 @@ public class AWSService {
 
     @Value("${aws.bucketname}")
     private String bucketName;
-    private String cubeName = "ye5acm9chphs/public/";
+    private String cubeName = "ye5acm9chahs/public/";
 
 
 
